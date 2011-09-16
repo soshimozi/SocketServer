@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{3B89D58C-5E4E-4F7A-B256-2DE189684322}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SocketService</RootNamespace>
+    <AssemblyName>SocketService</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\References\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ServiceProcess" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actions\RoomActionEngine.cs" />
+    <Compile Include="Command\ChangeRoomCommand.cs" />
+    <Compile Include="Command\CreateRoomVariableCommand.cs" />
+    <Compile Include="Command\GetRoomVariableCommand.cs" />
+    <Compile Include="Command\LogoutUserCommand.cs" />
+    <Compile Include="Data\Domain\Room.cs" />
+    <Compile Include="Data\Domain\User.cs" />
+    <Compile Include="Data\RoomRepository.cs" />
+    <Compile Include="Data\UserRepository.cs" />
+    <Compile Include="Handler\CreateRoomRequestHandler.cs" />
+    <Compile Include="Handler\CreateRoomVariableRequestHandler.cs" />
+    <Compile Include="Handler\GetRoomVariableRequestHandler.cs" />
+    <Compile Include="Handler\ListUsersInRoomRequestHandler.cs" />
+    <Compile Include="Messaging\BaseCommand.cs" />
+    <Compile Include="Command\BroadcastObjectCommand.cs" />
+    <Compile Include="Command\HandleClientRequestCommand.cs" />
+    <Compile Include="Messaging\ICommand.cs" />
+    <Compile Include="Command\LoginUserCommand.cs" />
+    <Compile Include="Command\ParseRequestCommand.cs" />
+    <Compile Include="Command\SendObjectCommand.cs" />
+    <Compile Include="Client\ConnectionRepository.cs" />
+    <Compile Include="Handler\BaseHandler.cs" />
+    <Compile Include="Handler\GetCARequestHandler.cs" />
+    <Compile Include="Handler\LoginRequestHandler.cs" />
+    <Compile Include="Handler\NegotiateKeysRequestHandler.cs" />
+    <Compile Include="Messaging\MessageServer.cs" />
+    <Compile Include="Messaging\MSMQQueueWrapper.cs" />
+    <Compile Include="Messaging\MSMQQueueWatcher.cs" />
+    <Compile Include="ServerControlForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ServerControlForm.Designer.cs">
+      <DependentUpon>ServerControlForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Net\SocketManager.cs" />
+    <Compile Include="Handler\ServiceHandlerRepository.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Net\SocketRepository.cs" />
+    <Compile Include="SocketService.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="SocketService.Designer.cs">
+      <DependentUpon>SocketService.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocketServiceInstaller.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Client\ConnectArgs.cs" />
+    <Compile Include="Client\Connection.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Client\DisconnectedArgs.cs" />
+    <Compile Include="Client\SocketDataRecievedArgs.cs" />
+    <Compile Include="Net\SocketServer.cs" />
+    <Compile Include="Actions\UserActionEngine.cs" />
+    <Compile Include="Util\SingletonBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SocketService.Crypto\SocketService.Crypto.csproj">
+      <Project>{354919B0-FF17-44D6-ADD6-297B61038371}</Project>
+      <Name>SocketService.Crypto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Net.Sockets\SocketService.Net.Sockets.csproj">
+      <Project>{B56406C1-22B7-4567-A289-5A836500D647}</Project>
+      <Name>SocketService.Net.Sockets</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Request\SocketService.Request.csproj">
+      <Project>{3CC84E68-959C-43EB-AFE8-CEC1D20960BF}</Project>
+      <Name>SocketService.Request</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Response\SocketService.Response.csproj">
+      <Project>{D6588BBD-FCFD-47F8-AFBD-709E2F756D64}</Project>
+      <Name>SocketService.Response</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Serial\SocketService.Serial.csproj">
+      <Project>{F9EB82A2-2BC8-4B94-B14D-A766933DA989}</Project>
+      <Name>SocketService.Serial</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.ServiceHandler\SocketService.ServiceHandler.csproj">
+      <Project>{BB2CB592-A6C6-40A9-81E5-3967C7B0B9FB}</Project>
+      <Name>SocketService.ServiceHandler</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.SharedObjects\SocketService.SharedObjects.csproj">
+      <Project>{63FF8B4F-F3A5-4C2B-BB5E-C2B1FEAA407A}</Project>
+      <Name>SocketService.SharedObjects</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ServerControlForm.resx">
+      <DependentUpon>ServerControlForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SocketService.resx">
+      <DependentUpon>SocketService.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

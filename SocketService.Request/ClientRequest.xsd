@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="Request" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:simpleType name="RequestType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GetZones"/>
+      <xs:enumeration value="GetRoomsInZone"/>
+      <xs:enumeration value="CreateRoom"/>
+      <xs:enumeration value="CreateRoomVariable"/>
+      <xs:enumeration value="Login"/>
+      <xs:enumeration value="Logout"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="EncryptionType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="AES"/>
+      <xs:enumeration value="DES" />
+      <xs:enumeration value="TripleDES" />
+      <xs:enumeration value="Rijindal" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="RequestHeader">
+    <xs:sequence>
+      <xs:element name="RequestType" type="RequestType" minOccurs="1" maxOccurs="1" />
+      <xs:element name="TimeStamp" type="xs:dateTime" minOccurs="1" maxOccurs="1" />
+      <xs:element name="CRC" type="xs:unsignedInt" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="EncryptionHeaderType">
+    <xs:sequence>
+      <xs:element name="IV" type="xs:base64Binary" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="RequestBody">
+    <xs:sequence>
+      <xs:element name="EncryptionType" type="EncryptionType" minOccurs="1" maxOccurs="1" />
+      <xs:element name="EncryptionHeader" type="EncryptionHeaderType" minOccurs="0" maxOccurs="1" />
+      <xs:element name="Data" type="xs:base64Binary" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="ClientRequest">
+    <xs:sequence>
+      <xs:element name="Header" type="RequestHeader" minOccurs="1" maxOccurs="1" />
+      <xs:element name="Body" type="RequestBody" minOccurs="1" maxOccurs="1" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="ClientRequest" type="ClientRequest"/>
+</xs:schema>
+
