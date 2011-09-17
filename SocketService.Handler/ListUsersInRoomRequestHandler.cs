@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
-using SocketService.Framework.Response;
-using SocketService.Framework.SharedObjects;
+using SocketService.Framework.Client.Response;
+using SocketService.Framework.Client.SharedObjects;
 using SocketService.Framework.Data.Domain;
 using SocketService.Framework.Data;
 using SocketService.Framework.Messaging;
 using SocketService.Framework.ServiceHandler;
-using SocketService.Framework.Request;
+using SocketService.Framework.Client.Request;
 using SocketService.Framework.Command;
 
 namespace SocketService.Handler

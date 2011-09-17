@@ -39,6 +39,7 @@
       <HintPath>..\References\log4net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -61,6 +62,7 @@
     <Compile Include="ServerControlForm.Designer.cs">
       <DependentUpon>ServerControlForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ServiceHandlerRepository.cs" />
     <Compile Include="SocketService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -74,6 +76,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\SocketService.Framework.Client\SocketService.Framework.Client.csproj">
+      <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
+      <Name>SocketService.Framework.Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SocketService.Framework\SocketService.Framework.csproj">
       <Project>{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}</Project>
       <Name>SocketService.Framework</Name>

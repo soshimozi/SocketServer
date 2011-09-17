@@ -79,10 +79,10 @@ namespace SocketService.Framework.ServiceHandler
 
             var aggregateCatalog = new AggregateCatalog();
 
-            Assembly executingAssembly = Assembly.GetExecutingAssembly();
+            Assembly callingAssembly = Assembly.GetCallingAssembly();
 
             // an assembly catalog to load information about parts from this assembly
-            var assemblyCatalog = new AssemblyCatalog(executingAssembly);
+            var assemblyCatalog = new AssemblyCatalog(callingAssembly);
 
             if (config != null)
             {

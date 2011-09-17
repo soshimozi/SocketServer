@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SocketService.Framework.Actions;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.SharedObjects;
+using SocketService.Framework.Client.SharedObjects;
 
 namespace SocketService.Framework.Command
 {

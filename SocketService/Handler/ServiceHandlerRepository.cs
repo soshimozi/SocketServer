@@ -6,7 +6,7 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Reflection;
 using System.IO;
-using SocketService.ServiceHandler;
+using SocketService.Framework.ServiceHandler;
 
 namespace SocketService.Handler
 {

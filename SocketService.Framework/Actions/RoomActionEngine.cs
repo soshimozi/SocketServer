@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Framework.SharedObjects;
+using SocketService.Framework.Client.SharedObjects;
 using SocketService.Framework.Util;
 using SocketService.Framework.Data.Domain;
 using SocketService.Framework.Data;

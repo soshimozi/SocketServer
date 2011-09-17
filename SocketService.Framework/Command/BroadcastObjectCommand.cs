@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.Net.Sockets;
-using SocketService.Framework.Serialize;
+using SocketService.Framework.Client.Sockets;
+using SocketService.Framework.Client.Serialize;
 using SocketService.Framework.Net;
 
 namespace SocketService.Framework.Command

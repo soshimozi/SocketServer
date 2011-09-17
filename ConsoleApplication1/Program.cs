@@ -9,12 +9,12 @@ using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO.Compression;
-using SocketService.Framework.Crypto;
-using SocketService.Framework.Net.Sockets;
-using SocketService.Framework.Response;
-using SocketService.Framework.Request;
-using SocketService.Framework.SharedObjects;
-using SocketService.Framework.Serialize;
+using SocketService.Framework.Client.Crypto;
+using SocketService.Framework.Client.Response;
+using SocketService.Framework.Client.Request;
+using SocketService.Framework.Client.SharedObjects;
+using SocketService.Framework.Client.Serialize;
+using SocketService.Framework.Client.Sockets;
 
 namespace ConsoleApplication1
 {

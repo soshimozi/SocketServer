@@ -9,7 +9,7 @@ using System.Collections;
 using System.Diagnostics;
 using System.Reflection;
 using SocketService.Framework.Net.Client;
-using SocketService.Framework.Net.Sockets;
+using SocketService.Framework.Client.Sockets;
 using log4net;
 
 namespace SocketService.Framework.Net

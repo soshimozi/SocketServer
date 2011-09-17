@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.Crypto;
-using SocketService.Framework.Request;
-using SocketService.Framework.Serialize;
+using SocketService.Framework.Client.Crypto;
+using SocketService.Framework.Client.Request;
+using SocketService.Framework.Client.Serialize;
 using SocketService.Framework.Net.Client;
 using SocketService.Framework.ServiceHandler;
 
@@ -16,11 +16,12 @@ namespace SocketService.Framework.Command
     {
         private readonly byte[] _serialized;
         private readonly Guid _clientId;
-
-        public ParseRequestCommand(Guid clientId, byte[] serialized)
+        private readonly IServiceHandlerRepository _repository;
+        public ParseRequestCommand(IServiceHandlerRepository repository, Guid clientId, byte[] serialized)
         {
             _serialized = serialized;
             _clientId = clientId;
+            _repository = repository;
         }
 
         /// <summary>
@@ -33,7 +34,7 @@ namespace SocketService.Framework.Command
         
             //// lookup this object types handler
             Type requestType = serverRequest.GetType();
-            var handlerList = ServiceHandlerRepository.Instance.GetHandlerListByType(requestType);
+            var handlerList = _repository.GetHandlerListByType(requestType);
 
             // here is where we start using MSMQ and the messaging handler
             // to queue up a new command

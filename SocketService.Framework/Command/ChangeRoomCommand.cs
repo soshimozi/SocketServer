@@ -6,7 +6,7 @@ using SocketService.Framework.Actions;
 using SocketService.Framework.Messaging;
 using SocketService.Framework.Data.Domain;
 using SocketService.Framework.Data;
-using SocketService.Framework.Response;
+using SocketService.Framework.Client.Response;
 
 namespace SocketService.Framework.Command
 {

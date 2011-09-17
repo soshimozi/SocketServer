@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Sockets;
-using SocketService.Framework.Net.Sockets;
-using SocketService.Framework.Net;
+using SocketService.Framework.Client.Sockets;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.Serialize;
+using SocketService.Framework.Client.Serialize;
+using SocketService.Framework.Net;
 
 namespace SocketService.Framework.Command
 {

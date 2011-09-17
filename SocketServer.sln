@@ -21,7 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework", "SocketService.Framework\SocketService.Framework.csproj", "{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Handler", "SocketService.Handlers\SocketService.Handler.csproj", "{58544966-B15C-4782-8942-F00E237AD8F5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework.Client", "SocketService.Framework.Client\SocketService.Framework.Client.csproj", "{93FD4F32-5214-40E3-8E36-5B4E354F10C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Handler", "SocketService.Handler\SocketService.Handler.csproj", "{58544966-B15C-4782-8942-F00E237AD8F5}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -76,6 +78,16 @@ Global
 		{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}.Release|x86.ActiveCfg = Release|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Release|x86.ActiveCfg = Release|Any CPU
 		{58544966-B15C-4782-8942-F00E237AD8F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{58544966-B15C-4782-8942-F00E237AD8F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58544966-B15C-4782-8942-F00E237AD8F5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

@@ -10,17 +10,18 @@ using SocketService.Framework.Net.Client;
 using SocketService.Framework.Command;
 using SocketService.Framework.Configuration;
 using System.Configuration;
+using SocketService.Framework.ServiceHandler;
 
 namespace SocketService.Framework.Net
 {
     public class SocketManager //: IServerContext
     {
         private readonly SocketServer _socketServer;
-
+        private readonly IServiceHandlerRepository _handlerRepository;
         /// <summary>
         /// Initializes a new instance of the <see cref="SocketManager"/> class.
         /// </summary>
-        public SocketManager()
+        public SocketManager(IServiceHandlerRepository handlerRepository)
         {
             // create server, doesn't start pumping until we get the Start command
             _socketServer = new SocketServer();
@@ -28,6 +29,8 @@ namespace SocketService.Framework.Net
             _socketServer.ClientConnecting += new EventHandler<ConnectArgs>(SocketServer_ClientConnecting);
             _socketServer.ClientDisconnecting += new EventHandler<DisconnectedArgs>(SocketServer_ClientDisconnecting);
             _socketServer.DataRecieved += new EventHandler<DataRecievedArgs>(SocketServer_DataRecieved);
+
+            _handlerRepository = handlerRepository;
         }
 
         protected void SocketServer_DataRecieved(object sender, DataRecievedArgs e)
@@ -82,7 +85,7 @@ namespace SocketService.Framework.Net
 
         private void ParseRequest(Guid clientId, byte[] requestData)
         {
-            MSMQQueueWrapper.QueueCommand(new ParseRequestCommand(clientId, requestData));
+            MSMQQueueWrapper.QueueCommand(new ParseRequestCommand(_handlerRepository, clientId, requestData));
         }
     }
 }

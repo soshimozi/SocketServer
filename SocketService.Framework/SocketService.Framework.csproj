@@ -60,14 +60,6 @@
     <Compile Include="Configuration\SocketServiceConfiguration.cs" />
     <Compile Include="Configuration\PluginInfoInstanceCollection.cs" />
     <Compile Include="Configuration\PluginInfoInstanceElement.cs" />
-    <Compile Include="Crypto\BigInteger.cs" />
-    <Compile Include="Crypto\CentralAuthority.cs" />
-    <Compile Include="Crypto\Crc32.cs" />
-    <Compile Include="Crypto\DiffieHellmanKey.cs" />
-    <Compile Include="Crypto\DiffieHellmanProvider.cs" />
-    <Compile Include="Crypto\StringExtentions.cs" />
-    <Compile Include="Crypto\StrongNumberProvider.cs" />
-    <Compile Include="Crypto\Wrapper.cs" />
     <Compile Include="Data\Domain\Room.cs" />
     <Compile Include="Data\Domain\User.cs" />
     <Compile Include="Data\RoomRepository.cs" />
@@ -85,35 +77,18 @@
     <Compile Include="Net\SocketManager.cs" />
     <Compile Include="Net\SocketRepository.cs" />
     <Compile Include="Net\SocketServer.cs" />
-    <Compile Include="Net\Sockets\ZipSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request\ChangeRoomRequest.cs" />
-    <Compile Include="Request\ClientRequestHeader.cs" />
-    <Compile Include="Request\CreateRoomVariableRequest.cs" />
-    <Compile Include="Request\GetCentralAuthorityRequest.cs" />
-    <Compile Include="Request\GetRoomVariableRequest.cs" />
-    <Compile Include="Request\IRequestHeader.cs" />
-    <Compile Include="Request\ListUsersInRoomRequest.cs" />
-    <Compile Include="Request\LoginRequest.cs" />
-    <Compile Include="Request\NegotiateKeysRequest.cs" />
-    <Compile Include="Response\ConnectionResponse.cs" />
-    <Compile Include="Response\GetRoomVariableResponse.cs" />
-    <Compile Include="Response\ListUsersInRoomResponse.cs" />
-    <Compile Include="Response\LoginResponse.cs" />
-    <Compile Include="Response\NegotiateKeysResponse.cs" />
-    <Compile Include="Response\ServerMessage.cs" />
-    <Compile Include="Serialize\ObjectSerialize.cs" />
-    <Compile Include="ServiceHandler\ServiceHandlerRepository.cs" />
     <Compile Include="ServiceHandler\IServiceHandler.cs" />
     <Compile Include="ServiceHandler\IServiceHandlerMetaData.cs" />
+    <Compile Include="ServiceHandler\IServiceHandlerRepository.cs" />
     <Compile Include="ServiceHandler\ServiceHandlerTypeAttribute.cs" />
-    <Compile Include="SharedObjects\RoomVariable.cs" />
-    <Compile Include="SharedObjects\ServerObject.cs" />
-    <Compile Include="SharedObjects\ServerObjectDataHolder.cs" />
-    <Compile Include="SharedObjects\ServerObjectDataType.cs" />
-    <Compile Include="SharedObjects\ServerObjectRO.cs" />
-    <Compile Include="SharedObjects\ServerUser.cs" />
     <Compile Include="Util\SingletonBase.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SocketService.Framework.Client\SocketService.Framework.Client.csproj">
+      <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
+      <Name>SocketService.Framework.Client</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
