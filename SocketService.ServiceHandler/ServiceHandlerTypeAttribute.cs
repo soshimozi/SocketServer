@@ -8,7 +8,7 @@ namespace SocketService.ServiceHandler
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
-    public class ServiceHandlerTypeAttribute : ExportAttribute, IServiceHandlerType
+    public class ServiceHandlerTypeAttribute : ExportAttribute, IServiceHandlerMetaData
     {
         public ServiceHandlerTypeAttribute() 
             : this(null)

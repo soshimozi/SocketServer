@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SocketService.ServiceHandler
 {
-    public interface IServiceHandlerType
+    public interface IServiceHandlerMetaData
     {
         Type HandlerType
         {

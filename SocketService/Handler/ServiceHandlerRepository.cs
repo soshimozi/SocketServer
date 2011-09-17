@@ -13,7 +13,7 @@ namespace SocketService.Handler
     public class ServiceHandlerRepository
     {
         [ImportMany]
-        protected IEnumerable<Lazy<IServiceHandler, IServiceHandlerType>> _handlerList;
+        protected IEnumerable<Lazy<IServiceHandler, IServiceHandlerMetaData>> _handlerList;
 
         private static ServiceHandlerRepository _instance = null;
 
