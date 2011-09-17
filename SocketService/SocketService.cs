@@ -25,7 +25,7 @@ namespace SocketService
         protected override void OnStart(string[] args)
         {
             // TODO: Make port configurable
-            serverManager.StartServer(4000);
+            serverManager.StartServer();
             messageServer.Start();
         }
 

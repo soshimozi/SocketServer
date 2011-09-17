@@ -12,6 +12,10 @@ namespace SocketService.Framework.Data
         private object _listLock = new object();
         private List<Room> _roomList = new List<Room>();
 
+        /// <summary>
+        /// Adds the room.
+        /// </summary>
+        /// <param name="room">The room.</param>
         public void AddRoom(Room room)
         {
             lock (_listLock)
@@ -20,6 +24,11 @@ namespace SocketService.Framework.Data
             }
         }
 
+        /// <summary>
+        /// Finds the name of the by.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public Room FindByName(string name)
         {
             lock (_listLock)

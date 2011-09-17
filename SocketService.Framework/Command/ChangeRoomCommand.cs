@@ -35,7 +35,7 @@ namespace SocketService.Framework.Command
                 {
                     string oldRoom = user.Room;
 
-                    UserActionEngine.Instance.ClientChangeRoom(_clientId, _roomName);
+                    UserActionEngine.Instance.ChangeClientRoom(_clientId, _roomName);
 
                     // now send greeting to all in room
                     List<User> roomUsers = UserRepository.Instance.FindUsersByRoom(_roomName);

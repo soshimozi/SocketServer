@@ -15,6 +15,10 @@ namespace SocketService.Framework.Messaging
 
         private readonly MessageQueue _receiveQueue;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MSMQQueueWatcher"/> class.
+        /// </summary>
+        /// <param name="queueName">Name of the queue.</param>
         public MSMQQueueWatcher(string queueName)
         {
             // open the queue
@@ -22,11 +26,20 @@ namespace SocketService.Framework.Messaging
             _receiveQueue.Formatter = new BinaryMessageFormatter();
         }
 
+        /// <summary>
+        /// Closes the queue.
+        /// </summary>
         public void CloseQueue()
         {
             _receiveQueue.Close();
         }
 
+        /// <summary>
+        /// Recieves the message.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="milliseconds">The milliseconds.</param>
+        /// <returns></returns>
         public T RecieveMessage<T>(int milliseconds) where T : class
         {
             T t = default(T);
@@ -47,6 +60,9 @@ namespace SocketService.Framework.Messaging
             return t;
         }
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
         public void Dispose()
         {
             CloseQueue();

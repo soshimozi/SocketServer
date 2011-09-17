@@ -20,6 +20,9 @@ namespace SocketService.Framework.Messaging
         private bool _running = false;
 
         private readonly string _queuePath;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MessageServer"/> class.
+        /// </summary>
         public MessageServer() : base(ConfigurationManager.AppSettings["ServerMessageQueue"])
         {
             _queuePath = ConfigurationManager.AppSettings["ServerMessageQueue"];
@@ -29,6 +32,9 @@ namespace SocketService.Framework.Messaging
                 MessageQueue.Create(_queuePath);
         }
 
+        /// <summary>
+        /// Starts this instance.
+        /// </summary>
         public void Start()
         {
             if (!_running)
@@ -48,17 +54,26 @@ namespace SocketService.Framework.Messaging
             }
         }
 
+        /// <summary>
+        /// Stops this instance.
+        /// </summary>
         public void Stop()
         {
             _stopEvent.Set();
             _running = false;
         }
 
+        /// <summary>
+        /// Pauses this instance.
+        /// </summary>
         public void Pause()
         {
             // TODO: Implement Pause
         }
 
+        /// <summary>
+        /// Resumes this instance.
+        /// </summary>
         public void Resume()
         {
             // TODO: Implement Resume

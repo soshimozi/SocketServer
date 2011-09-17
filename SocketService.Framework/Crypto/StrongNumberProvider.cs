@@ -10,23 +10,35 @@ namespace SocketService.Framework.Crypto
     {
         private static RNGCryptoServiceProvider csp = new RNGCryptoServiceProvider();
 
-        public uint NextUInt32()
+        /// <summary>
+        /// Gets the next U int32.
+        /// </summary>
+        /// <returns></returns>
+        public uint GetNextUInt32()
         {
             byte[] res = new byte[4];
             csp.GetBytes(res);
             return BitConverter.ToUInt32(res, 0);
         }
 
-        public int NextInt()
+        /// <summary>
+        /// Gets the next int.
+        /// </summary>
+        /// <returns></returns>
+        public int GetNextInt()
         {
             byte[] res = new byte[4];
             csp.GetBytes(res);
             return BitConverter.ToInt32(res, 0);
         }
 
-        public Single NextSingle()
+        /// <summary>
+        /// Gets the next single.
+        /// </summary>
+        /// <returns></returns>
+        public Single GetNextSingle()
         {
-            float numerator = NextUInt32();
+            float numerator = GetNextUInt32();
             float denominator = uint.MaxValue;
             return numerator / denominator;
         }

@@ -12,6 +12,11 @@ namespace SocketService.Framework.Data
         private object _listLock = new object();
         private List<User> _userList = new List<User>();
 
+        /// <summary>
+        /// Finds the users by room.
+        /// </summary>
+        /// <param name="roomname">The roomname.</param>
+        /// <returns></returns>
         public List<User> FindUsersByRoom(string roomname)
         {
             lock (_listLock)
@@ -24,6 +29,11 @@ namespace SocketService.Framework.Data
             }
         }
 
+        /// <summary>
+        /// Finds the name of the user by.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns></returns>
         public User FindUserByName(string username)
         {
             lock (_listLock)
@@ -36,6 +46,11 @@ namespace SocketService.Framework.Data
             }
         }
 
+        /// <summary>
+        /// Finds the user by client key.
+        /// </summary>
+        /// <param name="clientKey">The client key.</param>
+        /// <returns></returns>
         public User FindUserByClientKey(Guid clientKey)
         {
             lock (_listLock)
@@ -48,6 +63,10 @@ namespace SocketService.Framework.Data
             }
         }
 
+        /// <summary>
+        /// Adds the user.
+        /// </summary>
+        /// <param name="user">The user.</param>
         public void AddUser(User user)
         {
             lock (_listLock)
@@ -56,6 +75,10 @@ namespace SocketService.Framework.Data
             }
         }
 
+        /// <summary>
+        /// Removes the user.
+        /// </summary>
+        /// <param name="user">The user.</param>
         public void RemoveUser(User user)
         {
             lock (_listLock)

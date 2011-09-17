@@ -6,6 +6,8 @@ using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Reflection;
 using System.IO;
+using System.Configuration;
+using SocketService.Framework.Configuration;
 
 namespace SocketService.Framework.ServiceHandler
 {
@@ -16,11 +18,17 @@ namespace SocketService.Framework.ServiceHandler
 
         private static ServiceHandlerRepository _instance = null;
 
+        /// <summary>
+        /// Initializes the <see cref="ServiceHandlerRepository"/> class.
+        /// </summary>
         static ServiceHandlerRepository()
         {
-            Instance.LoadHandlers("");
+            Instance.LoadHandlers();
         }
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
         public static ServiceHandlerRepository Instance
         {
             get
@@ -39,20 +47,36 @@ namespace SocketService.Framework.ServiceHandler
             //string handlerPath
         }
 
-        public List<IServiceHandler> GetHandlerListForType(Type t)
+        /// <summary>
+        /// Gets the handler list by type.
+        /// </summary>
+        /// <param name="t">The type.</param>
+        /// <returns></returns>
+        public List<IServiceHandler> GetHandlerListByType(Type type)
         {
             List<IServiceHandler> serviceHandlers = new List<IServiceHandler>();
 
             serviceHandlers = _handlerList
-                                .Where((h) => h.Metadata.HandlerType == t)
+                                .Where((h) => h.Metadata.HandlerType == type)
                                 .Select((lz) => lz.Value)
                                 .ToList();
 
             return serviceHandlers;
         }
 
-        public void LoadHandlers(string handlerPath)
+        /// <summary>
+        /// Loads the handlers.
+        /// </summary>
+        /// <param name="handlerPath">The handler path.</param>
+        public void LoadHandlers()
         {
+            SocketServiceConfiguration config = null;
+
+            try
+            { config = (SocketServiceConfiguration)ConfigurationManager.GetSection("SocketServerConfiguration"); }
+            catch (Exception ex)
+            { }
+
             var aggregateCatalog = new AggregateCatalog();
 
             Assembly executingAssembly = Assembly.GetExecutingAssembly();
@@ -60,14 +84,17 @@ namespace SocketService.Framework.ServiceHandler
             // an assembly catalog to load information about parts from this assembly
             var assemblyCatalog = new AssemblyCatalog(executingAssembly);
 
-            if (!string.IsNullOrEmpty(handlerPath))
+            if (config != null)
             {
-                var directoryCatalog = new DirectoryCatalog(handlerPath, "*.dll");
-                aggregateCatalog.Catalogs.Add(directoryCatalog);
+                foreach (PluginInfoInstanceElement pi in config.Plugins)
+                {
+                    var directoryCatalog = new DirectoryCatalog(pi.Path, "*.dll");
+                    aggregateCatalog.Catalogs.Add(directoryCatalog);
+                }
             }
 
+
             aggregateCatalog.Catalogs.Add(assemblyCatalog);
-            //aggregateCatalog.Catalogs.Add(new AssemblyCatalog(Assembly.GetCallingAssembly()));
 
             // create a container for our catalogs
             var container = new CompositionContainer(aggregateCatalog);

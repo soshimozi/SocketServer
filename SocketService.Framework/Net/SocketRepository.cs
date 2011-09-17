@@ -19,6 +19,9 @@ namespace SocketService.Framework.Net
 
         private static SocketRepository _instance = null;
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
         public static SocketRepository Instance
         {
             get
@@ -32,6 +35,11 @@ namespace SocketService.Framework.Net
             }
         }
 
+        /// <summary>
+        /// Finds the by client id.
+        /// </summary>
+        /// <param name="clientId">The client id.</param>
+        /// <returns></returns>
         public ZipSocket FindByClientId(Guid clientId)
         {
             _connectionMutex.WaitOne();
@@ -53,6 +61,10 @@ namespace SocketService.Framework.Net
             }
         }
 
+        /// <summary>
+        /// Removes the specified client id.
+        /// </summary>
+        /// <param name="clientId">The client id.</param>
         public void Remove(Guid clientId)
         {
             _connectionMutex.WaitOne();
@@ -66,6 +78,11 @@ namespace SocketService.Framework.Net
             }
         }
 
+        /// <summary>
+        /// Adds the socket.
+        /// </summary>
+        /// <param name="clientId">The client id.</param>
+        /// <param name="connection">The connection.</param>
         public void AddSocket(Guid clientId, Socket connection)
         {
             _connectionMutex.WaitOne();
@@ -80,6 +97,9 @@ namespace SocketService.Framework.Net
         }
 
 
+        /// <summary>
+        /// Gets the connection list.
+        /// </summary>
         public List<ZipSocket> ConnectionList
         {
             get

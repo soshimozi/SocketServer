@@ -11,7 +11,8 @@
     <RootNamespace>ConsoleApplication1</RootNamespace>
     <AssemblyName>ConsoleApplication1</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -49,36 +50,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Crypto\SocketService.Crypto.csproj">
-      <Project>{354919B0-FF17-44D6-ADD6-297B61038371}</Project>
-      <Name>SocketService.Crypto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Net.Sockets\SocketService.Net.Sockets.csproj">
-      <Project>{B56406C1-22B7-4567-A289-5A836500D647}</Project>
-      <Name>SocketService.Net.Sockets</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Request\SocketService.Request.csproj">
-      <Project>{3CC84E68-959C-43EB-AFE8-CEC1D20960BF}</Project>
-      <Name>SocketService.Request</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Response\SocketService.Response.csproj">
-      <Project>{D6588BBD-FCFD-47F8-AFBD-709E2F756D64}</Project>
-      <Name>SocketService.Response</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Serial\SocketService.Serial.csproj">
-      <Project>{F9EB82A2-2BC8-4B94-B14D-A766933DA989}</Project>
-      <Name>SocketService.Serial</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.SharedObjects\SocketService.SharedObjects.csproj">
-      <Project>{63FF8B4F-F3A5-4C2B-BB5E-C2B1FEAA407A}</Project>
-      <Name>SocketService.SharedObjects</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SocketService.Framework\SocketService.Framework.csproj">
+      <Project>{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}</Project>
+      <Name>SocketService.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

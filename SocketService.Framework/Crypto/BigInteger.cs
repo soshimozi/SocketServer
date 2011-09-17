@@ -1819,7 +1819,7 @@ namespace SocketService.Framework.Crypto
 				throw (new ArithmeticException("Number of required bits > maxLength."));
 
 			for (int i = 0; i < dwords; i++)
-				data[i] = (uint)rand.NextUInt32();
+				data[i] = (uint)rand.GetNextUInt32();
 
 			for (int i = dwords; i < MaxLength; i++)
 				data[i] = 0;
@@ -1928,7 +1928,7 @@ namespace SocketService.Framework.Crypto
 
 					// make sure "a" has at least 2 bits
 					while (testBits < 2)
-						testBits = rand.NextInt() * bits;
+						testBits = rand.GetNextInt() * bits;
 
 					a.GenRandomBits(testBits, rand);
 
@@ -2040,7 +2040,7 @@ namespace SocketService.Framework.Crypto
 
 					// make sure "a" has at least 2 bits
 					while (testBits < 2)
-						testBits = (int)(rand.NextSingle() * bits);
+						testBits = (int)(rand.GetNextSingle() * bits);
 
 					a.GenRandomBits(testBits, rand);
 
@@ -2139,7 +2139,7 @@ namespace SocketService.Framework.Crypto
 
 					// make sure "a" has at least 2 bits
 					while (testBits < 2)
-						testBits = (int)(rand.NextSingle() * bits);
+						testBits = (int)(rand.GetNextSingle() * bits);
 
 					a.GenRandomBits(testBits, rand);
 

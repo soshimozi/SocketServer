@@ -23,6 +23,9 @@ namespace SocketService.Framework.Command
             _clientId = clientId;
         }
 
+        /// <summary>
+        /// Executes this instance.
+        /// </summary>
         public override void Execute()
         {
             IRequestHeader header = (IRequestHeader)ObjectSerialize.Deserialize(_serialized);
@@ -30,7 +33,7 @@ namespace SocketService.Framework.Command
         
             //// lookup this object types handler
             Type requestType = serverRequest.GetType();
-            var handlerList = ServiceHandlerRepository.Instance.GetHandlerListForType(requestType);
+            var handlerList = ServiceHandlerRepository.Instance.GetHandlerListByType(requestType);
 
             // here is where we start using MSMQ and the messaging handler
             // to queue up a new command

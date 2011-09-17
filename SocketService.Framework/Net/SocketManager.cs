@@ -8,6 +8,8 @@ using System.IO;
 using SocketService.Framework.Messaging;
 using SocketService.Framework.Net.Client;
 using SocketService.Framework.Command;
+using SocketService.Framework.Configuration;
+using System.Configuration;
 
 namespace SocketService.Framework.Net
 {
@@ -15,6 +17,9 @@ namespace SocketService.Framework.Net
     {
         private readonly SocketServer _socketServer;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SocketManager"/> class.
+        /// </summary>
         public SocketManager()
         {
             // create server, doesn't start pumping until we get the Start command
@@ -31,18 +36,6 @@ namespace SocketService.Framework.Net
             if (connection != null)
             {
                 ParseRequest(connection.ClientId, e.Data);
-
-                //switch (connection.ConnectionState)
-                //{
-                //    case ConnectionState.Connected:
-                //        ParseRequest(connection.ClientId, e.Data);
-                //        break;
-
-                //    // TODO : Move into application logic, there should only be one state : Connected or Not
-                //    case ConnectionState.NegotiateKeyPair:
-                //        NegotiateKeys(connection, e.Data);
-                //        break;
-                //}
             }
         }
 
@@ -57,27 +50,35 @@ namespace SocketService.Framework.Net
         protected void SocketServer_ClientDisconnecting(object sender, DisconnectedArgs e)
         {
             MSMQQueueWrapper.QueueCommand(new LogoutUserCommand(e.ClientId));
-            //Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(e.ClientId);
-            //if (connection != null)
-            //{
-            //    ConnectionRepository.Instance.RemoveConnection(connection);
-            //}
         }
 
-        public void StartServer(int port)
+        /// <summary>
+        /// Starts the server.
+        /// </summary>
+        /// <param name="port">The port.</param>
+        public void StartServer()
         {
-            _socketServer.StartServer(port);
+            SocketServiceConfiguration configuration = null;
+            try
+            {
+                configuration = (SocketServiceConfiguration)ConfigurationManager.GetSection("SocketServerConfiguration");
+            }
+            catch (Exception ex)
+            { }
+
+            if (configuration != null)
+            {
+                _socketServer.StartServer(configuration.ListenPort);
+            }
         }
 
+        /// <summary>
+        /// Stops the server.
+        /// </summary>
         public void StopServer()
         {
             _socketServer.StopServer();
         }
-
-        //private void NegotiateKeys(Connection connection, byte[] remotePublicKey)
-        //{
-        //    MSMQQueueCommand.QueueCommand(new NegotiateKeysCommand(connection.ClientId, remotePublicKey));
-        //}
 
         private void ParseRequest(Guid clientId, byte[] requestData)
         {

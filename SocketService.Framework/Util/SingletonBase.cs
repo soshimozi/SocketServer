@@ -9,6 +9,9 @@ namespace SocketService.Framework.Util
     {
         private static T _instance = default(T);
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
         public static T Instance
         {
             get

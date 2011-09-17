@@ -10,6 +10,10 @@ namespace SocketService.Framework.Actions
 {
     public class UserActionEngine : SingletonBase<UserActionEngine>
     {
+        /// <summary>
+        /// Logouts the user.
+        /// </summary>
+        /// <param name="clientId">The client id.</param>
         public void LogoutUser(Guid clientId)
         {
             User user = UserRepository.Instance.FindUserByClientKey(clientId);
@@ -19,6 +23,12 @@ namespace SocketService.Framework.Actions
             }
         }
 
+        /// <summary>
+        /// Logins the user.
+        /// </summary>
+        /// <param name="clientId">The client id.</param>
+        /// <param name="loginName">Name of the login.</param>
+        /// <returns></returns>
         public bool LoginUser(Guid clientId, string loginName)
         {
             // check for duplicates
@@ -43,7 +53,12 @@ namespace SocketService.Framework.Actions
             }
         }
 
-        public void ClientChangeRoom(Guid clientId, string roomName)
+        /// <summary>
+        /// Changes the client room.
+        /// </summary>
+        /// <param name="clientId">The client id.</param>
+        /// <param name="roomName">Name of the room.</param>
+        public void ChangeClientRoom(Guid clientId, string roomName)
         {
             Room room = RoomRepository.Instance.FindByName(roomName);
             if (room == null)

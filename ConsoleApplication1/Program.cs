@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Net.Sockets;
-using SocketService.Request;
 using System.Threading;
 using System.Security.Cryptography;
 using System.Collections;
-using SocketService.Crypto;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-using SocketService.Serial;
 using System.IO.Compression;
-using SocketService.Net;
-using SocketService.Response;
-using SocketService.Net.Sockets;
-using SocketService.SharedObjects;
+using SocketService.Framework.Crypto;
+using SocketService.Framework.Net.Sockets;
+using SocketService.Framework.Response;
+using SocketService.Framework.Request;
+using SocketService.Framework.SharedObjects;
+using SocketService.Framework.Serialize;
 
 namespace ConsoleApplication1
 {

@@ -19,6 +19,10 @@ namespace SocketService.Framework.Messaging
             _queuePath = ConfigurationManager.AppSettings["ServerMessageQueue"];
         }
 
+        /// <summary>
+        /// Queues the command.
+        /// </summary>
+        /// <param name="c">The c.</param>
         public static void QueueCommand(ICommand c)
         {
             try

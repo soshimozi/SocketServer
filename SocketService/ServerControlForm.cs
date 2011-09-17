@@ -29,7 +29,7 @@ namespace SocketService
         private void startButton_Click(object sender, EventArgs e)
         {
             messageServer.Start();
-            serverManager.StartServer(4000);
+            serverManager.StartServer();
         }
 
         private void stopButton_Click(object sender, EventArgs e)

@@ -9,6 +9,12 @@ namespace SocketService.Framework.Response
     [Serializable]
     public class GetRoomVariableResponse
     {
+        /// <summary>
+        /// Gets or sets the server object.
+        /// </summary>
+        /// <value>
+        /// The server object.
+        /// </value>
         public ServerObject ServerObject
         {
             get;

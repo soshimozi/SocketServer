@@ -8,14 +8,25 @@ namespace SocketService.Framework.Data.Domain
 {
     public class Room
     {
-        public Dictionary<string, ServerObject> _roomVariables = new Dictionary<string, ServerObject>();
+        private Dictionary<string, ServerObject> _roomVariables = new Dictionary<string, ServerObject>();
 
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>
+        /// The name.
+        /// </value>
         public string Name
         {
             get;
             set;
         }
 
+        /// <summary>
+        /// Gets the variable.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns></returns>
         public ServerObject GetVariable(string name)
         {
             if (_roomVariables.ContainsKey(name))
@@ -26,6 +37,11 @@ namespace SocketService.Framework.Data.Domain
             return null;
         }
 
+        /// <summary>
+        /// Adds the variable.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <param name="so">The so.</param>
         public void AddVariable(string name, ServerObject so)
         {
             if (!_roomVariables.ContainsKey(name))

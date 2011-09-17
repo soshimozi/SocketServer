@@ -20,6 +20,9 @@ namespace SocketService.Framework.Command
             _clientId = clientId;
         }
 
+        /// <summary>
+        /// Executes this instance.
+        /// </summary>
         public override void Execute()
         {
             Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);

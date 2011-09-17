@@ -10,6 +10,7 @@ namespace SocketService.Framework.Crypto
     public class Wrapper : IDisposable
     {
         private readonly SymmetricAlgorithm _algorithm;
+        private readonly ICryptoTransform _transformer;
 
         private Wrapper()
         {
@@ -27,11 +28,21 @@ namespace SocketService.Framework.Crypto
             Dispose(false);
         }
 
+        /// <summary>
+        /// Gets the IV.
+        /// </summary>
         public byte[] IV
         {
             get { return _algorithm.IV; }
         }
 
+        /// <summary>
+        /// Creates the encryptor.
+        /// </summary>
+        /// <param name="algType">Type of the alg.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="entropy">The entropy.</param>
+        /// <returns></returns>
         public static Wrapper CreateEncryptor(AlgorithmType algType, byte [] key, int entropy = 50)
         {
             SymmetricAlgorithm algorithm = null;
@@ -56,6 +67,14 @@ namespace SocketService.Framework.Crypto
             return new Wrapper(algorithm, algorithm.CreateEncryptor());
         }
 
+        /// <summary>
+        /// Creates the decryptor.
+        /// </summary>
+        /// <param name="algType">Type of the alg.</param>
+        /// <param name="key">The key.</param>
+        /// <param name="iv">The iv.</param>
+        /// <param name="entropy">The entropy.</param>
+        /// <returns></returns>
         public static Wrapper CreateDecryptor(AlgorithmType algType, byte[] key, byte[] iv, int entropy = 50)
         {
             SymmetricAlgorithm algorithm = null;
@@ -81,7 +100,9 @@ namespace SocketService.Framework.Crypto
             return new Wrapper(algorithm, algorithm.CreateDecryptor());
         }
 
-        ICryptoTransform _transformer;
+        /// <summary>
+        /// Gets the crypto transformer.
+        /// </summary>
         public ICryptoTransform CryptoTransformer
         {
             get
@@ -91,6 +112,11 @@ namespace SocketService.Framework.Crypto
         
         }
 
+        /// <summary>
+        /// Encrypts the string.
+        /// </summary>
+        /// <param name="secret">The secret.</param>
+        /// <returns></returns>
         public byte[] EncryptString(string secret)
         {
             using (MemoryStream cipherText = new MemoryStream())
@@ -105,6 +131,11 @@ namespace SocketService.Framework.Crypto
             }
         }
 
+        /// <summary>
+        /// Encrypts the specified sensitive.
+        /// </summary>
+        /// <param name="sensitive">The sensitive.</param>
+        /// <returns></returns>
         public byte[] Encrypt(byte[] sensitive)
         {
             using (MemoryStream cipherStream = new MemoryStream())
@@ -118,6 +149,11 @@ namespace SocketService.Framework.Crypto
             }
         }
 
+        /// <summary>
+        /// Decrypts the specified cipher.
+        /// </summary>
+        /// <param name="cipher">The cipher.</param>
+        /// <returns></returns>
         public byte[] Decrypt(byte[] cipher)
         {
             // Decrypt the message
@@ -133,6 +169,11 @@ namespace SocketService.Framework.Crypto
 
         }
 
+        /// <summary>
+        /// Decrypts the string.
+        /// </summary>
+        /// <param name="cipherString">The cipher string.</param>
+        /// <returns></returns>
         public string DecryptString(string cipherString)
         {
             byte[] cipher = System.Text.Encoding.UTF8.GetBytes(cipherString);
@@ -149,6 +190,11 @@ namespace SocketService.Framework.Crypto
             }
         }
 
+        /// <summary>
+        /// Decrypts the string.
+        /// </summary>
+        /// <param name="cipher">The cipher.</param>
+        /// <returns></returns>
         public string DecryptString(byte [] cipher)
         {
             // Decrypt the message

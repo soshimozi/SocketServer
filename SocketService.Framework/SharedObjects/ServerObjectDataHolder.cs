@@ -11,12 +11,24 @@ namespace SocketService.Framework.SharedObjects
         private int dataType;
         private object value;
 
+        /// <summary>
+        /// Gets or sets the value.
+        /// </summary>
+        /// <value>
+        /// The value.
+        /// </value>
         public object Value
         {
             get { return this.value; }
             set { SetValue(value); }
         }
 
+        /// <summary>
+        /// Gets or sets the type of the data.
+        /// </summary>
+        /// <value>
+        /// The type of the data.
+        /// </value>
         public  ServerObjectDataType DataType
         {
             get { return (ServerObjectDataType)dataType; }

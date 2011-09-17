@@ -13,6 +13,11 @@ namespace SocketService.Framework.Net.Sockets
     public class ZipSocket
     {
         private Mutex _sendMutex = new Mutex();
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ZipSocket"/> class.
+        /// </summary>
+        /// <param name="socket">The socket.</param>
+        /// <param name="clientId">The client id.</param>
         public ZipSocket(Socket socket, Guid clientId)
         {
             ClientId = clientId;
@@ -20,17 +25,28 @@ namespace SocketService.Framework.Net.Sockets
             RemoteAddress = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
         }
 
+        /// <summary>
+        /// Gets the raw socket.
+        /// </summary>
         public Socket RawSocket
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Sends the data.
+        /// </summary>
+        /// <param name="data">The data.</param>
         public virtual void SendData(string data)
         {
             SendData(Encoding.UTF8.GetBytes(data));
         }
 
+        /// <summary>
+        /// Sends the data.
+        /// </summary>
+        /// <param name="buffer">The buffer.</param>
         public virtual void SendData(byte[] buffer)
         {
             _sendMutex.WaitOne();
@@ -46,29 +62,49 @@ namespace SocketService.Framework.Net.Sockets
 
         }
 
+        /// <summary>
+        /// Closes this instance.
+        /// </summary>
         public void Close()
         {
             RawSocket.Shutdown(SocketShutdown.Both);
             RawSocket.Close();
         }
 
-        public bool Equals(Socket socket)
+        /// <summary>
+        /// Determines whether the specified socket is equal.
+        /// </summary>
+        /// <param name="socket">The socket.</param>
+        /// <returns>
+        ///   <c>true</c> if the specified socket is equal; otherwise, <c>false</c>.
+        /// </returns>
+        public bool IsEqual(Socket socket)
         {
             return socket == RawSocket;
         }
 
+        /// <summary>
+        /// Gets the client id.
+        /// </summary>
         public Guid ClientId
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Gets the remote address.
+        /// </summary>
         public string RemoteAddress
         {
             get;
             private set;
         }
 
+        /// <summary>
+        /// Receives the data.
+        /// </summary>
+        /// <returns></returns>
         public byte[] ReceiveData()
         {
             byte[] zippedData = new byte[RawSocket.Available];
@@ -76,6 +112,11 @@ namespace SocketService.Framework.Net.Sockets
             return Decompress(zippedData);
         }
 
+        /// <summary>
+        /// Compresses the specified data.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
         private byte[] Compress(byte[] data)
         {
             using (MemoryStream msData = new MemoryStream())
@@ -98,6 +139,11 @@ namespace SocketService.Framework.Net.Sockets
 
         }
 
+        /// <summary>
+        /// Decompresses the specified data.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
         private byte[] Decompress(byte[] data)
         {
             using (MemoryStream ms = new MemoryStream(data))

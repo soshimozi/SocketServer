@@ -9,6 +9,11 @@ namespace SocketService.Framework.Serialize
 {
     static public class ObjectSerialize
     {
+        /// <summary>
+        /// Serializes the specified graph.
+        /// </summary>
+        /// <param name="graph">The graph.</param>
+        /// <returns></returns>
         static public byte[] Serialize(object graph)
         {
             using (MemoryStream ms = new MemoryStream())
@@ -20,6 +25,11 @@ namespace SocketService.Framework.Serialize
             }
         }
 
+        /// <summary>
+        /// Deserializes the specified data.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
         static public object Deserialize(byte[] data)
         {
             using (MemoryStream ms = new MemoryStream(data))
@@ -29,6 +39,12 @@ namespace SocketService.Framework.Serialize
             }
         }
 
+        /// <summary>
+        /// Deserializes the specified data.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data">The data.</param>
+        /// <returns></returns>
         static public T Deserialize<T>(byte[] data) where T : class
         {
             using (MemoryStream ms = new MemoryStream(data))

@@ -17,6 +17,9 @@ namespace SocketService.Framework.Net.Client
 
         private static ConnectionRepository _instance = null;
 
+        /// <summary>
+        /// Gets the instance.
+        /// </summary>
         public static ConnectionRepository Instance
         {
             get
@@ -30,6 +33,11 @@ namespace SocketService.Framework.Net.Client
             }
         }
 
+        /// <summary>
+        /// Finds the connection by client id.
+        /// </summary>
+        /// <param name="clientId">The client id.</param>
+        /// <returns></returns>
         public Connection FindConnectionByClientId(Guid clientId)
         {
             _connectionMutex.WaitOne();
@@ -48,6 +56,10 @@ namespace SocketService.Framework.Net.Client
             }
         }
 
+        /// <summary>
+        /// Removes the connection.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
         public void RemoveConnection(Connection connection)
         {
             _connectionMutex.WaitOne();
@@ -61,6 +73,10 @@ namespace SocketService.Framework.Net.Client
             }
         }
 
+        /// <summary>
+        /// Adds the connection.
+        /// </summary>
+        /// <param name="connection">The connection.</param>
         public void AddConnection(Connection connection)
         {
             _connectionMutex.WaitOne();
@@ -75,6 +91,9 @@ namespace SocketService.Framework.Net.Client
         }
 
 
+        /// <summary>
+        /// Gets the connection list.
+        /// </summary>
         public List<Connection> ConnectionList
         {
             get
