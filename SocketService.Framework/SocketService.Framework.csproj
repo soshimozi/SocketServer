@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SocketService.Framework</RootNamespace>
+    <AssemblyName>SocketService.Framework</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\References\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Actions\RoomActionEngine.cs" />
+    <Compile Include="Actions\UserActionEngine.cs" />
+    <Compile Include="Command\BroadcastObjectCommand.cs" />
+    <Compile Include="Command\ChangeRoomCommand.cs" />
+    <Compile Include="Command\CreateRoomVariableCommand.cs" />
+    <Compile Include="Command\GetRoomVariableCommand.cs" />
+    <Compile Include="Command\HandleClientRequestCommand.cs" />
+    <Compile Include="Command\LoginUserCommand.cs" />
+    <Compile Include="Command\LogoutUserCommand.cs" />
+    <Compile Include="Command\ParseRequestCommand.cs" />
+    <Compile Include="Command\SendObjectCommand.cs" />
+    <Compile Include="Crypto\BigInteger.cs" />
+    <Compile Include="Crypto\CentralAuthority.cs" />
+    <Compile Include="Crypto\Crc32.cs" />
+    <Compile Include="Crypto\DiffieHellmanKey.cs" />
+    <Compile Include="Crypto\DiffieHellmanProvider.cs" />
+    <Compile Include="Crypto\StringExtentions.cs" />
+    <Compile Include="Crypto\StrongNumberProvider.cs" />
+    <Compile Include="Crypto\Wrapper.cs" />
+    <Compile Include="Data\Domain\Room.cs" />
+    <Compile Include="Data\Domain\User.cs" />
+    <Compile Include="Data\RoomRepository.cs" />
+    <Compile Include="Data\UserRepository.cs" />
+    <Compile Include="Messaging\BaseMessageHandler.cs" />
+    <Compile Include="Messaging\ICommand.cs" />
+    <Compile Include="Messaging\MessageServer.cs" />
+    <Compile Include="Messaging\MSMQQueueWatcher.cs" />
+    <Compile Include="Messaging\MSMQQueueWrapper.cs" />
+    <Compile Include="Net\Client\ConnectArgs.cs" />
+    <Compile Include="Net\Client\Connection.cs" />
+    <Compile Include="Net\Client\ConnectionRepository.cs" />
+    <Compile Include="Net\Client\DisconnectedArgs.cs" />
+    <Compile Include="Net\Client\SocketDataRecievedArgs.cs" />
+    <Compile Include="Net\SocketManager.cs" />
+    <Compile Include="Net\SocketRepository.cs" />
+    <Compile Include="Net\SocketServer.cs" />
+    <Compile Include="Net\Sockets\ZipSocket.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\ChangeRoomRequest.cs" />
+    <Compile Include="Request\ClientRequestHeader.cs" />
+    <Compile Include="Request\CreateRoomVariableRequest.cs" />
+    <Compile Include="Request\GetCentralAuthorityRequest.cs" />
+    <Compile Include="Request\GetRoomVariableRequest.cs" />
+    <Compile Include="Request\IRequestHeader.cs" />
+    <Compile Include="Request\ListUsersInRoomRequest.cs" />
+    <Compile Include="Request\LoginRequest.cs" />
+    <Compile Include="Request\NegotiateKeysRequest.cs" />
+    <Compile Include="Response\ConnectionResponse.cs" />
+    <Compile Include="Response\GetRoomVariableResponse.cs" />
+    <Compile Include="Response\ListUsersInRoomResponse.cs" />
+    <Compile Include="Response\LoginResponse.cs" />
+    <Compile Include="Response\NegotiateKeysResponse.cs" />
+    <Compile Include="Response\ServerMessage.cs" />
+    <Compile Include="Serialize\ObjectSerialize.cs" />
+    <Compile Include="ServiceHandler\ServiceHandlerRepository.cs" />
+    <Compile Include="ServiceHandler\IServiceHandler.cs" />
+    <Compile Include="ServiceHandler\IServiceHandlerMetaData.cs" />
+    <Compile Include="ServiceHandler\ServiceHandlerTypeAttribute.cs" />
+    <Compile Include="SharedObjects\RoomVariable.cs" />
+    <Compile Include="SharedObjects\ServerObject.cs" />
+    <Compile Include="SharedObjects\ServerObjectDataHolder.cs" />
+    <Compile Include="SharedObjects\ServerObjectDataType.cs" />
+    <Compile Include="SharedObjects\ServerObjectRO.cs" />
+    <Compile Include="SharedObjects\ServerUser.cs" />
+    <Compile Include="Util\SingletonBase.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

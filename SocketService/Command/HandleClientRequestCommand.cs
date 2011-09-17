@@ -5,12 +5,12 @@ using System.Text;
 using SocketService.Request;
 using SocketService.Crypto;
 using SocketService.ServiceHandler;
-using SocketService.Messaging;
+using SocketService.Framework.Messaging;
 
 namespace SocketService.Command
 {
     [Serializable()]
-    public class HandleClientRequestCommand : BaseCommand
+    public class HandleClientRequestCommand : BaseMessageHandler
     {
         private readonly List<IServiceHandler> _handlerList;
         private readonly Guid _clientConnect;

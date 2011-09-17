@@ -6,9 +6,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
-using SocketService.Request;
-using SocketService.Net;
-using SocketService.Messaging;
+using SocketService.Framework.Messaging;
+using SocketService.Framework.Net;
 
 namespace SocketService
 {

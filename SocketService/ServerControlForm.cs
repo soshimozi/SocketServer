@@ -6,16 +6,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using SocketService.Request;
 using System.Security.Cryptography;
-using SocketService.Crypto;
 using System.IO;
 using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
-using SocketService.Serial;
 using System.IO.Compression;
-using SocketService.Net;
-using SocketService.Messaging;
+using SocketService.Framework.Messaging;
+using SocketService.Framework.Net;
 
 namespace SocketService
 {

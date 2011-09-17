@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SocketService.Client;
-using SocketService.Util;
 using SocketService.Net.Sockets;
 using SocketService.Net;
-using SocketService.Messaging;
 using SocketService.Command;
-using SocketService.Data;
-using SocketService.Data.Domain;
+using SocketService.Framework.Util;
+using SocketService.Framework.Data.Domain;
+using SocketService.Framework.Data;
 
 namespace SocketService.Actions
 {

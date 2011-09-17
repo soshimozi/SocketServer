@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Messaging;
-using SocketService.Actions;
 using SocketService.SharedObjects;
 using SocketService.Response;
+using SocketService.Framework.Messaging;
+using SocketService.Framework.Actions;
 
 namespace SocketService.Command
 {
     [Serializable]
-    public class GetRoomVariableCommand : BaseCommand
+    public class GetRoomVariableCommand : BaseMessageHandler
     {
         private readonly string _room;
         private readonly string _name;

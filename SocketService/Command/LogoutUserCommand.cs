@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Messaging;
 using SocketService.Client;
 using SocketService.Net.Sockets;
 using SocketService.Net;
-using SocketService.Data.Domain;
-using SocketService.Data;
-using SocketService.Actions;
 using SocketService.Response;
+using SocketService.Framework.Actions;
+using SocketService.Framework.Messaging;
+using SocketService.Framework.Data.Domain;
+using SocketService.Framework.Data;
 
 namespace SocketService.Command
 {
     [Serializable]
-    class LogoutUserCommand : BaseCommand
+    class LogoutUserCommand : BaseMessageHandler
     {
         private readonly Guid _clientId;
         public LogoutUserCommand(Guid clientId)

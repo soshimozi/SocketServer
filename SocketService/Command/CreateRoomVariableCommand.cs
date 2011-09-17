@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Messaging;
 using SocketService.SharedObjects;
-using SocketService.Actions;
+using SocketService.Framework.Actions;
+using SocketService.Framework.Messaging;
 
 namespace SocketService.Command
 {
     [Serializable]
-    class CreateRoomVariableCommand : BaseCommand
+    class CreateRoomVariableCommand : BaseMessageHandler
     {
         private readonly string _room;
         private readonly string _name;

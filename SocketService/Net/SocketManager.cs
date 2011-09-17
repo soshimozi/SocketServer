@@ -10,7 +10,7 @@ using SocketService.Serial;
 using SocketService.Command;
 using System.Reflection;
 using System.IO;
-using SocketService.Messaging;
+using SocketService.Framework.Messaging;
 
 namespace SocketService.Net
 {

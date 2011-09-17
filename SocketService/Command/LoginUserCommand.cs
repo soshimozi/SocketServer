@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SocketService.Client;
-using SocketService.Actions;
-using SocketService.Messaging;
-using SocketService.Data.Domain;
-using SocketService.Data;
+using SocketService.Framework.Actions;
 using SocketService.Response;
 using SocketService.Net.Sockets;
+using SocketService.Framework.Messaging;
+using SocketService.Framework.Data;
+using SocketService.Framework.Data.Domain;
 
 namespace SocketService.Command
 {
 
     [Serializable]
-    public class LoginUserCommand : BaseCommand
+    public class LoginUserCommand : BaseMessageHandler
     {
         private readonly string _username;
         private readonly Guid _clientId;

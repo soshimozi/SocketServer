@@ -7,12 +7,12 @@ using SocketService.Request;
 using SocketService.Serial;
 using SocketService.Client;
 using SocketService.Handler;
-using SocketService.Messaging;
+using SocketService.Framework.Messaging;
 
 namespace SocketService.Command
 {
     [Serializable()]
-    class ParseRequestCommand : BaseCommand
+    class ParseRequestCommand : BaseMessageHandler
     {
         private readonly byte[] _serialized;
         private readonly Guid _clientId;

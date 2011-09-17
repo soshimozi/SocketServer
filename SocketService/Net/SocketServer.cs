@@ -14,20 +14,20 @@ using log4net;
 
 namespace SocketService.Net
 {
-    public class SocketServer //: ISocketServer
-    {
-        private static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+	public class SocketServer //: ISocketServer
+	{
+		private static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public event EventHandler<ConnectArgs> ClientConnecting;
-        public event EventHandler<DataRecievedArgs> DataRecieved;
-        public event EventHandler<DisconnectedArgs> ClientDisconnecting;
+		public event EventHandler<ConnectArgs> ClientConnecting;
+		public event EventHandler<DataRecievedArgs> DataRecieved;
+		public event EventHandler<DisconnectedArgs> ClientDisconnecting;
 
-        private Mutex _clientListLock = new Mutex();
+		private Mutex _clientListLock = new Mutex();
 
-        private Dictionary<Guid, ZipSocket> _connectionList = new Dictionary<Guid, ZipSocket>();
-        private Socket _listenSocket;
-        private ManualResetEvent _stopEvent = new ManualResetEvent(false);
-        private bool _stopped = true;
+		private Dictionary<Guid, ZipSocket> _connectionList = new Dictionary<Guid, ZipSocket>();
+		private Socket _listenSocket;
+		private ManualResetEvent _stopEvent = new ManualResetEvent(false);
+		private bool _stopped = true;
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is stopped.
@@ -35,69 +35,69 @@ namespace SocketService.Net
 		/// <value>
 		/// 	<c>true</c> if this instance is stopped; otherwise, <c>false</c>.
 		/// </value>
-        public bool IsStopped
-        {
-            get
-            {
-                Thread.MemoryBarrier();
-                return _stopped;
-            }
+		public bool IsStopped
+		{
+			get
+			{
+				Thread.MemoryBarrier();
+				return _stopped;
+			}
 
-            set
-            {
-                _stopped = value;
-                Thread.MemoryBarrier();
-            }
-        }
+			set
+			{
+				_stopped = value;
+				Thread.MemoryBarrier();
+			}
+		}
 
 		/// <summary>
 		/// Starts the server.
 		/// </summary>
 		/// <param name="serverPort">The server port.</param>
-        public void StartServer(int serverPort)
-        {
-            if (IsStopped)
-            {
-                _stopEvent.Reset();
+		public void StartServer(int serverPort)
+		{
+			if (IsStopped)
+			{
+				_stopEvent.Reset();
 
 				IsStopped = false;
 				
 				Thread serverThread = new Thread(new ParameterizedThreadStart(ServerMain));
-                serverThread.Start(serverPort);
-            }
-        }
+				serverThread.Start(serverPort);
+			}
+		}
 
 		/// <summary>
 		/// Stops the server.
 		/// </summary>
-        public void StopServer()
-        {
-            _stopEvent.Set();
-            DisconnectAllClients();
-        }
+		public void StopServer()
+		{
+			_stopEvent.Set();
+			DisconnectAllClients();
+		}
 
 		/// <summary>
 		/// Disconnects the client.
 		/// </summary>
 		/// <param name="client">The client.</param>
-        public void DisconnectClient(Guid clientId)
+		public void DisconnectClient(Guid clientId)
 		{
 			_clientListLock.WaitOne();
-            try
-            {
-                if (_connectionList.ContainsKey(clientId))
-                {
-                    _connectionList[clientId].Close();
-                    OnClientDisconnected(clientId);
+			try
+			{
+				if (_connectionList.ContainsKey(clientId))
+				{
+					_connectionList[clientId].Close();
+					OnClientDisconnected(clientId);
 
-                    _connectionList.Remove(clientId);
-                }
+					_connectionList.Remove(clientId);
+				}
 
-            }
-            catch (Exception ex)
-            {
-                Log.ErrorFormat("Error: {0}", ex.Message);
-            }
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorFormat("Error: {0}", ex.Message);
+			}
 			finally
 			{
 				_clientListLock.ReleaseMutex();
@@ -106,34 +106,34 @@ namespace SocketService.Net
 		}
 
 		virtual protected void OnDataRecieved(Guid clientId, byte[] data)
-        {
+		{
 			var dataRecieved = this.DataRecieved;
-            if (dataRecieved != null)
-            {
+			if (dataRecieved != null)
+			{
 				DataRecievedArgs args = new DataRecievedArgs(clientId, data);
-                dataRecieved(this, args);
-            }
-        }
+				dataRecieved(this, args);
+			}
+		}
 
 		virtual protected void OnClientConnected(Guid clientId, Socket socket, string remoteAddress)
-        {
+		{
 			var clientConnected = this.ClientConnecting;
-            if (clientConnected != null)
-            {
+			if (clientConnected != null)
+			{
 				ConnectArgs args = new ConnectArgs(clientId, socket, remoteAddress);
-                clientConnected(this, args);
-            }
-        }
+				clientConnected(this, args);
+			}
+		}
 
-        virtual protected void OnClientDisconnected(Guid clientId)
-        {
+		virtual protected void OnClientDisconnected(Guid clientId)
+		{
 			var clientDisconnected = this.ClientDisconnecting;
-            if (clientDisconnected != null)
-            {
+			if (clientDisconnected != null)
+			{
 				DisconnectedArgs args = new DisconnectedArgs(clientId);
-                clientDisconnected(this, args);
-            }
-        }
+				clientDisconnected(this, args);
+			}
+		}
 
 		private void DisconnectAllClients()
 		{
@@ -142,16 +142,16 @@ namespace SocketService.Net
 			{
 				foreach (Guid key in _connectionList.Keys)
 				{
-                    _connectionList[key].Close();
+					_connectionList[key].Close();
 					OnClientDisconnected(key);
 				}
 
 				_connectionList.Clear();
 			}
-            catch (Exception ex)
-            {
-                Log.ErrorFormat("Error: {0}", ex.Message);
-            }
+			catch (Exception ex)
+			{
+				Log.ErrorFormat("Error: {0}", ex.Message);
+			}
 			finally
 			{
 				_clientListLock.ReleaseMutex();
@@ -176,80 +176,80 @@ namespace SocketService.Net
 
 		private void OnBeginAccept(IAsyncResult result)
 		{
-            if (result.IsCompleted)
-            {
-                Socket socket = null;
+			if (result.IsCompleted)
+			{
+				Socket socket = null;
 
-                try
-                {
-                    socket = _listenSocket.EndAccept(result);
-                }
-                catch (Exception ex)
-                {
-                    Log.ErrorFormat("Error: {0}", ex.Message);
-                }
+				try
+				{
+					socket = _listenSocket.EndAccept(result);
+				}
+				catch (Exception ex)
+				{
+					Log.ErrorFormat("Error: {0}", ex.Message);
+				}
 
-                if (socket != null)
-                {
-                    Guid clientId = Guid.NewGuid();
-                    ZipSocket client = new ZipSocket(socket, clientId);
+				if (socket != null)
+				{
+					Guid clientId = Guid.NewGuid();
+					ZipSocket client = new ZipSocket(socket, clientId);
 
-                    AddConnection(clientId, client);
-                    OnClientConnected(clientId, socket, ((IPEndPoint)socket.RemoteEndPoint).Address.ToString());
+					AddConnection(clientId, client);
+					OnClientConnected(clientId, socket, ((IPEndPoint)socket.RemoteEndPoint).Address.ToString());
 
-                    _listenSocket.BeginAccept(new AsyncCallback(OnBeginAccept), null);
-                }
-            }
-            else
-            {
-                _listenSocket.BeginAccept(new AsyncCallback(OnBeginAccept), null);
-            }
+					_listenSocket.BeginAccept(new AsyncCallback(OnBeginAccept), null);
+				}
+			}
+			else
+			{
+				_listenSocket.BeginAccept(new AsyncCallback(OnBeginAccept), null);
+			}
 
 		}
 
-        /// <summary>
-        /// Retrieves the guid (clientId) associated with this socket
-        /// </summary>
-        /// <param name="socket"></param>
-        /// <returns></returns>
-        private ZipSocket FindClientBySocket(Socket socket, out Guid clientId)
-        {
-            clientId = Guid.Empty;
+		/// <summary>
+		/// Retrieves the guid (clientId) associated with this socket
+		/// </summary>
+		/// <param name="socket"></param>
+		/// <returns></returns>
+		private ZipSocket FindClientBySocket(Socket socket, out Guid clientId)
+		{
+			clientId = Guid.Empty;
 
-            _clientListLock.WaitOne();
-            try
-            {
-                var query = from li in _connectionList
-                            where li.Value.RawSocket == socket
-                            select li;
+			_clientListLock.WaitOne();
+			try
+			{
+				var query = from li in _connectionList
+							where li.Value.RawSocket == socket
+							select li;
 
 
-                var kvp = query.FirstOrDefault();
-                clientId = kvp.Key;
-                return kvp.Value;
-            }
-            catch (Exception ex)
-            {
-                Log.ErrorFormat("Error: {0}", ex.Message);
-                return null;
-            }
-            finally
-            {
-                _clientListLock.ReleaseMutex();
-            }
-        }
+				var kvp = query.FirstOrDefault();
+				clientId = kvp.Key;
+				return kvp.Value;
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorFormat("Error: {0}", ex.Message);
+				return null;
+			}
+			finally
+			{
+				_clientListLock.ReleaseMutex();
+			}
+		}
 
 		private void Poll()
 		{
-            while (!_stopEvent.WaitOne(20))
-            {
-                IList readList = BuildSocketList();
-                if (readList.Count > 0)
-                {
-                    Socket.Select(readList, null, null, 0);
-                    ProcessSelectedSockets(readList);
-                }
-            }
+			while (!_stopEvent.WaitOne(20))
+			{
+				IList readList = BuildSocketList();
+				if (readList.Count > 0)
+				{
+					Socket.Select(readList, null, null, 0);
+					ProcessSelectedSockets(readList);
+				}
+			}
 
 			//_listenSocket.Shutdown(SocketShutdown.Both);
 			_listenSocket.Close();
@@ -257,40 +257,40 @@ namespace SocketService.Net
 			IsStopped = true;
 		}
 
-        private void ProcessSelectedSockets(IList readList)
-        {
-            foreach (object listObject in readList)
-            {
-                Socket socket = listObject as Socket;
-                if (socket != null && !IsStopped)
-                {
-                    Guid clientId;
-                    ZipSocket client = FindClientBySocket(socket, out clientId);
-                    if (client != null)
-                    {
-                        if (socket.Connected)
-                        {
-                            int availableBytes = socket.Available;
+		private void ProcessSelectedSockets(IList readList)
+		{
+			foreach (object listObject in readList)
+			{
+				Socket socket = listObject as Socket;
+				if (socket != null && !IsStopped)
+				{
+					Guid clientId;
+					ZipSocket client = FindClientBySocket(socket, out clientId);
+					if (client != null)
+					{
+						if (socket.Connected)
+						{
+							int availableBytes = socket.Available;
 
-                            if (availableBytes > 0)
-                            {
-                                OnDataRecieved(clientId, client.ReceiveData());
-                            }
-                            else
-                            {
-                                DisconnectClient(clientId);
-                            }
-                        }
-                        else
-                        {
-                            //log.Debug(string.Format("SocketServer.ProcessReadList => Zombie socket, client id {0}", FindClientIdForSocket(socket)) );
-                            DisconnectClient(clientId);
-                        }
-                    }
-                }
-                
-            }
-        }
+							if (availableBytes > 0)
+							{
+								OnDataRecieved(clientId, client.ReceiveData());
+							}
+							else
+							{
+								DisconnectClient(clientId);
+							}
+						}
+						else
+						{
+							//log.Debug(string.Format("SocketServer.ProcessReadList => Zombie socket, client id {0}", FindClientIdForSocket(socket)) );
+							DisconnectClient(clientId);
+						}
+					}
+				}
+				
+			}
+		}
 
 		private List<Socket> BuildSocketList()
 		{
@@ -301,17 +301,17 @@ namespace SocketService.Net
 			_clientListLock.WaitOne();
 			try
 			{
-                socketArray = new Socket[_connectionList.Count];
+				socketArray = new Socket[_connectionList.Count];
 
-                var q = from nvp in _connectionList
-                        select nvp.Value.RawSocket;
+				var q = from nvp in _connectionList
+						select nvp.Value.RawSocket;
 
-                q.ToArray().CopyTo(socketArray, 0);
+				q.ToArray().CopyTo(socketArray, 0);
 			}
-            catch (Exception ex)
-            {
-                Log.ErrorFormat("Error: {0}", ex.Message);
-            }
+			catch (Exception ex)
+			{
+				Log.ErrorFormat("Error: {0}", ex.Message);
+			}
 			finally
 			{
 				_clientListLock.ReleaseMutex();
@@ -325,23 +325,23 @@ namespace SocketService.Net
 			return clientList;
 		}
 
-        private void AddConnection(Guid clientId, ZipSocket clientSocket)
-        {
-            _clientListLock.WaitOne();
+		private void AddConnection(Guid clientId, ZipSocket clientSocket)
+		{
+			_clientListLock.WaitOne();
 
-            try
-            {
-                _connectionList.Add(clientId, clientSocket);
-            }
-            catch (Exception ex)
-            {
-                Log.ErrorFormat("Error: {0}", ex.Message);
-            }
-            finally
-            {
-                _clientListLock.ReleaseMutex();
-            }
+			try
+			{
+				_connectionList.Add(clientId, clientSocket);
+			}
+			catch (Exception ex)
+			{
+				Log.ErrorFormat("Error: {0}", ex.Message);
+			}
+			finally
+			{
+				_clientListLock.ReleaseMutex();
+			}
 
-        }
-    }
+		}
+	}
 }

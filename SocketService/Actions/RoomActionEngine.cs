@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Data;
-using SocketService.Data.Domain;
-using SocketService.Util;
 using SocketService.SharedObjects;
+using SocketService.Framework.Util;
+using SocketService.Framework.Data.Domain;
+using SocketService.Framework.Data;
 
 namespace SocketService.Actions
 {

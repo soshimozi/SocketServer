@@ -5,12 +5,12 @@ using System.Text;
 using SocketService.Serial;
 using SocketService.Net.Sockets;
 using SocketService.Net;
-using SocketService.Messaging;
+using SocketService.Framework.Messaging;
 
 namespace SocketService.Command
 {
     [Serializable]
-    class BroadcastObjectCommand : BaseCommand
+    class BroadcastObjectCommand : BaseMessageHandler
     {
         private readonly Guid [] _clientList;
         private readonly byte[] _data;

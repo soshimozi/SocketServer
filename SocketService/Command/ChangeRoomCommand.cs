@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Messaging;
-using SocketService.Actions;
-using SocketService.Data.Domain;
-using SocketService.Data;
+using SocketService.Framework.Actions;
 using SocketService.Response;
+using SocketService.Framework.Messaging;
+using SocketService.Framework.Data.Domain;
+using SocketService.Framework.Data;
 
 namespace SocketService.Command
 {
     [Serializable]
-    class ChangeRoomCommand : BaseCommand
+    class ChangeRoomCommand : BaseMessageHandler
     {
         private readonly Guid _clientId;
         private readonly string _roomName;

@@ -6,12 +6,12 @@ using SocketService.Net.Sockets;
 using SocketService.Serial;
 using System.Net.Sockets;
 using SocketService.Net;
-using SocketService.Messaging;
+using SocketService.Framework.Messaging;
 
 namespace SocketService.Command
 {
     [Serializable]
-    class SendObjectCommand : BaseCommand
+    class SendObjectCommand : BaseMessageHandler
     {
         private readonly Guid _clientId;
         private readonly byte[] _data;

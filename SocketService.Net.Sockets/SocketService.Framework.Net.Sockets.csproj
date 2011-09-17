@@ -8,8 +8,8 @@
     <ProjectGuid>{B56406C1-22B7-4567-A289-5A836500D647}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SocketService.Net</RootNamespace>
-    <AssemblyName>SocketService.Net</AssemblyName>
+    <RootNamespace>SocketService.Framework.Net.Sockets</RootNamespace>
+    <AssemblyName>SocketService.Framework.Net.Sockets</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
