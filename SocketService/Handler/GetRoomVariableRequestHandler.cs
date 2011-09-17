@@ -10,9 +10,8 @@ using SocketService.Command;
 
 namespace SocketService.Handler
 {
-    [Serializable()]
+    [Serializable()] 
     [ServiceHandlerType(typeof(GetRoomVariableRequest))]
-    [Export(typeof(IServiceHandler))]
     public class GetRoomVariableRequestHandler : BaseHandler<GetRoomVariableRequest, Guid>
     {
         public override bool HandleRequest(GetRoomVariableRequest request, Guid state)

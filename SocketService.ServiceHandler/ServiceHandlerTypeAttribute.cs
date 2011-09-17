@@ -10,7 +10,13 @@ namespace SocketService.ServiceHandler
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
     public class ServiceHandlerTypeAttribute : ExportAttribute, IServiceHandlerType
     {
-        public ServiceHandlerTypeAttribute(Type handlerType)
+        public ServiceHandlerTypeAttribute() 
+            : this(null)
+        {
+        }
+
+        public ServiceHandlerTypeAttribute(Type handlerType) 
+            : base(typeof(IServiceHandler))
         {
             HandlerType = handlerType;
         }
