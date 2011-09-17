@@ -62,7 +62,6 @@
     <Compile Include="ServerControlForm.Designer.cs">
       <DependentUpon>ServerControlForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ServiceHandlerRepository.cs" />
     <Compile Include="SocketService.cs">
       <SubType>Component</SubType>
     </Compile>

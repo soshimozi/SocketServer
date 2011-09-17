@@ -8,11 +8,11 @@ using SocketService.Framework.Client.SharedObjects;
 using SocketService.Framework.Data.Domain;
 using SocketService.Framework.Data;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.ServiceHandler;
+using SocketService.Framework.ServiceHandlerLib;
 using SocketService.Framework.Client.Request;
 using SocketService.Framework.Command;
 
-namespace SocketService.Handler
+namespace SocketService.Handlers
 {
     [Serializable()]
     [ServiceHandlerType(typeof(ListUsersInRoomRequest))]

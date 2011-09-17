@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
-using SocketService.Framework.ServiceHandler;
+using SocketService.Framework.ServiceHandlerLib;
 
-namespace SocketService.Handler
+namespace SocketService.Handlers
 {
     [Serializable()]
     public abstract class BaseHandler<T, P> : IServiceHandler where T : class

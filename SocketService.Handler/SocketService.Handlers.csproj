@@ -8,8 +8,8 @@
     <ProjectGuid>{58544966-B15C-4782-8942-F00E237AD8F5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SocketService.Handler</RootNamespace>
-    <AssemblyName>SocketService.Handler</AssemblyName>
+    <RootNamespace>SocketService.Handlers</RootNamespace>
+    <AssemblyName>SocketService.Handlers</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

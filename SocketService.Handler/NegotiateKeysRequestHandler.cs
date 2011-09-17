@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.ServiceHandler;
+using SocketService.Framework.ServiceHandlerLib;
 using SocketService.Framework.Client.Request;
 using SocketService.Framework.Net.Client;
 using SocketService.Framework.Command;
 using SocketService.Framework.Client.Response;
 
-namespace SocketService.Handler
+namespace SocketService.Handlers
 {
     [Serializable()]
     [ServiceHandlerType(typeof(NegotiateKeysRequest))]

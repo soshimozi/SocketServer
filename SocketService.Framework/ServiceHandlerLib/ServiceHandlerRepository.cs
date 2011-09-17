@@ -8,10 +8,11 @@ using System.Reflection;
 using System.IO;
 using System.Configuration;
 using SocketService.Framework.Configuration;
+using SocketService.Framework.ServiceHandlerLib;
 
-namespace SocketService.Framework.ServiceHandler
+namespace SocketService.Framework.ServiceHandlerLib
 {
-    public class ServiceHandlerRepository
+    public class ServiceHandlerRepository : IServiceHandlerRepository
     {
         [ImportMany]
         protected IEnumerable<Lazy<IServiceHandler, IServiceHandlerMetaData>> _handlerList;
@@ -79,20 +80,11 @@ namespace SocketService.Framework.ServiceHandler
 
             var aggregateCatalog = new AggregateCatalog();
 
-            Assembly callingAssembly = Assembly.GetCallingAssembly();
+            Assembly callingAssembly = Assembly.GetExecutingAssembly();
 
             // an assembly catalog to load information about parts from this assembly
             var assemblyCatalog = new AssemblyCatalog(callingAssembly);
-
-            if (config != null)
-            {
-                foreach (PluginInfoInstanceElement pi in config.Plugins)
-                {
-                    var directoryCatalog = new DirectoryCatalog(pi.Path, "*.dll");
-                    aggregateCatalog.Catalogs.Add(directoryCatalog);
-                }
-            }
-
+            var directoryCatalog = new DirectoryCatalog(Path.GetDirectoryName(callingAssembly.Location), "*.dll");
 
             aggregateCatalog.Catalogs.Add(assemblyCatalog);
 
@@ -102,7 +94,5 @@ namespace SocketService.Framework.ServiceHandler
             // finally, compose the parts
             container.ComposeParts(this);
         }
-
-
     }
 }

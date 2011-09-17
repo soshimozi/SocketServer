@@ -18,7 +18,7 @@ namespace SocketService
 {
     public partial class ServerControlForm : Form
     {
-        private readonly SocketManager serverManager = new SocketManager(ServiceHandlerRepository.Instance);
+        private readonly SocketManager serverManager = new SocketManager();
         private readonly MessageServer messageServer = new MessageServer();
 
         public ServerControlForm()

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
 
-namespace SocketService.Framework.ServiceHandler
+namespace SocketService.Framework.ServiceHandlerLib
 { 
     public interface IServiceHandler
     {

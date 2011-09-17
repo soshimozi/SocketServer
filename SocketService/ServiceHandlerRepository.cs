@@ -8,7 +8,7 @@ using System.Reflection;
 using System.IO;
 using System.Configuration;
 using SocketService.Framework.Configuration;
-using SocketService.Framework.ServiceHandler;
+using SocketService.Framework.ServiceHandlerLib;
 
 namespace SocketService
 {
