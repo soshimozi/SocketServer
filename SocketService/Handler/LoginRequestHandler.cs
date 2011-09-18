@@ -3,13 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
-using SocketService.Framework.Actions;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.ServiceHandler;
+using SocketService.Framework.ServiceHandlerLib;
 using SocketService.Framework.Client.Request;
-using SocketService.Framework.Command;
+using SocketService.Command;
 
-namespace SocketService.Handler
+namespace SocketService
 {
     [Serializable()]
     [ServiceHandlerType(typeof(LoginRequest))]
@@ -37,38 +36,5 @@ namespace SocketService.Handler
 
             return false;
         }
-
-        //private static int _lastCount = 0;
-        //private LoginResponse LoginUser(IServerContext server, Guid clientId, string requestId, string userName)
-        //{
-        //    if (string.IsNullOrEmpty(userName))
-        //    {
-        //        userName = string.Format("user{0:00}", _lastCount++);
-        //    }
-
-        //    User user = _userManager.FindUser(userName);
-        //    if (user == null)
-        //    {
-        //        user = _userManager.CreateUser();
-        //        user.UserName = userName;
-        //    }
-
-        //    LoginResponse response;
-        //    //if (user.IsActive)
-        //    //{
-        //    //    // TODO: Handle duplicate login
-        //    //    response = new LoginResponse(false, userName, requestId);
-        //    //    return response;
-        //    //}
-
-        //    user.IsActive = true;
-        //    user.Room = null;
-
-        //    _userManager.SaveChanges();
-        //    server.AssociateClientWithUser(clientId, user.UserId);
-
-        //    response = new LoginResponse(true, userName, requestId);
-        //    return response;
-        //}
     }
 }

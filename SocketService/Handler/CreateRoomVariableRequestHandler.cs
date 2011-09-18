@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.ServiceHandler;
+using SocketService.Framework.ServiceHandlerLib;
 using SocketService.Framework.Client.Request;
-using SocketService.Framework.Command;
+using SocketService.Command;
 
-namespace SocketService.Handler
+namespace SocketService
 {
     [Serializable()]
     [ServiceHandlerType(typeof(CreateRoomVariableRequest))]
