@@ -56,12 +56,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actions\RoomActionEngine.cs" />
+    <Compile Include="Actions\UserActionEngine.cs" />
+    <Compile Include="Command\BroadcastObjectCommand.cs" />
+    <Compile Include="Command\ChangeRoomCommand.cs" />
+    <Compile Include="Command\CreateRoomVariableCommand.cs" />
+    <Compile Include="Command\GetRoomVariableCommand.cs" />
+    <Compile Include="Command\HandleClientRequestCommand.cs" />
+    <Compile Include="Command\LoginUserCommand.cs" />
+    <Compile Include="Command\LogoutUserCommand.cs" />
+    <Compile Include="Command\NegotiateKeysCommand.cs" />
+    <Compile Include="Command\ParseRequestCommand.cs" />
+    <Compile Include="Command\SendObjectCommand.cs" />
+    <Compile Include="CreateRoomRequestHandler.cs" />
+    <Compile Include="CreateRoomVariableRequestHandler.cs" />
+    <Compile Include="GetCARequestHandler.cs" />
+    <Compile Include="GetRoomVariableRequestHandler.cs" />
+    <Compile Include="ListUsersInRoomRequestHandler.cs" />
+    <Compile Include="LoginRequestHandler.cs" />
+    <Compile Include="NegotiateKeysRequestHandler.cs" />
+    <Compile Include="Net\Client\ConnectArgs.cs" />
+    <Compile Include="Net\Client\Connection.cs" />
+    <Compile Include="Net\Client\ConnectionRepository.cs" />
+    <Compile Include="Net\Client\DisconnectedArgs.cs" />
+    <Compile Include="Net\Client\SocketDataRecievedArgs.cs" />
+    <Compile Include="Net\SocketManager.cs" />
+    <Compile Include="Net\SocketRepository.cs" />
+    <Compile Include="Net\SocketServer.cs" />
     <Compile Include="ServerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ServerControlForm.Designer.cs">
       <DependentUpon>ServerControlForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ServiceHandlerRepository.cs" />
     <Compile Include="SocketService.cs">
       <SubType>Component</SubType>
     </Compile>

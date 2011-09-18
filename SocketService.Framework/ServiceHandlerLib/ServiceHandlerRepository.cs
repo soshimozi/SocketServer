@@ -87,6 +87,7 @@ namespace SocketService.Framework.ServiceHandlerLib
             var directoryCatalog = new DirectoryCatalog(Path.GetDirectoryName(callingAssembly.Location), "*.dll");
 
             aggregateCatalog.Catalogs.Add(assemblyCatalog);
+            aggregateCatalog.Catalogs.Add(directoryCatalog);
 
             // create a container for our catalogs
             var container = new CompositionContainer(aggregateCatalog);

@@ -7,10 +7,10 @@ using System.Threading;
 using System.Net;
 using System.Collections;
 using System.Diagnostics;
-using SocketService.Net.Sockets;
-using SocketService.Client;
 using System.Reflection;
+using SocketService.Framework.Client.Sockets;
 using log4net;
+using SocketService.Net.Client;
 
 namespace SocketService.Net
 {

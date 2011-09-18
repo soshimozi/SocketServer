@@ -6,8 +6,6 @@ using System.ComponentModel.Composition;
 using SocketService.Framework.Messaging;
 using SocketService.Framework.ServiceHandlerLib;
 using SocketService.Framework.Client.Request;
-using SocketService.Framework.Net.Client;
-using SocketService.Framework.Command;
 using SocketService.Framework.Client.Response;
 
 namespace SocketService.Handlers

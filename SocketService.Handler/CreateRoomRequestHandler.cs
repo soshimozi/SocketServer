@@ -6,7 +6,6 @@ using System.ComponentModel.Composition;
 using SocketService.Framework.Messaging;
 using SocketService.Framework.ServiceHandlerLib;
 using SocketService.Framework.Client.Request;
-using SocketService.Framework.Command;
 
 namespace SocketService.Handlers
 {

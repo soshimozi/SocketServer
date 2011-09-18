@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Threading;
-using SocketService.Framework.Client.Sockets;
 
 namespace SocketService.Framework.Net
 {

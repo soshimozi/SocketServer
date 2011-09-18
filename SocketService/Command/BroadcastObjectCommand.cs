@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Serial;
-using SocketService.Net.Sockets;
-using SocketService.Net;
 using SocketService.Framework.Messaging;
+using SocketService.Framework.Client.Serialize;
+using SocketService.Framework.Client.Sockets;
+using SocketService.Net;
 
 namespace SocketService.Command
 {

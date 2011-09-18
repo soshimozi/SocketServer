@@ -12,7 +12,7 @@ using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO.Compression;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.Net;
+using SocketService.Net;
 
 namespace SocketService
 {

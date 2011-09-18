@@ -7,7 +7,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.Net;
+using SocketService.Net;
 
 namespace SocketService
 {

@@ -48,6 +48,10 @@
     <Compile Include="Crypto\StringExtentions.cs" />
     <Compile Include="Crypto\StrongNumberProvider.cs" />
     <Compile Include="Crypto\Wrapper.cs" />
+    <Compile Include="Data\Domain\Room.cs" />
+    <Compile Include="Data\Domain\User.cs" />
+    <Compile Include="Data\RoomRepository.cs" />
+    <Compile Include="Data\UserRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\ChangeRoomRequest.cs" />
     <Compile Include="Request\ClientRequestHeader.cs" />

@@ -7,8 +7,6 @@ using SocketService.Framework.Messaging;
 using SocketService.Framework.ServiceHandlerLib;
 using SocketService.Framework.Client.Request;
 using SocketService.Framework.Client.Crypto;
-using SocketService.Framework.Net.Client;
-using SocketService.Framework.Command;
 
 namespace SocketService.Handlers
 {

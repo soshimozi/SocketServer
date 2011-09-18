@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Client;
-using SocketService.Net.Sockets;
-using SocketService.Net;
-using SocketService.Response;
-using SocketService.Framework.Actions;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.Data.Domain;
-using SocketService.Framework.Data;
+using SocketService.Net.Client;
+using SocketService.Framework.Client.Data.Domain;
+using SocketService.Framework.Client.Data;
+using SocketService.Framework.Client.Response;
+using SocketService.Actions;
 
 namespace SocketService.Command
 {

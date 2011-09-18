@@ -41,14 +41,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseHandler.cs" />
     <Compile Include="CreateRoomRequestHandler.cs" />
     <Compile Include="CreateRoomVariableRequestHandler.cs" />
     <Compile Include="GetCARequestHandler.cs" />
     <Compile Include="GetRoomVariableRequestHandler.cs" />
     <Compile Include="ListUsersInRoomRequestHandler.cs" />
     <Compile Include="LoginRequestHandler.cs" />
-    <Compile Include="NegotiateKeysRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

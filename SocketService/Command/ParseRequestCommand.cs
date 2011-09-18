@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Crypto;
-using SocketService.Request;
-using SocketService.Serial;
-using SocketService.Client;
-using SocketService.Handler;
 using SocketService.Framework.Messaging;
+using SocketService.Framework.Client.Request;
+using SocketService.Framework.Client.Serialize;
+using SocketService.Framework.ServiceHandlerLib;
+using SocketService.Framework.Client.Crypto;
+using SocketService.Net.Client;
 
 namespace SocketService.Command
 {
@@ -30,7 +30,7 @@ namespace SocketService.Command
         
             //// lookup this object types handler
             Type requestType = serverRequest.GetType();
-            var handlerList = ServiceHandlerRepository.Instance.GetHandlerListForType(requestType);
+            var handlerList = ServiceHandlerRepository.Instance.GetHandlerListByType(requestType);
 
             // here is where we start using MSMQ and the messaging handler
             // to queue up a new command
