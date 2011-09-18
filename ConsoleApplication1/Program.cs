@@ -9,27 +9,17 @@ using System.Collections;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO.Compression;
-using SocketService.Framework.Client.Crypto;
-using SocketService.Framework.Client.Response;
-using SocketService.Framework.Client.Request;
-using SocketService.Framework.Client.SharedObjects;
-using SocketService.Framework.Client.Serialize;
-using SocketService.Framework.Client.Sockets;
+using SocketService.Client.API;
+using SocketService.Framework.SharedObjects;
 
 namespace ConsoleApplication1
 {
     class Program
     {
-        private DiffieHellmanKey _remotePublicKey;
-        private DiffieHellmanProvider _provider;
+        ClientEngine _engine = new ClientEngine();
 
-        private Queue<ServerMessage> _inboundQueue = new Queue<ServerMessage>();
-        private object _listLock = new object();
-
-        private ZipSocket socket;
-
-        private ManualResetEvent _stopEvent = new ManualResetEvent(false);
-        private ManualResetEvent _serverDisconnectedEvent = new ManualResetEvent(false);
+        private long _loginState = 0;
+        private AutoResetEvent _loginReceievedEvent = new AutoResetEvent(false);
 
         static void Main(string[] args)
         {
@@ -39,194 +29,147 @@ namespace ConsoleApplication1
 
         public void Run(string[] args)
         {
-
+            _engine.ServerMessageRecieved += new EventHandler<ServerMessageReceivedArgs>(engine_ServerMessageRecieved);
+            _engine.LoginResponseReceived += new EventHandler<LoginResponseEventArgs>(engine_LoginResponseReceived);
+            _engine.GetRoomVariableResponseRecieved += new EventHandler<GetRoomVariableResponseArgs>(engine_GetRoomVariableResponseRecieved);
+            _engine.ListUsersInRoomResponseReceived += new EventHandler<ListUsersInRoomResponseArgs>(engine_ListUsersInRoomResponseReceived);
+            
             Console.WriteLine("Connecting to server...");
-            ConnectToServer();
 
-            Console.WriteLine("Negotiating keys...");
-            NegotiateKeys();
+            while (!_engine.Connect())
+            {
+                Console.WriteLine("Could not connect to server.  Retrying in 5 seconds.");
+                Thread.Sleep(5000);
+            }
 
             Console.WriteLine("Connected!");
 
-            LoginResponse response;
+            bool success = false;
+
             do
             {
-                Console.WriteLine("Enter your user name: ");
-                string userName = Console.ReadLine();
+                Console.Write("Enter your user name: ");
+                string loginName = Console.ReadLine();
+                _engine.Login(loginName);
 
-                // send login response
-                LoginRequest request = new LoginRequest();
-                request.LoginName = userName;
+                _loginReceievedEvent.WaitOne(-1);
 
-                SendObject(EncryptionType.AES, request);
+                Interlocked.Read(ref _loginState);
+                success = _loginState == 1;
 
-                // Wait for a LoginResponse to come back
-                response = WaitForObject<LoginResponse>(-1);
+                // wait until we got a login success
+            } while (!success);
 
-                if (response != null )
+
+            bool quitFlag = false;
+
+            DisplayMenu();
+            do
+            {
+                ConsoleKeyInfo keyinfo = Console.ReadKey(true);
+
+                switch (keyinfo.Key)
                 {
-                    Console.WriteLine(response.Message);
+                    case ConsoleKey.R:
+                        Console.Write("Room Name: ");
+                        string roomname = Console.ReadLine();
+                        _engine.ChangeRoom(roomname);
+                        break;
+
+                    case ConsoleKey.L:
+                        _engine.ListUsersInRoom();
+                        break;
+
+                    case ConsoleKey.X:
+                        Console.Write("Room: ");
+                        string room = Console.ReadLine();
+
+                        Console.WriteLine();
+                        Console.Write("Name: ");
+                        string varname = Console.ReadLine();
+                        _engine.GetRoomVariable(room, varname);
+
+                        break;
+
+
+                    case ConsoleKey.V:
+                        CreateRoomVariable();
+                        break;
+
+                    case ConsoleKey.Q:
+                        quitFlag = true;
+                        break;
                 }
 
-            } while (response != null && !response.Success);
+                if (!quitFlag)
+                    DisplayMenu();
 
-            if (response != null)
-            {
-                // start message pump thread
-                Thread messageThread = new Thread(new ThreadStart(PumpMessages));
-                messageThread.Start();
+            } while (!quitFlag);
 
-                bool quitFlag = false;
-
-                DisplayMenu();
-                do
-                {
-                    if (Console.KeyAvailable)
-                    {
-                        ConsoleKeyInfo keyinfo = Console.ReadKey(true);
-
-                        switch (keyinfo.Key)
-                        {
-                            case ConsoleKey.R:
-                                Console.Write("Room Name: ");
-                                string roomname = Console.ReadLine();
-                                // change room
-                                SendObject(EncryptionType.AES, new ChangeRoomRequest() { RoomName = roomname });
-
-                                // there is no response for this request, other than a server message
-                                // the request always succeeds, there are no private rooms
-                                break;
-
-                            case ConsoleKey.L:
-                                SendObject(EncryptionType.AES, new ListUsersInRoomRequest());
-                                ListUsersInRoomResponse listUsersResponse = WaitForObject<ListUsersInRoomResponse>(-1);
-
-                                Console.WriteLine("Users:");
-                                foreach (ServerUser user in listUsersResponse.Users)
-                                {
-                                    Console.WriteLine("{0}", user.Name);
-                                }
-                                Console.WriteLine();
-                                break;
-
-                            case ConsoleKey.X:
-                                {
-                                    Console.Write("Room: ");
-                                    string room = Console.ReadLine();
-
-                                    Console.WriteLine();
-                                    Console.Write("Name: ");
-                                    string name = Console.ReadLine();
-
-                                    SendObject(EncryptionType.AES,
-                                        new GetRoomVariableRequest() { RoomName = room, VariableName = name }
-                                    );
-
-                                    // Wait for a LoginResponse to come back
-                                    GetRoomVariableResponse variableResponse = WaitForObject<GetRoomVariableResponse>(-1);
-                                    if (variableResponse != null)
-                                    {
-                                        // display variable
-                                        Console.WriteLine(variableResponse.ServerObject.GetValueForElement("__default__"));
-                                    }
-
-                                }
-                                break;
-
-
-                            case ConsoleKey.V:
-                                {
-                                    Console.Write("Room: ");
-                                    string room = Console.ReadLine();
-
-                                    Console.WriteLine();
-                                    Console.Write("Name: ");
-                                    string name = Console.ReadLine();
-
-                                    Console.WriteLine();
-                                    Console.Write("Value: ");
-                                    string value = Console.ReadLine();
-
-                                    ServerObject so = new ServerObject();
-                                    so.SetElementValue("__default__", value, ServerObjectDataType.String);
-
-                                    ServerObject[] soArray = new ServerObject[1];
-                                    ServerObject arrayObject = new ServerObject();
-                                    arrayObject.SetElementValue("value", 123, ServerObjectDataType.Integer);
-                                    soArray[0] = arrayObject;
-
-                                    so.SetElementValue("arrayTest", soArray, ServerObjectDataType.BzObjectArray);
-
-                                    SendObject(EncryptionType.AES,
-                                        new CreateRoomVariableRequest() { Room = room, VariableName = name, Value = so }
-                                    );
-                                    break;
-                                }
-
-                            case ConsoleKey.Q:
-                                quitFlag = true;
-                                break;
-                        }
-
-                        if( !quitFlag )
-                            DisplayMenu();
-                    }
-
-                    if (!quitFlag)
-                    {
-                        // check if there are any messages available on the queue
-                        // dispatch them
-
-                        ServerMessage message = null;
-                        lock (_listLock)
-                        {
-                            if (_inboundQueue.Count > 0)
-                            {
-                                message = _inboundQueue.Dequeue();
-                            }
-                        }
-                        if (message != null)
-                        {
-                            DispatchMessage(message);
-                        }
-                    }
-
-
-                } while (!_serverDisconnectedEvent.WaitOne(100) && !quitFlag);
-
-                _stopEvent.Set();
-
-            }
+            _engine.StopEngine();
 
         }
 
-        private T WaitForObject<T>(int milliseconds)  where T : class
+        private void CreateRoomVariable()
         {
-            IList readList = new List<Socket>() { socket.RawSocket };
+            Console.Write("Room: ");
+            string room = Console.ReadLine();
 
-            // now let's wait for messages
-            Socket.Select(readList, null, null, milliseconds);
+            Console.WriteLine();
+            Console.Write("Name: ");
+            string name = Console.ReadLine();
 
-            T outp = default(T);
+            Console.WriteLine();
+            Console.Write("Value: ");
+            string stringValue = Console.ReadLine();
 
-            // there is only one socket in the poll list
-            // so if the count is greater than 0 then
-            // the only one available should be the client socket
-            if (readList.Count > 0)
-            {
-                if (socket.RawSocket.Available > 0)
-                {
-                    outp = ReadObject<T>(socket);
-                }
+            ServerObject value = new ServerObject();
+            value.SetElementValue("__default__", stringValue, ServerObjectDataType.String);
 
-            }
+            ServerObject[] valueArray = new ServerObject[1];
+            ServerObject arrayObject = new ServerObject();
+            arrayObject.SetElementValue("value", 123, ServerObjectDataType.Integer);
+            valueArray[0] = arrayObject;
 
-            return outp;
+            value.SetElementValue("arrayTest", valueArray, ServerObjectDataType.BzObjectArray);
+
+            _engine.CreateRoomVariable(room, name, value);
         }
 
-        private void DispatchMessage(ServerMessage message)
+        void engine_ListUsersInRoomResponseReceived(object sender, ListUsersInRoomResponseArgs e)
         {
-            Console.WriteLine("{0}", message.Message);
+            Console.WriteLine("Users:");
+            foreach (ServerUser user in e.Response.Users)
+            {
+                Console.WriteLine("{0}", user.Name);
+            }
+            Console.WriteLine();
+        }
+
+        void engine_GetRoomVariableResponseRecieved(object sender, GetRoomVariableResponseArgs e)
+        {
+            Console.Write(e.Response.Name);
+            Console.Write(" : ");
+            Console.WriteLine(e.Response.Value.GetValueForElement("__default__"));
+        }
+
+        void engine_LoginResponseReceived(object sender, LoginResponseEventArgs e)
+        {
+            DispatchMessage(e.LoginResponse.Message);
+            int state = e.LoginResponse.Success ? 1 : 0;
+            Interlocked.Exchange(ref _loginState, state);
+
+            _loginReceievedEvent.Set();
+        }
+
+        void engine_ServerMessageRecieved(object sender, ServerMessageReceivedArgs e)
+        {
+            DispatchMessage(e.Message);
+        }
+
+        private void DispatchMessage(string message)
+        {
+            Console.WriteLine("{0}", message);
         }
 
         private void DisplayMenu()
@@ -237,182 +180,6 @@ namespace ConsoleApplication1
             Console.WriteLine("\tX <room> <name>\tRead variable from supplied room");
             Console.WriteLine("\tL\t\tList Users In Room");
             Console.WriteLine("\tQ\t\tQuit");
-        }
-
-        protected void PumpMessages()
-        {
-            // pump messages
-            bool serverDown = false;
-
-            ServerMessage message;
-            while (!_stopEvent.WaitOne(50) && !(serverDown = PumpMessage(out message)))
-            {
-                if (!serverDown && message != null)
-                {
-                    // add message to outbound queue
-                    lock (_listLock)
-                    {
-                        _inboundQueue.Enqueue(message);
-                    }
-                }
-            }
-
-            if (serverDown)
-            {
-                // set the disconnected event in the case the the server disconnected
-                _serverDisconnectedEvent.Set();
-            }
-        }
-
-        private void NegotiateKeys()
-        {
-            SendObject(EncryptionType.None, new GetCentralAuthorityRequest());
-            bool doneHandshaking = false;
-            int step = 0;
-
-            // wait for central authority
-            IList readList = new List<Socket>() { socket.RawSocket };
-            while (!doneHandshaking)
-            {
-                Socket.Select(readList, null, null, -1);
-
-                // there is only one socket in the poll list
-                // so if the count is greater than 0 then
-                // the only one available should be the client socket
-                if (readList.Count > 0)
-                {
-                    int availableBytes = socket.RawSocket.Available;
-                    if (availableBytes > 0)
-                    {
-                        //byte [] objectData = new byte[availableBytes];
-
-                        byte[] objectData = socket.ReceiveData();
-                        switch (step)
-                        {
-                            case 0:
-                                CentralAuthority ca = ObjectSerialize.Deserialize<CentralAuthority>(objectData);
-                                if (ca != null)
-                                {
-                                    _provider = ca.GetProvider();
-
-                                    // Send Negotiate Key Command
-                                    // Read Response when it comes back
-                                    SendObject(EncryptionType.None,
-                                        new NegotiateKeysRequest(_provider.PublicKey.ToByteArray()));
-
-                                    step++;
-                                }
-                                break;
-
-                            case 1:
-                                // record server key
-                                NegotiateKeysResponse response = ObjectSerialize.Deserialize<NegotiateKeysResponse>(objectData);
-                                if (response != null)
-                                {
-                                    _remotePublicKey = _provider.Import(response.RemotePublicKey);
-                                    doneHandshaking = true;
-                                }
-                                break;
-
-                        }
-                    }
-                }
-            }
-        }
-
-        private bool PumpMessage(out ServerMessage message)
-        {
-            bool serverDown = false;
-
-            IList readList = new List<Socket>() { socket.RawSocket };
-
-            // now let's wait for messages
-            Socket.Select(readList, null, null, 0);
-
-            message = null;
-
-            // there is only one socket in the poll list
-            // so if the count is greater than 0 then
-            // the only one available should be the client socket
-            if (readList.Count > 0)
-            {
-                // if socket is selected, and if available byes is 0, 
-                // then socket has been closed
-                serverDown = socket.RawSocket.Available == 0;
-
-                if (!serverDown)
-                {
-                    message = ReadObject<ServerMessage>(socket);
-                }
-
-            }
-
-            return serverDown;
-        }
-
-        private T ReadObject<T>(ZipSocket socket) where T : class
-        {
-            int availableBytes = socket.RawSocket.Available;
-            if (availableBytes > 0)
-            {
-                byte[] objectData = socket.ReceiveData();
-
-                // it should be a server message, we can look
-                // at other message types later
-                return ObjectSerialize.Deserialize<T>(objectData);
-            }
-
-            return null;
-        }
-
-        private void SendObject(EncryptionType encryptionType, object graph)
-        {
-            ClientRequestHeader header;
-            if (encryptionType != EncryptionType.None)
-            {
-                using (Wrapper cryptoWrapper = Wrapper.CreateEncryptor(AlgorithmType.TripleDES, _provider.CreatePrivateKey(_remotePublicKey).ToByteArray()))
-                {
-                    byte[] requestData = ObjectSerialize.Serialize(graph);
-
-                     header = new ClientRequestHeader(cryptoWrapper.IV,
-                            EncryptionType.TripleDES, DateTime.Now, 0, cryptoWrapper.Encrypt(requestData));
-                }
-            }
-            else
-            {
-                header = new ClientRequestHeader(new byte[0] { },
-                        encryptionType, DateTime.Now, 0, ObjectSerialize.Serialize(graph));
-            }
-
-            SendData(socket, ObjectSerialize.Serialize(header));
-        }
-
-        private void SendData(ZipSocket client, byte[] data)
-        {
-            client.SendData(data);
-        }
-
-
-        private void ConnectToServer()
-        {
-            Socket rawSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            bool connected = false;
-            while (!connected)
-            {
-                try
-                {
-                    rawSocket.Connect("127.0.0.1", 4000);
-                    connected = true;
-                }
-                catch (SocketException ex)
-                {
-                    Console.WriteLine("There was a network error.  Please make sure the server is started and listening.");
-                    Thread.Sleep(5000);
-                }
-            }
-
-            // wrap the socket
-            socket = new ZipSocket(rawSocket, Guid.NewGuid());
         }
     }
 }

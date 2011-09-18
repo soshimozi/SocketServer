@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.Client.SharedObjects;
+using SocketService.Framework.SharedObjects;
 using SocketService.Actions;
 
 namespace SocketService.Command

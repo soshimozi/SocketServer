@@ -53,5 +53,6 @@ namespace SocketService.Framework.Client.Serialize
                 return formatter.Deserialize(ms) as T;
             }
         }
+
     }
 }

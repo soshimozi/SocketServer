@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel.Composition;
+using SocketService.Command;
 using SocketService.Framework.Messaging;
 using SocketService.Framework.ServiceHandlerLib;
-using SocketService.Framework.Client.Request;
-using SocketService.Framework.Client.Crypto;
-using SocketService.Net.Client;
-using SocketService.Command;
+using SocketService.Framework.Request;
 
 namespace SocketService
 {
@@ -19,13 +17,10 @@ namespace SocketService
     {
         public override bool HandleRequest(GetCentralAuthorityRequest request, Guid state)
         {
-            CentralAuthority ca = new CentralAuthority(CAKeyProtocol.DH64);
-            Guid clientId = (Guid)state;
-
-            Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(clientId);
-            connection.Provider = ca.GetProvider();
-
-            MSMQQueueWrapper.QueueCommand(new SendObjectCommand(clientId, ca));
+            MSMQQueueWrapper.QueueCommand(
+                new GetCentralAuthorityCommand(state)
+            );
+     
             return true;
         }
     }

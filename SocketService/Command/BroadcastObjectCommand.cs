@@ -32,7 +32,7 @@ namespace SocketService.Command
                     {
                         connection.SendData(_data);
                     }
-                    catch (Exception ex)
+                    catch (Exception)
                     {
                         // TODO: Log exception here
                     }

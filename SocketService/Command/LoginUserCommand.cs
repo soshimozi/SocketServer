@@ -10,7 +10,6 @@ using SocketService.Framework.Client.Response;
 
 namespace SocketService.Command
 {
-
     [Serializable]
     public class LoginUserCommand : BaseMessageHandler
     {

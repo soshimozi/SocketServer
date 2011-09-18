@@ -37,6 +37,12 @@ namespace SocketService.Command
 
                     UserActionEngine.Instance.ClientChangeRoom(_clientId, _roomName);
 
+                    MSMQQueueWrapper.QueueCommand(
+                        new SendObjectCommand(_clientId,
+                            new ChangeRoomResponse() { Room = _roomName, Success = true }
+                        )
+                    );
+
                     // now send greeting to all in room
                     List<User> roomUsers = UserRepository.Instance.FindUsersByRoom(_roomName);
                     var query = from u in roomUsers

@@ -75,7 +75,7 @@ namespace SocketService
 
             try
             { config = (SocketServiceConfiguration)ConfigurationManager.GetSection("SocketServerConfiguration"); }
-            catch (Exception ex)
+            catch (Exception)
             { }
 
             var aggregateCatalog = new AggregateCatalog();

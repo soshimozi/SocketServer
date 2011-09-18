@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.Client.Request;
+using SocketService.Framework.Request;
 using SocketService.Framework.Client.Serialize;
 using SocketService.Framework.ServiceHandlerLib;
-using SocketService.Framework.Client.Crypto;
+using SocketService.Framework.Crypto;
 using SocketService.Net.Client;
 
 namespace SocketService.Command
 {
-    [Serializable()]
+    [Serializable]
     class ParseRequestCommand : BaseMessageHandler
     {
         private readonly byte[] _serialized;

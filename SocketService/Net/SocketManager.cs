@@ -63,7 +63,7 @@ namespace SocketService.Net
             {
                 configuration = (SocketServiceConfiguration)ConfigurationManager.GetSection("SocketServerConfiguration");
             }
-            catch (Exception ex)
+            catch (Exception)
             { }
 
             if (configuration != null)
