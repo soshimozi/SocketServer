@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework.Sha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework.Crypto", "SocketService.Framework.Crypto\SocketService.Framework.Crypto.csproj", "{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework.Data", "SocketService.Framework.Data\SocketService.Framework.Data.csproj", "{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = SocketServer1.vsmdi
@@ -122,6 +124,16 @@ Global
 		{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}.Release|x86.ActiveCfg = Release|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

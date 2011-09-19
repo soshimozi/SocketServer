@@ -12,9 +12,16 @@ namespace SocketService.Client.API
         private readonly List<User> _userList = new List<User>();
         private readonly List<RoomVariable> _roomVariableList = new List<RoomVariable>();
 
-        public Room(int roomId)
+        private static int _nextId = 0;
+
+        public Room()
         {
-            RoomId = roomId;
+            RoomId = NextId();
+        }
+
+        private static int NextId()
+        {
+            return _nextId++;
         }
 
         public int RoomId

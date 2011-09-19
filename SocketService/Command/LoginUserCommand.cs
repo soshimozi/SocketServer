@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using SocketService.Framework.Messaging;
 using SocketService.Actions;
-using SocketService.Framework.Client.Data;
-using SocketService.Framework.Client.Data.Domain;
+using SocketService.Framework.Data;
 using SocketService.Framework.Client.Response;
 
 namespace SocketService.Command
@@ -35,6 +34,10 @@ namespace SocketService.Command
                 MSMQQueueWrapper.QueueCommand(
                     new SendObjectCommand(_clientId,
                         new LoginResponse() { UserName = _username, Success = true })
+                );
+
+                MSMQQueueWrapper.QueueCommand(
+                    new CreateRoomCommand(_clientId, "")
                 );
 
                 // TODO: Replace with RoomUserUpdateEvent

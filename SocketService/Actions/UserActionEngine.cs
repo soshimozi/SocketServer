@@ -5,8 +5,7 @@ using System.Text;
 using SocketService.Net;
 using SocketService.Command;
 using SocketService.Framework.Util;
-using SocketService.Framework.Client.Data.Domain;
-using SocketService.Framework.Client.Data;
+using SocketService.Framework.Data;
 using SocketService.Framework.SharedObjects;
 
 namespace SocketService.Actions

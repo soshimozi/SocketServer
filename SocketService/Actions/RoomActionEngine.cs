@@ -4,20 +4,22 @@ using System.Linq;
 using System.Text;
 using SocketService.Framework.Util;
 using SocketService.Framework.SharedObjects;
-using SocketService.Framework.Client.Data.Domain;
-using SocketService.Framework.Client.Data;
+using SocketService.Framework.Data;
 
 namespace SocketService.Actions
 {
     class RoomActionEngine : SingletonBase<RoomActionEngine>
     {
-        public void CreateRoom(string roomName)
+        public Room CreateRoom(string roomName)
         {
             Room room = RoomRepository.Instance.FindByName(roomName);
             if (room == null)
             {
-                RoomRepository.Instance.AddRoom(new Room() { Name = roomName });
+                room = new Room() { Name = roomName };
+                RoomRepository.Instance.AddRoom(room);
             }
+
+            return room;
         }
 
 

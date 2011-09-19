@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SocketService.Framework.SharedObjects;
 
-namespace SocketService.Framework.Client.Data.Domain
+namespace SocketService.Framework.Data
 {
     public class Room
     {

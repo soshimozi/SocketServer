@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using SocketService.Framework.Messaging;
 using SocketService.Net.Client;
-using SocketService.Framework.Client.Data.Domain;
-using SocketService.Framework.Client.Data;
+using SocketService.Framework.Data;
 using SocketService.Framework.Client.Response;
 using SocketService.Actions;
 

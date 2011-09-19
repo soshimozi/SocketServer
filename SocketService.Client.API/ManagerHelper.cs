@@ -52,7 +52,7 @@ namespace SocketService.Client.API
             Room room = this.RoomManager.FindById(joinRoomEvent.RoomId);
             if (room == null)
             {
-                room = new Room(joinRoomEvent.RoomId);
+                room = new Room();
                 room.Name = joinRoomEvent.RoomName;
                 RoomManager.AddRoom(room);
             }

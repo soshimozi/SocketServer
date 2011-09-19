@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Framework.Client.Data.Domain;
+using SocketService.Framework.Data;
 
-namespace SocketService.Framework.Client.Data
+namespace SocketService
 {
     public class UserRepository
     {

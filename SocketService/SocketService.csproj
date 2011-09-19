@@ -83,6 +83,7 @@
     <Compile Include="Net\SocketManager.cs" />
     <Compile Include="Net\SocketRepository.cs" />
     <Compile Include="Net\SocketServer.cs" />
+    <Compile Include="RoomRepository.cs" />
     <Compile Include="ServerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -101,6 +102,7 @@
     <Compile Include="SocketServiceInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SocketService.Framework.Client\SocketService.Framework.Client.csproj">
@@ -110,6 +112,10 @@
     <ProjectReference Include="..\SocketService.Framework.Crypto\SocketService.Framework.Crypto.csproj">
       <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
       <Name>SocketService.Framework.Crypto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Framework.Data\SocketService.Framework.Data.csproj">
+      <Project>{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}</Project>
+      <Name>SocketService.Framework.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\SocketService.Framework.Request\SocketService.Framework.Request.csproj">
       <Project>{5266A3D3-25DC-492B-BFDC-973D79BA7D90}</Project>

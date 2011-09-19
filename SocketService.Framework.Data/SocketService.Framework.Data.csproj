@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</ProjectGuid>
+    <ProjectGuid>{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SocketService.Framework.Client</RootNamespace>
-    <AssemblyName>SocketService.Framework.Client</AssemblyName>
+    <RootNamespace>SocketService.Framework.Data</RootNamespace>
+    <AssemblyName>SocketService.Framework.Data</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,23 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Event\IEvent.cs" />
-    <Compile Include="Event\JoinRoomEvent.cs" />
-    <Compile Include="Event\LeaveRoomEvent.cs" />
-    <Compile Include="Event\PublicMessageEvent.cs" />
-    <Compile Include="Event\RoomUserUpdateEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Response\GetRoomVariableResponse.cs" />
-    <Compile Include="Response\LoginResponse.cs" />
-    <Compile Include="Response\NegotiateKeysResponse.cs" />
-    <Compile Include="Serialize\ObjectSerialize.cs" />
-    <Compile Include="Sockets\ZipSocket.cs" />
+    <Compile Include="Room.cs" />
+    <Compile Include="User.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Framework.Request\SocketService.Framework.Request.csproj">
-      <Project>{5266A3D3-25DC-492B-BFDC-973D79BA7D90}</Project>
-      <Name>SocketService.Framework.Request</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SocketService.Framework.SharedObjects\SocketService.Framework.SharedObjects.csproj">
       <Project>{67292447-E315-4583-8FD5-14DEA8D4B08E}</Project>
       <Name>SocketService.Framework.SharedObjects</Name>
