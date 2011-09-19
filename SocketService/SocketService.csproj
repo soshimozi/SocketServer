@@ -59,12 +59,11 @@
     <Compile Include="Actions\RoomActionEngine.cs" />
     <Compile Include="Actions\UserActionEngine.cs" />
     <Compile Include="Command\BroadcastObjectCommand.cs" />
-    <Compile Include="Command\ChangeRoomCommand.cs" />
+    <Compile Include="Command\CreateRoomCommand.cs" />
     <Compile Include="Command\CreateRoomVariableCommand.cs" />
     <Compile Include="Command\GetCentralAuthorityCommand.cs" />
     <Compile Include="Command\GetRoomVariableCommand.cs" />
     <Compile Include="Command\HandleClientRequestCommand.cs" />
-    <Compile Include="Command\ListUsersInRoomCommand.cs" />
     <Compile Include="Command\LoginUserCommand.cs" />
     <Compile Include="Command\LogoutUserCommand.cs" />
     <Compile Include="Command\NegotiateKeysCommand.cs" />
@@ -74,7 +73,6 @@
     <Compile Include="Handler\CreateRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\GetCARequestHandler.cs" />
     <Compile Include="Handler\GetRoomVariableRequestHandler.cs" />
-    <Compile Include="Handler\ListUsersInRoomRequestHandler.cs" />
     <Compile Include="Handler\LoginRequestHandler.cs" />
     <Compile Include="Handler\NegotiateKeysRequestHandler.cs" />
     <Compile Include="Net\Client\ConnectArgs.cs" />

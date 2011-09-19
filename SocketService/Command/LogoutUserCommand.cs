@@ -30,17 +30,18 @@ namespace SocketService.Command
 
             UserActionEngine.Instance.LogoutUser(_clientId);
 
-            List<User> userList = UserRepository.Instance.FindUsersByRoom(user.Room);
+            List<User> userList = UserRepository.Instance.FindUsersByRoom(user.Room.Name);
 
             // broadcast to all but this user
             var query = from u in userList
                         where u.ClientKey != _clientId
                         select u.ClientKey;
 
-            MSMQQueueWrapper.QueueCommand(
-                new BroadcastObjectCommand(query.ToArray(),
-                    new ServerMessage("{0} has logged out.", user.UserName))
-            );
+            // TODO: Replace with PublicMessageEvent
+            //MSMQQueueWrapper.QueueCommand(
+            //    new BroadcastObjectCommand(query.ToArray(),
+            //        new ServerMessage("{0} has logged out.", user.UserName))
+            //);
 
         }
     }

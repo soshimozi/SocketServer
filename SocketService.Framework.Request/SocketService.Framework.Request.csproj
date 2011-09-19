@@ -40,13 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ChangeRoomRequest.cs" />
-    <Compile Include="ClientRequestHeader.cs" />
+    <Compile Include="CreateRoomRequest.cs" />
+    <Compile Include="ClientRequest.cs" />
     <Compile Include="CreateRoomVariableRequest.cs" />
     <Compile Include="GetCentralAuthorityRequest.cs" />
     <Compile Include="GetRoomVariableRequest.cs" />
-    <Compile Include="IRequestHeader.cs" />
-    <Compile Include="ListUsersInRoomRequest.cs" />
+    <Compile Include="IRequest.cs" />
     <Compile Include="LoginRequest.cs" />
     <Compile Include="NegotiateKeysRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -25,11 +25,11 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            ServerObject so = RoomActionEngine.Instance.GetRoomVariable(_room, _name);
+            RoomVariable so = RoomActionEngine.Instance.GetRoomVariable(_room, _name);
 
             MSMQQueueWrapper.QueueCommand(
                 new SendObjectCommand(_clientId,
-                    new GetRoomVariableResponse() { Room = _room, Name = _name, Value = so })
+                    new GetRoomVariableResponse() { Room = _room, Name = _name, RoomVariable = so })
             );
         }
     }

@@ -13,7 +13,7 @@ namespace SocketService.Framework.Client.Data.Domain
             set;
         }
 
-        public string Room
+        public Room Room
         {
             get;
             set;

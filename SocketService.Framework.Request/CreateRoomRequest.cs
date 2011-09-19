@@ -9,7 +9,7 @@ namespace SocketService.Framework.Request
     /// <summary>
     /// Creates a room if it doesn't exist and switches requestor to that room
     /// </summary>
-    public class ChangeRoomRequest
+    public class CreateRoomRequest
     {
         /// <summary>
         /// Gets or sets the name of the room.

@@ -25,7 +25,7 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            IRequestHeader header = (IRequestHeader)ObjectSerialize.Deserialize(_serialized);
+            IRequest header = (IRequest)ObjectSerialize.Deserialize(_serialized);
             object serverRequest = DecryptHeader(header);
         
             //// lookup this object types handler
@@ -37,7 +37,7 @@ namespace SocketService.Command
             MSMQQueueWrapper.QueueCommand(new HandleClientRequestCommand(_clientId, serverRequest, handlerList));
         }
 
-        private object DecryptHeader(IRequestHeader header)
+        private object DecryptHeader(IRequest header)
         {
             // switch on encryption type, and create a decryptor for that type
             // with the remote private key and iv as salt

@@ -20,16 +20,11 @@ namespace SocketService.Framework.Client.Response
             set;
         }
 
-        /// <summary>
-        /// Gets or sets the message.
-        /// </summary>
-        /// <value>
-        /// The message.
-        /// </value>
-        public string Message
+        public string UserName
         {
             get;
             set;
         }
+    
     }
 }

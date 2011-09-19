@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SocketService.Framework.Request
 {
-    public interface IRequestHeader
+    public interface IRequest
     {
         byte[] EncryptionPublicKey
         {

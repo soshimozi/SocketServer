@@ -7,6 +7,7 @@ using SocketService.Command;
 using SocketService.Framework.Util;
 using SocketService.Framework.Client.Data.Domain;
 using SocketService.Framework.Client.Data;
+using SocketService.Framework.SharedObjects;
 
 namespace SocketService.Actions
 {
@@ -34,13 +35,15 @@ namespace SocketService.Actions
                 Room room = RoomRepository.Instance.FindByName("");
                 if (room == null)
                 {
+                    room = new Room() { Name = "" };
                     // add default room
-                    RoomRepository.Instance.AddRoom(new Room() { Name = "" });
+                    RoomRepository.Instance.AddRoom(room);
                 }
 
-                User newUser = new User() { ClientKey = clientId, UserName = loginName, Room = "" };
+                User newUser = new User() { ClientKey = clientId, UserName = loginName };
                 UserRepository.Instance.AddUser(newUser);
 
+                ClientChangeRoom(clientId, "");
                 return true;
             }
         }
@@ -48,15 +51,11 @@ namespace SocketService.Actions
         public void ClientChangeRoom(Guid clientId, string roomName)
         {
             Room room = RoomRepository.Instance.FindByName(roomName);
-            if (room == null)
-            {
-                RoomRepository.Instance.AddRoom(new Room() { Name = roomName });
-            }
-
             User user = UserRepository.Instance.FindUserByClientKey(clientId);
             if (user != null)
             {
-                user.Room = roomName;
+                user.Room = room;
+                room.AddUser(new UserListEntry() { UserName = user.UserName });
             }
         }
     }

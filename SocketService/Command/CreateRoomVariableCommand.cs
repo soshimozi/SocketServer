@@ -13,8 +13,8 @@ namespace SocketService.Command
     {
         private readonly string _room;
         private readonly string _name;
-        private readonly ServerObject _so;
-        public CreateRoomVariableCommand(string room, string name, ServerObject so)
+        private readonly RoomVariable _so;
+        public CreateRoomVariableCommand(string room, string name, RoomVariable so)
         {
             _room = room;
             _name = name;

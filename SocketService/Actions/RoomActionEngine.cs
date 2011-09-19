@@ -21,7 +21,7 @@ namespace SocketService.Actions
         }
 
 
-        public void CreateRoomVariable(string roomName, string name, ServerObject so)
+        public void CreateRoomVariable(string roomName, string name, RoomVariable so)
         {
             Room room = RoomRepository.Instance.FindByName(roomName);
             if (room != null)
@@ -30,9 +30,9 @@ namespace SocketService.Actions
             }
         }
 
-        public ServerObject GetRoomVariable(string roomName, string variableName)
+        public RoomVariable GetRoomVariable(string roomName, string variableName)
         {
-            ServerObject so = null;
+            RoomVariable so = null;
 
             Room room = RoomRepository.Instance.FindByName(roomName);
             if (room != null)

@@ -8,7 +8,14 @@ namespace SocketService.Framework.Client.Data.Domain
 {
     public class Room
     {
-        private Dictionary<string, ServerObject> _roomVariables = new Dictionary<string, ServerObject>();
+        private static int nextId = 0;
+        public static int NextId()
+        {
+            return nextId++;
+        }
+
+        private Dictionary<string, RoomVariable> _roomVariables = new Dictionary<string, RoomVariable>();
+        private List<UserListEntry> _users = new List<UserListEntry>();
 
         /// <summary>
         /// Gets or sets the name.
@@ -27,7 +34,7 @@ namespace SocketService.Framework.Client.Data.Domain
         /// </summary>
         /// <param name="name">The name.</param>
         /// <returns></returns>
-        public ServerObject GetVariable(string name)
+        public RoomVariable GetVariable(string name)
         {
             if (_roomVariables.ContainsKey(name))
             {
@@ -42,7 +49,7 @@ namespace SocketService.Framework.Client.Data.Domain
         /// </summary>
         /// <param name="name">The name.</param>
         /// <param name="so">The so.</param>
-        public void AddVariable(string name, ServerObject so)
+        public void AddVariable(string name, RoomVariable so)
         {
             if (!_roomVariables.ContainsKey(name))
             {
@@ -50,6 +57,18 @@ namespace SocketService.Framework.Client.Data.Domain
             }
         }
 
+        public int Id { get; set; }
 
+        public List<RoomVariable> Variables
+        {
+            get { return _roomVariables.Values.ToList(); }
+        }
+
+        public List<UserListEntry> Users { get { return _users.ToList(); } }
+
+        public void AddUser(UserListEntry user)
+        {
+            _users.Add(user);
+        }
     }
 }

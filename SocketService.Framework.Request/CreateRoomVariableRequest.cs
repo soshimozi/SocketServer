@@ -39,7 +39,7 @@ namespace SocketService.Framework.Request
         /// <value>
         /// The value.
         /// </value>
-        public ServerObject Value
+        public RoomVariable Value
         {
             get;
             set;

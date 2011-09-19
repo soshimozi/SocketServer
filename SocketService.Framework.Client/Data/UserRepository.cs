@@ -39,7 +39,7 @@ namespace SocketService.Framework.Client.Data
             lock (_listLock)
             {
                 var query = from user in _userList
-                            where user.Room == roomname
+                            where user.Room != null && user.Room.Name == roomname
                             select user;
 
                 return query.ToList();

@@ -28,7 +28,7 @@ namespace SocketService.Framework.Client.Response
         /// <value>
         /// The server object.
         /// </value>
-        public ServerObject Value
+        public RoomVariable RoomVariable
         {
             get;
             set;

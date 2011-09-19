@@ -11,6 +11,8 @@ using SocketService.Framework.Client.Serialize;
 using System.Collections;
 using SocketService.Framework.Request;
 using SocketService.Framework.SharedObjects;
+using SocketService.Client.API.Command;
+using SocketService.Framework.Client.Event;
 
 namespace SocketService.Client.API
 {
@@ -22,27 +24,54 @@ namespace SocketService.Client.API
         private DiffieHellmanKey _remotePublicKey;
         private DiffieHellmanProvider _provider;
 
-        private Queue<object> _outboundQueue = new Queue<object>();
-        private Queue<object> _inboundQueue = new Queue<object>();
+        //CommandQueue commandQueue = new CommandQueue();
 
-        private object _inboundQueueLock = new object();
-        private object _outboundQueueLock = new object();
+
+        //private Queue<object> _outboundQueue = new Queue<object>();
+        //private Queue<object> _inboundQueue = new Queue<object>();
+
+        //private object _inboundQueueLock = new object();
+        //private object _outboundQueueLock = new object();
 
         private ZipSocket socket;
 
         public event EventHandler<ServerMessageReceivedArgs> ServerMessageRecieved;
         public event EventHandler<LoginResponseEventArgs> LoginResponseReceived;
         public event EventHandler<GetRoomVariableResponseArgs> GetRoomVariableResponseRecieved;
-        public event EventHandler<ListUsersInRoomResponseArgs> ListUsersInRoomResponseReceived;
+        //public event EventHandler<ListUsersInRoomResponseArgs> ListUsersInRoomResponseReceived;
+        public event EventHandler<JoinRoomEventArgs> JoinRoom;
+        public event EventHandler<ConnectionResponseEventArgs> ConnectionResponse;
+        public event EventHandler<RoomUserUpdateEventArgs> RoomUserUpdate;
 
-        protected virtual void OnListUsersInRoomResponseReceived(ListUsersInRoomResponseArgs args)
+        private bool _connected = false;
+
+        protected virtual void OnRoomUserUpdate(RoomUserUpdateEventArgs args)
         {
-            var func = ListUsersInRoomResponseReceived;
+            var func = RoomUserUpdate;
             if (func != null)
             {
                 func(this, args);
             }
         }
+
+        protected virtual void OnConnectionResponse(ConnectionResponseEventArgs args)
+        {
+            var func = ConnectionResponse;
+            if (func != null)
+            {
+                func(this, args);
+            }
+        
+        }
+    
+        //protected virtual void OnListUsersInRoomResponseReceived(ListUsersInRoomResponseArgs args)
+        //{
+        //    var func = ListUsersInRoomResponseReceived;
+        //    if (func != null)
+        //    {
+        //        func(this, args);
+        //    }
+        //}
 
         protected virtual void OnGetRoomVariableResponseRecieved(GetRoomVariableResponseArgs args)
         {
@@ -79,11 +108,20 @@ namespace SocketService.Client.API
         /// <summary>
         /// Connects this instance.
         /// </summary>
-        public bool Connect()
+        public void Connect()
+        {
+            if (!_connected)
+            {
+                Thread serverThread = new Thread(new ThreadStart(ServerThread));
+                serverThread.Start();
+            }
+        }
+
+        protected virtual void ServerThread()
         {
             // TODO: read info from configuration
             Socket rawSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            
+
             bool connected = false;
             while (!connected)
             {
@@ -94,7 +132,8 @@ namespace SocketService.Client.API
                 }
                 catch (SocketException)
                 {
-                    return false;
+                    OnConnectionResponse(new ConnectionResponseEventArgs() { IsSuccessful = false });
+                    return;
                 }
             }
 
@@ -102,31 +141,51 @@ namespace SocketService.Client.API
             socket = new ZipSocket(rawSocket, Guid.NewGuid());
             NegotiateKeys();
 
-            Thread sendMessagesThread = new Thread(new ThreadStart(SendMessages));
-            sendMessagesThread.Start();
+            OnConnectionResponse(new ConnectionResponseEventArgs() { IsSuccessful = true });
+            _connected = true;
 
-            Thread recieveMessagesThread = new Thread(new ThreadStart(ProcessMessages));
-            recieveMessagesThread.Start();
-
-            Thread messageThread = new Thread(new ThreadStart(PumpMessages));
-            messageThread.Start();
-
-            return true;
+            //Thread messageThread = new Thread(new ThreadStart(PumpMessages));
+            //messageThread.Start();
+            PumpMessages();
         }
+    
+        //public void Login(string loginName)
+        //{
+        //    // send login response
+        //    LoginRequest request = new LoginRequest();
+        //    request.LoginName = loginName;
 
-        public void Login(string loginName)
+        //    SendRequest(CreateRequest(EncryptionType.AES, request));
+        //}
+
+        private IRequest CreateRequest(EncryptionType encryptionType, object requestData)
         {
-            // send login response
-            LoginRequest request = new LoginRequest();
-            request.LoginName = loginName;
-
-            SendObject(EncryptionType.AES, request, false);
+            if (encryptionType != EncryptionType.None)
+            {
+                using (Wrapper cryptoWrapper = 
+                    Wrapper.CreateEncryptor(AlgorithmType.TripleDES, 
+                            _provider.CreatePrivateKey(_remotePublicKey).ToByteArray()))
+                {
+                    return new ClientRequest(cryptoWrapper.IV,
+                           EncryptionType.TripleDES, 
+                           DateTime.Now, 0, 
+                           cryptoWrapper.Encrypt(ObjectSerialize.Serialize(requestData)));
+                }
+            }
+            else
+            {
+                return new ClientRequest(new byte[0] { },
+                        EncryptionType.None, 
+                        DateTime.Now, 0, 
+                        ObjectSerialize.Serialize(requestData));
+            }
         }
     
 
         private void NegotiateKeys()
         {
-            SendObject(EncryptionType.None, new GetCentralAuthorityRequest(), false);
+            SendRequest(CreateRequest(EncryptionType.None, new GetCentralAuthorityRequest()));
+
             bool doneHandshaking = false;
             int step = 0;
 
@@ -155,8 +214,8 @@ namespace SocketService.Client.API
 
                                     // Send Negotiate Key Command
                                     // Read Response when it comes back
-                                    SendObject(EncryptionType.None,
-                                        new NegotiateKeysRequest(_provider.PublicKey.ToByteArray()), false);
+                                    SendRequest(CreateRequest(EncryptionType.None,
+                                        new NegotiateKeysRequest(_provider.PublicKey.ToByteArray())));
 
                                     step++;
                                 }
@@ -178,138 +237,15 @@ namespace SocketService.Client.API
             }
         }
 
-        private void SendObject(EncryptionType encryptionType, object graph, bool sendLater)
+        private void SendRequest(IRequest request)
         {
-            ClientRequestHeader header;
-            if (encryptionType != EncryptionType.None)
-            {
-                using (Wrapper cryptoWrapper = Wrapper.CreateEncryptor(AlgorithmType.TripleDES, _provider.CreatePrivateKey(_remotePublicKey).ToByteArray()))
-                {
-                    byte[] requestData = ObjectSerialize.Serialize(graph);
-
-                    header = new ClientRequestHeader(cryptoWrapper.IV,
-                           EncryptionType.TripleDES, DateTime.Now, 0, cryptoWrapper.Encrypt(requestData));
-                }
-            }
-            else
-            {
-                header = new ClientRequestHeader(new byte[0] { },
-                        encryptionType, DateTime.Now, 0, ObjectSerialize.Serialize(graph));
-            }
-
-            if( sendLater )
-                AddOutboundMessage(header);
-            else
-                SendData(socket, ObjectSerialize.Serialize(header));
+            socket.SendData(ObjectSerialize.Serialize(request));
         }
 
-        private void SendData(ZipSocket client, byte[] data)
+        public void Send(object data)
         {
-            client.SendData(data);
+            SendRequest(CreateRequest(EncryptionType.AES, data));
         }
-
-        private bool ReadMessage(out ServerMessage message)
-        {
-            bool serverDown = false;
-
-            IList readList = new List<Socket>() { socket.RawSocket };
-
-            // now let's wait for messages
-            Socket.Select(readList, null, null, 0);
-
-            message = null;
-
-            // there is only one socket in the poll list
-            // so if the count is greater than 0 then
-            // the only one available should be the client socket
-            if (readList.Count > 0)
-            {
-                // if socket is selected, and if available byes is 0, 
-                // then socket has been closed
-                serverDown = socket.RawSocket.Available == 0;
-
-                if (!serverDown)
-                {
-                    message = ReadServerMessage(socket);
-                }
-
-            }
-
-            return serverDown;
-        }
-
-        private ServerMessage ReadServerMessage(ZipSocket socket)
-        {
-            int availableBytes = socket.RawSocket.Available;
-            if (availableBytes > 0)
-            {
-                byte[] objectData = socket.ReceiveData();
-
-                // it should be a server message, we can look
-                // at other message types later
-                return ObjectSerialize.Deserialize<ServerMessage>(objectData);
-            }
-
-            return null;
-        }
-
-        protected void SendMessages()
-        {
-            while (!_serverDisconnectedEvent.WaitOne(100))
-            {
-                object message = null;
-                lock (_outboundQueueLock)
-                {
-                    if (_outboundQueue.Count > 0)
-                    {
-                        message = _outboundQueue.Dequeue();
-                    }
-                }
-
-                if (message != null)
-                {
-                    SendData(socket, ObjectSerialize.Serialize(message));
-                }
-            }
-        }
-
-        protected void ProcessMessages()
-        {
-            while (!_serverDisconnectedEvent.WaitOne(100))
-            {
-                object message = null;
-                lock (_inboundQueueLock)
-                {
-                    if (_inboundQueue.Count > 0)
-                    {
-                        message = _inboundQueue.Dequeue();
-                    }
-                }
-
-                if (message != null)
-                {
-                    HandleMessage(message);
-                }
-            }
-        
-        }
-
-        protected void AddOutboundMessage(object message)
-        {
-            lock (_inboundQueueLock)
-            {
-                _outboundQueue.Enqueue(message);
-            }
-        }
-
-        protected void AddInboundMessage(object message)
-        {
-            lock (_inboundQueueLock)
-            {
-                _inboundQueue.Enqueue(message);
-            }
-        }
-
 
         protected void PumpMessages()
         {
@@ -340,7 +276,7 @@ namespace SocketService.Client.API
                         // at other message types later
                         message = ObjectSerialize.Deserialize(objectData);
 
-                        AddInboundMessage(message);
+                        HandleMessage(message);
                     }
 
                 }
@@ -351,16 +287,17 @@ namespace SocketService.Client.API
 
         private void HandleMessage(object message)
         {
-            if (message.GetType() == typeof(ListUsersInRoomResponse))
-            {
-                OnListUsersInRoomResponseReceived(
-                    new ListUsersInRoomResponseArgs()
-                    {
-                        Response = (ListUsersInRoomResponse)message
-                    }
-                );
-            }
-            else if (message.GetType() == typeof(GetRoomVariableResponse))
+            //if (message.GetType() == typeof(ListUsersInRoomResponse))
+            //{
+            //    OnListUsersInRoomResponseReceived(
+            //        new ListUsersInRoomResponseArgs()
+            //        {
+            //            Response = (ListUsersInRoomResponse)message
+            //        }
+            //    );
+            //}
+            //else 
+            if (message.GetType() == typeof(GetRoomVariableResponse))
             {
                 OnGetRoomVariableResponseRecieved(
                     new GetRoomVariableResponseArgs() 
@@ -369,15 +306,15 @@ namespace SocketService.Client.API
                     }
                 );
             }
-            else if (message.GetType() == typeof(ServerMessage))
-            {
-                OnServerMessageReceived( 
-                    new ServerMessageReceivedArgs() 
-                    { 
-                        Message = ((ServerMessage)message).Message 
-                    }
-                );
-            }
+            //else if (message.GetType() == typeof(ServerMessage))
+            //{
+            //    OnServerMessageReceived( 
+            //        new ServerMessageReceivedArgs() 
+            //        { 
+            //            Message = ((ServerMessage)message).Message 
+            //        }
+            //    );
+            //}
             else if (message.GetType() == typeof(LoginResponse))
             {
                 OnLoginResponseReceieved(
@@ -387,52 +324,34 @@ namespace SocketService.Client.API
                     }
                 );
             }
+            else if (message.GetType() == typeof(JoinRoomEvent))
+            {
+                OnJoinRoomEvent(
+                    new JoinRoomEventArgs()
+                    {
+                        Event = message as JoinRoomEvent
+                    }
+                );
+            }
+            else if (message.GetType() == typeof(RoomUserUpdateEvent))
+            {
+                OnRoomUserUpdate(
+                    new RoomUserUpdateEventArgs() 
+                    {
+                        Event = message as RoomUserUpdateEvent
+                    }
+               );
+            }
         }
 
-
-        public void ChangeRoom(string roomname)
+        protected virtual void OnJoinRoomEvent(JoinRoomEventArgs args)
         {
-            // change room
-            SendObject(EncryptionType.AES, 
-                new ChangeRoomRequest() 
-                { 
-                    RoomName = roomname 
-                }, 
-                true
-            );
-        }
+            var func = JoinRoom;
+            if (func != null)
+            {
+                func(this, args);
+            }
 
-        public void ListUsersInRoom()
-        {
-            SendObject(EncryptionType.AES, 
-                new ListUsersInRoomRequest(), 
-                true
-            );
-        }
-
-        public void GetRoomVariable(string room, string varname)
-        {
-            SendObject(EncryptionType.AES,
-                new GetRoomVariableRequest()
-                {
-                    RoomName = room,
-                    VariableName = varname
-                },
-                true
-            );
-        }
-
-        public void CreateRoomVariable(string room, string name, ServerObject value)
-        {
-            SendObject(EncryptionType.AES,
-                new CreateRoomVariableRequest()
-                {
-                    Room = room,
-                    VariableName = name,
-                    Value = value
-                },
-                true
-            );
         }
     }
 }

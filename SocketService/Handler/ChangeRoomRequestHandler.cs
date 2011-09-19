@@ -11,17 +11,17 @@ using SocketService.Framework.Request;
 namespace SocketService
 {
     [Serializable()]
-    [ServiceHandlerType(typeof(ChangeRoomRequest))]
-    class ChangeRoomRequestHandler : BaseHandler<ChangeRoomRequest, Guid>
+    [ServiceHandlerType(typeof(CreateRoomRequest))]
+    class ChangeRoomRequestHandler : BaseHandler<CreateRoomRequest, Guid>
     {
-        public override bool HandleRequest(ChangeRoomRequest request, Guid state)
+        public override bool HandleRequest(CreateRoomRequest request, Guid state)
         {
             if (request != null)
             {
                 string roomName = request.RoomName;
 
                 MSMQQueueWrapper.QueueCommand(
-                    new ChangeRoomCommand(state, roomName, true)
+                    new CreateRoomCommand(state, roomName)
                 );
 
                 return true;
