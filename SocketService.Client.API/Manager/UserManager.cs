@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using SocketService.Client.API.Data;
 
-namespace SocketService.Client.API
+namespace SocketService.Client.API.Manager
 {
     public class UserManager
     {

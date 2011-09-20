@@ -12,6 +12,8 @@ using System.IO.Compression;
 using SocketService.Client.API;
 using SocketService.Framework.SharedObjects;
 using SocketService.Framework.Request;
+using SocketService.Client.API.Event;
+using SocketService.Client.API.Data;
 
 namespace ConsoleApplication1
 {
@@ -169,15 +171,12 @@ namespace ConsoleApplication1
         void engine_JoinRoom(object sender, JoinRoomEventArgs e)
         {
             Room room = _server.Managers.RoomManager.FindById(e.Event.RoomId);
-
-            //if (e.Event.e == _userName)
-            //{
-            //    Console.WriteLine("You have entered {0}.", e.RoomName);
-            //}
-            //else
-            //{
-            //    Console.WriteLine("{0} has entered the room.", e.UserName);
-            //}
+            Console.WriteLine("You have entered {0}.", room.Name);
+            Console.WriteLine("Users:");
+            foreach (User user in room.Users)
+            {
+                Console.WriteLine("{1}{0}", user.UserName, user.IsMe ? "*" : "");
+            }
         }
 
         private void CreateRoomVariable()

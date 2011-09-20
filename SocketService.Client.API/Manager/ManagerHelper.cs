@@ -5,8 +5,10 @@ using System.Text;
 using SocketService.Framework.Client.Event;
 using SocketService.Framework.SharedObjects;
 using SocketService.Framework.Client.Response;
+using SocketService.Client.API.Event;
+using SocketService.Client.API.Data;
 
-namespace SocketService.Client.API
+namespace SocketService.Client.API.Manager
 {
     public class ManagerHelper
     {

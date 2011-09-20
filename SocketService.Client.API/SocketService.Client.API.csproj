@@ -44,19 +44,19 @@
     <Compile Include="Command\CommandQueue.cs" />
     <Compile Include="Command\ICommand.cs" />
     <Compile Include="Command\ProcessInboundMessageCommand.cs" />
-    <Compile Include="ConnectionResponseEventArgs.cs" />
-    <Compile Include="GetRoomVariableResponseArgs.cs" />
-    <Compile Include="JoinRoomEventArgs.cs" />
-    <Compile Include="LoginResponseEventArgs.cs" />
-    <Compile Include="ManagerHelper.cs" />
+    <Compile Include="Event\ConnectionResponseEventArgs.cs" />
+    <Compile Include="Event\GetRoomVariableResponseArgs.cs" />
+    <Compile Include="Event\JoinRoomEventArgs.cs" />
+    <Compile Include="Event\LoginResponseEventArgs.cs" />
+    <Compile Include="Manager\ManagerHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Room.cs" />
-    <Compile Include="RoomManager.cs" />
-    <Compile Include="RoomUserUpdateEventArgs.cs" />
+    <Compile Include="Data\Room.cs" />
+    <Compile Include="Manager\RoomManager.cs" />
+    <Compile Include="Event\RoomUserUpdateEventArgs.cs" />
     <Compile Include="Server.cs" />
-    <Compile Include="ServerMessageReceivedArgs.cs" />
-    <Compile Include="User.cs" />
-    <Compile Include="UserManager.cs" />
+    <Compile Include="Event\ServerMessageReceivedArgs.cs" />
+    <Compile Include="Data\User.cs" />
+    <Compile Include="Manager\UserManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SocketService.Framework.Client\SocketService.Framework.Client.csproj">

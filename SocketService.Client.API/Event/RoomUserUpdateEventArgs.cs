@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using SocketService.Framework.Client.Event;
 
-namespace SocketService.Client.API
+namespace SocketService.Client.API.Event
 {
     public class RoomUserUpdateEventArgs : EventArgs
     {

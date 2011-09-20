@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using SocketService.Framework.SharedObjects;
 
-namespace SocketService.Client.API
+namespace SocketService.Client.API.Data
 {
     public class Room
     {
@@ -123,6 +123,22 @@ namespace SocketService.Client.API
             finally
             {
                 Monitor.Exit(this);
+            }
+        }
+
+        public List<User> Users 
+        {
+            get
+            {
+                Monitor.Enter(this);
+                try
+                {
+                    return _userList.ToList();
+                }
+                finally
+                {
+                    Monitor.Exit(this);
+                }
             }
         }
     }

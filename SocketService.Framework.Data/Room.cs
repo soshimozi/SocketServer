@@ -71,9 +71,19 @@ namespace SocketService.Framework.Data
 
         public List<UserListEntry> Users { get { return _users.ToList(); } }
 
+        public UserListEntry FindByName(string name)
+        {
+            var query = from user in _users
+                        where user.UserName.Equals(name)
+                        select user;
+
+            return query.FirstOrDefault();
+        }
+    
         public void AddUser(UserListEntry user)
         {
-            if (!_users.Contains(user))
+            UserListEntry entry = FindByName(user.UserName);
+            if (entry == null)
             {
                 _users.Add(user);
             }
@@ -81,9 +91,10 @@ namespace SocketService.Framework.Data
 
         public void RemoveUser(UserListEntry user)
         {
-            if (_users.Contains(user))
+            UserListEntry entry = FindByName(user.UserName);
+            if( entry != null )
             {
-                _users.Remove(user);
+                _users.Remove(entry);
             }
         }
     }

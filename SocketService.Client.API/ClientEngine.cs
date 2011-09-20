@@ -13,6 +13,7 @@ using SocketService.Framework.Request;
 using SocketService.Framework.SharedObjects;
 using SocketService.Client.API.Command;
 using SocketService.Framework.Client.Event;
+using SocketService.Client.API.Event;
 
 namespace SocketService.Client.API
 {

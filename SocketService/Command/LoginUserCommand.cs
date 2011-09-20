@@ -6,6 +6,8 @@ using SocketService.Framework.Messaging;
 using SocketService.Actions;
 using SocketService.Framework.Data;
 using SocketService.Framework.Client.Response;
+using SocketService.Framework.SharedObjects;
+using SocketService.Framework.Client.Event;
 
 namespace SocketService.Command
 {
@@ -24,28 +26,49 @@ namespace SocketService.Command
         {
             if (UserActionEngine.Instance.LoginUser(_clientId, _username))
             {
-                //List<User> roomUsers = UserRepository.Instance.FindUsersByRoom("");
+                // get default room
+                Room room = RoomActionEngine.Instance.CreateRoom("");
+                User user = UserRepository.Instance.FindUserByClientKey(_clientId);
+                if (user != null)
+                {
+                    UserActionEngine.Instance.ClientChangeRoom(_clientId, "");
 
-                //// filter out our key
-                //var query = from user in roomUsers
-                //            where user.ClientKey != _clientId
-                //            select user.ClientKey;
+                    // tell clients to add user to room
+                    MSMQQueueWrapper.QueueCommand(
+                        new BroadcastObjectCommand(
+                            UserRepository.Instance.FindClientKeysByRoomFiltered("", _clientId).ToArray(),
+                            new RoomUserUpdateEvent()
+                            {
+                                Action = RoomUserUpdateAction.AddUser,
+                                RoomId = room.Id,
+                                UserName = user.UserName
+                            }
+                        )
+                    );
+                }
 
+                // send login response
                 MSMQQueueWrapper.QueueCommand(
                     new SendObjectCommand(_clientId,
                         new LoginResponse() { UserName = _username, Success = true })
                 );
 
+                // finally send a join room event to user
                 MSMQQueueWrapper.QueueCommand(
-                    new CreateRoomCommand(_clientId, "")
+                    new SendObjectCommand(_clientId,
+                        new JoinRoomEvent()
+                        {
+                            RoomName = "",
+                            RoomId = room.Id,
+                            Protected = false,
+                            Hidden = false,
+                            Capacity = -1,
+                            RoomDescription = "",
+                            RoomVariables = room.Variables.ToArray(),
+                            Users = room.Users.ToArray()
+                        }
+                    )
                 );
-
-                // TODO: Replace with RoomUserUpdateEvent
-
-                //MSMQQueueWrapper.QueueCommand(
-                //    new BroadcastObjectCommand(query.ToArray(), new ServerMessage("{0} has logged in.", _username))
-                //);
-
             }
             else
             {

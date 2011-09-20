@@ -48,8 +48,8 @@ namespace SocketService.Command
                                 Hidden = false,
                                 Capacity = -1,
                                 RoomDescription = "",
-                                RoomVariables = newRoom.Variables,
-                                Users = newRoom.Users
+                                RoomVariables = newRoom.Variables.ToArray(),
+                                Users = newRoom.Users.ToArray()
                             }
                         )
                     );

@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using SocketService.Framework.Client.Response;
 
-namespace SocketService.Client.API
+namespace SocketService.Client.API.Event
 {
-    public class LoginResponseEventArgs : EventArgs
+    public class GetRoomVariableResponseArgs : EventArgs
     {
-        public LoginResponse LoginResponse
+        public GetRoomVariableResponse Response
         {
             get;
             set;

@@ -42,7 +42,7 @@ namespace SocketService.Actions
                 User newUser = new User() { ClientKey = clientId, UserName = loginName };
                 UserRepository.Instance.AddUser(newUser);
 
-                ClientChangeRoom(clientId, "");
+                //ClientChangeRoom(clientId, "");
                 return true;
             }
         }
