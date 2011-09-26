@@ -16,7 +16,8 @@ namespace SocketService.Command
     {
         private readonly Guid _clientId;
         private readonly string _roomName;
-        public CreateRoomCommand(Guid clientId, string roomName)
+        private readonly string _zoneName;
+        public CreateRoomCommand(Guid clientId, string zoneName, string roomName)
         {
             _clientId = clientId;
             _roomName = roomName;
@@ -24,6 +25,7 @@ namespace SocketService.Command
 
         public override void Execute()
         {
+            Zone newZone = ZoneActionEngine.Instance.CreateZone(_zoneName);
             Room newRoom = RoomActionEngine.Instance.CreateRoom(_roomName);
             User user = UserRepository.Instance.FindUserByClientKey(_clientId);
 
@@ -38,6 +40,18 @@ namespace SocketService.Command
 
                     UserActionEngine.Instance.ClientChangeRoom(_clientId, _roomName);
 
+                    // tell client that they are leaving a room
+                    MSMQQueueWrapper.QueueCommand(
+                        new SendObjectCommand(_clientId,
+                            new LeaveRoomEvent()
+                            {
+                                RoomId = oldRoom.Id,
+                                UserName = user.UserName
+                            }
+                        )
+                    );
+
+                    // now tell client they are arriving at a new room
                     MSMQQueueWrapper.QueueCommand(
                         new SendObjectCommand(_clientId,
                             new JoinRoomEvent()

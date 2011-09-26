@@ -19,7 +19,7 @@ namespace ConsoleApplication1
 {
     class Program
     {
-        //ClientEngine _engine = new ClientEngine();
+        ClientEngine _engine = new ClientEngine();
         Server _server = new Server();
 
         private long _loginState = 0;
@@ -38,18 +38,20 @@ namespace ConsoleApplication1
 
         public void Run(string[] args)
         {
-            _server.Engine.ServerMessageRecieved += new EventHandler<ServerMessageReceivedArgs>(engine_ServerMessageRecieved);
-            _server.Engine.LoginResponseReceived += new EventHandler<LoginResponseEventArgs>(engine_LoginResponseReceived);
-            _server.Engine.GetRoomVariableResponseRecieved += new EventHandler<GetRoomVariableResponseArgs>(engine_GetRoomVariableResponseRecieved);
-            //_engine.ListUsersInRoomResponseReceived += new EventHandler<ListUsersInRoomResponseArgs>(engine_ListUsersInRoomResponseReceived);
-            _server.Engine.JoinRoom += new EventHandler<JoinRoomEventArgs>(engine_JoinRoom);
-            _server.Engine.ConnectionResponse += new EventHandler<ConnectionResponseEventArgs>(engine_ConnectionResponse);
+
+            _engine.ServerMessageRecieved += new EventHandler<ServerMessageReceivedArgs>(engine_ServerMessageRecieved);
+            _engine.LoginResponseReceived += new EventHandler<LoginResponseEventArgs>(engine_LoginResponseReceived);
+            _engine.GetRoomVariableResponseRecieved += new EventHandler<GetRoomVariableResponseArgs>(engine_GetRoomVariableResponseRecieved);
+            _engine.JoinRoom += new EventHandler<JoinRoomEventArgs>(engine_JoinRoom);
+
+            _server.ConnectionResponse += new EventHandler<ConnectionEventArgs>(server_ConnectionResponse);
+            _engine.AddServer(_server);
             
             Console.WriteLine("Connecting to server...");
 
             while (!_connectionSuccessful)
             {
-                _server.Engine.Connect();
+                _server.Connect("127.0.0.1", 4000);
                 _connectedReceivedEvent.WaitOne(-1);
 
                 if (!_connectionSuccessful)
@@ -59,20 +61,13 @@ namespace ConsoleApplication1
                 }
             }
 
-            //while (!_engine.Connect())
-            //{
-            //    Console.WriteLine("Could not connect to server.  Retrying in 5 seconds.");
-            //    Thread.Sleep(5000);
-            //}
-
-            //Console.WriteLine("Connected!");
-
             bool success = false;
-
             do
             {
                 Console.Write("Enter your user name: ");
                 _userName = Console.ReadLine();
+
+                Console.WriteLine("Logging in...");
                 Login(_userName);
 
                 _loginReceievedEvent.WaitOne(-1);
@@ -128,10 +123,11 @@ namespace ConsoleApplication1
 
             } while (!quitFlag);
 
-            _server.Engine.StopEngine();
+            // stop engine and disconnect all servers
+            _engine.StopEngine();
         }
 
-        void engine_ConnectionResponse(object sender, ConnectionResponseEventArgs e)
+        void server_ConnectionResponse(object sender, ConnectionEventArgs e)
         {
             _connectionSuccessful = e.IsSuccessful;
             _connectedReceivedEvent.Set();
@@ -142,14 +138,9 @@ namespace ConsoleApplication1
             LoginRequest request = new LoginRequest();
             request.LoginName = userName;
 
-            _server.Engine.Send(request);
+            _server.SendRequestEncrypted(request);
         }
 
-        //private void ListUsersInRoom()
-        //{
-        //    ListUsersInRoomRequest request = new ListUsersInRoomRequest();
-        //    _server.Engine.Send(request);
-        //}
 
         private void GetRoomVariableRequest(string room, string varname)
         {
@@ -157,7 +148,7 @@ namespace ConsoleApplication1
             grvr.RoomName = room;
             grvr.VariableName = varname;
 
-            _server.Engine.Send(grvr);
+            _server.SendRequestEncrypted(grvr);
         }
 
         private void JoinRoom(string roomName)
@@ -165,12 +156,12 @@ namespace ConsoleApplication1
             CreateRoomRequest crr = new CreateRoomRequest();
 
             crr.RoomName = roomName;
-            _server.Engine.Send(crr);
+            _server.SendRequestEncrypted(crr);
         }
 
         void engine_JoinRoom(object sender, JoinRoomEventArgs e)
         {
-            Room room = _server.Managers.RoomManager.FindById(e.Event.RoomId);
+            Room room = _engine.Managers.RoomManager.FindById(e.Event.RoomId);
             Console.WriteLine("You have entered {0}.", room.Name);
             Console.WriteLine("Users:");
             foreach (User user in room.Users)
@@ -204,32 +195,21 @@ namespace ConsoleApplication1
 
             CreateRoomVariableRequest crvr = new CreateRoomVariableRequest();
             crvr.Room = room;
-            crvr.VariableName = name;
-            crvr.Value = new RoomVariable() { RoomId = 0, Value = value };
+            crvr.Name = name;
+            crvr.Variable = new RoomVariable() { RoomId = 0, Value = value };
 
-            _server.Engine.Send(crvr);
+            _server.SendRequestEncrypted(crvr);
         }
-
-        //void engine_ListUsersInRoomResponseReceived(object sender, ListUsersInRoomResponseArgs e)
-        //{
-        //    Console.WriteLine("Users:");
-        //    foreach (ServerUser user in e.Response.Users)
-        //    {
-        //        Console.WriteLine("{0}", user.Name);
-        //    }
-        //    Console.WriteLine();
-        //}
 
         void engine_GetRoomVariableResponseRecieved(object sender, GetRoomVariableResponseArgs e)
         {
             Console.Write(e.Response.Room);
             Console.Write(" : ");
-            Console.WriteLine(e.Response.RoomVariable.Value .GetValueForElement("__default__"));
+            Console.WriteLine(e.Response.Variable.Value.GetValueForElement("__default__"));
         }
 
         void engine_LoginResponseReceived(object sender, LoginResponseEventArgs e)
         {
-            //DispatchMessage(e.LoginResponse.UserName);
             int state = e.LoginResponse.Success ? 1 : 0;
             Interlocked.Exchange(ref _loginState, state);
 

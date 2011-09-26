@@ -6,7 +6,7 @@ using System.ComponentModel.Composition;
 
 namespace SocketService.Framework.ServiceHandlerLib
 {
-    [Serializable()]
+    [Serializable]
     public abstract class BaseHandler<T, P> : IServiceHandler where T : class
     {
         public bool HandleRequest(object request, object state)

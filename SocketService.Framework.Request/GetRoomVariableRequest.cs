@@ -8,13 +8,19 @@ namespace SocketService.Framework.Request
     [Serializable]
     public class GetRoomVariableRequest
     {
+        public int ZoneId
+        {
+            get;
+            set;
+        }
+    
         /// <summary>
         /// Gets or sets the name of the room.
         /// </summary>
         /// <value>
         /// The name of the room.
         /// </value>
-        public string RoomName
+        public int RoomId
         {
             get;
             set;

@@ -56,5 +56,17 @@ namespace SocketService
                 return query.FirstOrDefault();
             }
         }
+
+        internal Room Find(int RoomId)
+        {
+            lock (_listLock)
+            {
+                var query = from room in _roomList
+                            where room.Id == RoomId
+                            select room;
+
+                return query.FirstOrDefault();
+            }
+        }
     }
 }

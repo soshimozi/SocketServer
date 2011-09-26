@@ -25,25 +25,24 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            IRequest header = (IRequest)ObjectSerialize.Deserialize(_serialized);
-            object serverRequest = DecryptHeader(header);
+            ClientRequest request = (ClientRequest)ObjectSerialize.Deserialize(_serialized);
+            object payload = DecryptRequest(request);
         
-            //// lookup this object types handler
-            Type requestType = serverRequest.GetType();
-            var handlerList = ServiceHandlerRepository.Instance.GetHandlerListByType(requestType);
+            Type handlerType = payload.GetType();
+            var handlerList = ServiceHandlerRepository.Instance.GetHandlerListByType(handlerType);
 
-            // here is where we start using MSMQ and the messaging handler
-            // to queue up a new command
-            MSMQQueueWrapper.QueueCommand(new HandleClientRequestCommand(_clientId, serverRequest, handlerList));
+            MSMQQueueWrapper.QueueCommand(
+                new HandleClientRequestCommand(_clientId, payload, handlerList)
+            );
         }
 
-        private object DecryptHeader(IRequest header)
+        private object DecryptRequest(ClientRequest request)
         {
             // switch on encryption type, and create a decryptor for that type
             // with the remote private key and iv as salt
             AlgorithmType algorithm = AlgorithmType.AES;
 
-            switch (header.Encryption)
+            switch (request.Encryption)
             {
                 case EncryptionType.DES:
                     algorithm = AlgorithmType.DES;
@@ -67,9 +66,9 @@ namespace SocketService.Command
                     DiffieHellmanKey privateKey = connection.Provider.CreatePrivateKey(connection.RemotePublicKey);
                     using (Wrapper cryptoWrapper = Wrapper.CreateDecryptor(algorithm,
                                                                         privateKey.ToByteArray(),
-                                                                        header.EncryptionPublicKey))
+                                                                        request.EncryptionPublicKey))
                     {
-                        return ObjectSerialize.Deserialize(cryptoWrapper.Decrypt(header.RequestData));
+                        return ObjectSerialize.Deserialize(cryptoWrapper.Decrypt(request.RequestData));
                     }
                 }
                 else
@@ -79,10 +78,8 @@ namespace SocketService.Command
             }
             else
             {
-                return ObjectSerialize.Deserialize(header.RequestData);
+                return ObjectSerialize.Deserialize(request.RequestData);
             }
-
-
         }
     }
 }

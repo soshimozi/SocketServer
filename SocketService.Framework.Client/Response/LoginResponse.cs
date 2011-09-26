@@ -6,7 +6,7 @@ using System.Text;
 namespace SocketService.Framework.Client.Response
 {
     [Serializable]
-    public class LoginResponse
+    public class LoginResponse : IResponse
     {
         /// <summary>
         /// Gets or sets a value indicating whether this <see cref="LoginResponse"/> is success.

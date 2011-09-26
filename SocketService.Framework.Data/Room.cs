@@ -19,7 +19,12 @@ namespace SocketService.Framework.Data
             return nextId++;
         }
 
+        private object _variableLock = new object();
+        private object _pluginLock = new object();
+        private object _userLock = new object();
+
         private Dictionary<string, RoomVariable> _roomVariables = new Dictionary<string, RoomVariable>();
+        private Dictionary<string, IPlugin>
         private List<UserListEntry> _users = new List<UserListEntry>();
 
         /// <summary>
@@ -41,12 +46,15 @@ namespace SocketService.Framework.Data
         /// <returns></returns>
         public RoomVariable GetVariable(string name)
         {
-            if (_roomVariables.ContainsKey(name))
+            lock (_variableLock)
             {
-                return _roomVariables[name];
-            }
+                if (_roomVariables.ContainsKey(name))
+                {
+                    return _roomVariables[name];
+                }
 
-            return null;
+                return null;
+            }
         }
 
         /// <summary>
@@ -56,9 +64,12 @@ namespace SocketService.Framework.Data
         /// <param name="so">The so.</param>
         public void AddVariable(string name, RoomVariable so)
         {
-            if (!_roomVariables.ContainsKey(name))
+            lock (_variableLock)
             {
-                _roomVariables.Add(name, so);
+                if (!_roomVariables.ContainsKey(name))
+                {
+                    _roomVariables.Add(name, so);
+                }
             }
         }
 
@@ -73,11 +84,14 @@ namespace SocketService.Framework.Data
 
         public UserListEntry FindByName(string name)
         {
-            var query = from user in _users
-                        where user.UserName.Equals(name)
-                        select user;
+            lock (_userLock)
+            {
+                var query = from user in _users
+                            where user.UserName.Equals(name)
+                            select user;
 
-            return query.FirstOrDefault();
+                return query.FirstOrDefault();
+            }
         }
     
         public void AddUser(UserListEntry user)
@@ -85,7 +99,10 @@ namespace SocketService.Framework.Data
             UserListEntry entry = FindByName(user.UserName);
             if (entry == null)
             {
-                _users.Add(user);
+                lock (_userLock)
+                {
+                    _users.Add(user);
+                }
             }
         }
 
@@ -94,7 +111,21 @@ namespace SocketService.Framework.Data
             UserListEntry entry = FindByName(user.UserName);
             if( entry != null )
             {
-                _users.Remove(entry);
+                lock (_userLock)
+                {
+                    _users.Remove(entry);
+                }
+            }
+        }
+
+        public void RemoveVariable(RoomVariable oldValue)
+        {
+            lock (_variableLock)
+            {
+                if (Variables.Contains(oldValue))
+                {
+                    Variables.Remove(oldValue);
+                }
             }
         }
     }

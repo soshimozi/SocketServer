@@ -10,7 +10,7 @@ namespace SocketService.Client.API.Data
     public class Room
     {
         private readonly List<User> _userList = new List<User>();
-        private readonly List<RoomVariable> _roomVariableList = new List<RoomVariable>();
+        private readonly Dictionary<String, RoomVariable> _roomVariableList = new Dictionary<String, RoomVariable>();
 
         private static int _nextId = 0;
 
@@ -113,12 +113,12 @@ namespace SocketService.Client.API.Data
 
         }
 
-        public void AddRoomVariable(RoomVariable roomVariable)
+        public void AddRoomVariable(String Name, RoomVariable Value)
         {
             Monitor.Enter(this);
             try
             {
-                _roomVariableList.Add(roomVariable);
+                _roomVariableList.Add(Name, Value);
             }
             finally
             {
@@ -139,6 +139,37 @@ namespace SocketService.Client.API.Data
                 {
                     Monitor.Exit(this);
                 }
+            }
+        }
+
+        public void RemoveVariable(string Name)
+        {
+            Monitor.Enter(this);
+            try
+            {
+                if( _roomVariableList.ContainsKey(Name))
+                    _roomVariableList.Remove(Name);
+            }
+            finally
+            {
+                Monitor.Exit(this);
+            }
+
+        }
+
+        public void UpdateVariable(string Name, RoomVariable Value)
+        {
+            Monitor.Enter(this);
+            try
+            {
+                if (_roomVariableList.ContainsKey(Name))
+                    _roomVariableList.Remove(Name);
+
+                _roomVariableList.Add(Name, Value);
+            }
+            finally
+            {
+                Monitor.Exit(this);
             }
         }
     }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using SocketService.Client.API.Data;
+using SocketService.Framework.SharedObjects;
 
 namespace SocketService.Client.API.Manager
 {
@@ -41,6 +42,45 @@ namespace SocketService.Client.API.Manager
             finally
             {
                 Monitor.Exit(this);
+            }
+        }
+
+        public void AddRoomVariable(int RoomId, string Name, RoomVariable Value)
+        {
+            Room room = FindById(RoomId);
+            if (room != null)
+            {
+                room.AddRoomVariable(Name, Value);
+            }
+        }
+
+        public void DeleteRoomVariable(int RoomId, string Name)
+        {
+            Room room = FindById(RoomId);
+            if ( room != null )
+            {
+                room.RemoveVariable(Name);
+            }
+        }
+
+        public void UpdateRoomVariable(int RoomId, string Name, RoomVariable Value)
+        {
+            Room room = FindById(RoomId);
+            if (room != null)
+            {
+                room.UpdateVariable(Name, Value);
+            }
+        }
+
+        public void RemoveRoom(int Id)
+        {
+            Room room = FindById(Id);
+            if (room != null)
+            {
+                lock (_roomList)
+                {
+                    _roomList.Remove(room);
+                }
             }
         }
     }

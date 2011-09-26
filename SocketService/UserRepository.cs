@@ -115,5 +115,17 @@ namespace SocketService
                 _userList.Remove(user);
             }
         }
+
+        public List<Guid> FindClientKeysByRoom(string RoomName)
+        {
+            lock (_listLock)
+            {
+                var query = from user in _userList
+                            where user.Room != null && user.Room.Name == RoomName
+                            select user.ClientKey;
+
+                return query.ToList();
+            }
+        }
     }
 }

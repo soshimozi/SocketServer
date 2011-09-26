@@ -58,9 +58,11 @@
   <ItemGroup>
     <Compile Include="Actions\RoomActionEngine.cs" />
     <Compile Include="Actions\UserActionEngine.cs" />
+    <Compile Include="Actions\ZoneActionEngine.cs" />
     <Compile Include="Command\BroadcastObjectCommand.cs" />
     <Compile Include="Command\CreateRoomCommand.cs" />
     <Compile Include="Command\CreateRoomVariableCommand.cs" />
+    <Compile Include="Command\DeleteRoomVariableCommand.cs" />
     <Compile Include="Command\GetCentralAuthorityCommand.cs" />
     <Compile Include="Command\GetRoomVariableCommand.cs" />
     <Compile Include="Command\HandleClientRequestCommand.cs" />
@@ -68,13 +70,18 @@
     <Compile Include="Command\LogoutUserCommand.cs" />
     <Compile Include="Command\NegotiateKeysCommand.cs" />
     <Compile Include="Command\ParseRequestCommand.cs" />
+    <Compile Include="Command\PublicMessageCommand.cs" />
     <Compile Include="Command\SendObjectCommand.cs" />
+    <Compile Include="Command\UpdateRoomVariableCommand.cs" />
     <Compile Include="Handler\ChangeRoomRequestHandler.cs" />
     <Compile Include="Handler\CreateRoomVariableRequestHandler.cs" />
+    <Compile Include="Handler\DeleteRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\GetCARequestHandler.cs" />
     <Compile Include="Handler\GetRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\LoginRequestHandler.cs" />
     <Compile Include="Handler\NegotiateKeysRequestHandler.cs" />
+    <Compile Include="Handler\PublicMessageRequestHandler.cs" />
+    <Compile Include="Handler\UpdateRoomVariableRequestHandler.cs" />
     <Compile Include="Net\Client\ConnectArgs.cs" />
     <Compile Include="Net\Client\Connection.cs" />
     <Compile Include="Net\Client\ConnectionRepository.cs" />
@@ -112,10 +119,6 @@
     <ProjectReference Include="..\SocketService.Framework.Crypto\SocketService.Framework.Crypto.csproj">
       <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
       <Name>SocketService.Framework.Crypto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework.Data\SocketService.Framework.Data.csproj">
-      <Project>{F46996B5-F28E-4470-A0FF-6C3B1C7612E1}</Project>
-      <Name>SocketService.Framework.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\SocketService.Framework.Request\SocketService.Framework.Request.csproj">
       <Project>{5266A3D3-25DC-492B-BFDC-973D79BA7D90}</Project>

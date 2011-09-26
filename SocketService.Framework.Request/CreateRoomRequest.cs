@@ -11,6 +11,12 @@ namespace SocketService.Framework.Request
     /// </summary>
     public class CreateRoomRequest
     {
+        public string ZoneName
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets or sets the name of the room.
         /// </summary>

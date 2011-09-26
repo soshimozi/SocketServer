@@ -43,12 +43,14 @@
     <Compile Include="CreateRoomRequest.cs" />
     <Compile Include="ClientRequest.cs" />
     <Compile Include="CreateRoomVariableRequest.cs" />
+    <Compile Include="DeleteRoomVariableRequest.cs" />
     <Compile Include="GetCentralAuthorityRequest.cs" />
     <Compile Include="GetRoomVariableRequest.cs" />
-    <Compile Include="IRequest.cs" />
     <Compile Include="LoginRequest.cs" />
     <Compile Include="NegotiateKeysRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicMessageRequest.cs" />
+    <Compile Include="UpdateRoomVariableRequest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SocketService.Framework.Crypto\SocketService.Framework.Crypto.csproj">

@@ -6,7 +6,7 @@ using System.Text;
 namespace SocketService.Framework.Client.Response
 {
     [Serializable]
-    public class NegotiateKeysResponse
+    public class NegotiateKeysResponse : IResponse
     {
         /// <summary>
         /// Gets or sets the remote public key.

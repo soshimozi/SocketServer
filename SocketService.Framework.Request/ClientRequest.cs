@@ -5,8 +5,8 @@ using System.Text;
 
 namespace SocketService.Framework.Request
 {
-    [Serializable()]
-    public class ClientRequest : IRequest
+    [Serializable]
+    public class ClientRequest //: IRequest
     {
         private readonly byte[] _publicKey;
         private readonly EncryptionType _encryption;
@@ -72,5 +72,22 @@ namespace SocketService.Framework.Request
         {
             get { return _request; }
         }
+    }
+
+    public enum EncryptionType
+    {
+
+        /// <remarks/>
+        AES,
+
+        /// <remarks/>
+        DES,
+
+        /// <remarks/>
+        TripleDES,
+
+        /// <remarks/>
+        Rijindal,
+        None,
     }
 }

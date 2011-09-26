@@ -7,9 +7,8 @@ using SocketService.Framework.SharedObjects;
 namespace SocketService.Framework.Client.Response
 {
     [Serializable]
-    public class GetRoomVariableResponse
+    public class GetRoomVariableResponse : IResponse
     {
-
         public string Room
         {
             get;
@@ -22,13 +21,7 @@ namespace SocketService.Framework.Client.Response
             set;
         }
     
-        /// <summary>
-        /// Gets or sets the server object.
-        /// </summary>
-        /// <value>
-        /// The server object.
-        /// </value>
-        public RoomVariable RoomVariable
+        public RoomVariable Variable
         {
             get;
             set;

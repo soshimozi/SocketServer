@@ -13,6 +13,18 @@ namespace SocketService.Framework.Client.Event
             get { return "PublicMessageEvent"; }
         }
 
+        public string Zone
+        {
+            get;
+            set;
+        }
+
+        public string Room
+        {
+            get;
+            set;
+        }
+
         public string UserName
         {
             get;

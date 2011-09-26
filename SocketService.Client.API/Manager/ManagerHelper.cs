@@ -12,19 +12,57 @@ namespace SocketService.Client.API.Manager
 {
     public class ManagerHelper
     {
-        private readonly ClientEngine _engine;
-        public ManagerHelper(ClientEngine engine)
+        private ClientEngine _engine;
+        public ManagerHelper(/*ClientEngine engine*/)
         {
-            _engine = engine;
+            //_engine = engine;
 
             this.RoomManager = new RoomManager();
             this.UserManager = new UserManager();
 
-            engine.RoomUserUpdate += new EventHandler<RoomUserUpdateEventArgs>(engine_RoomUserUpdate);
-            engine.JoinRoom += new EventHandler<JoinRoomEventArgs>(engine_JoinRoom);
-            engine.LoginResponseReceived += new EventHandler<LoginResponseEventArgs>(engine_LoginResponseReceived);
+            //engine.RoomUserUpdate += new EventHandler<RoomUserUpdateEventArgs>(engine_RoomUserUpdate);
+            //engine.JoinRoom += new EventHandler<JoinRoomEventArgs>(engine_JoinRoom);
+            //engine.LoginResponseReceived += new EventHandler<LoginResponseEventArgs>(engine_LoginResponseReceived);
         }
 
+        public ClientEngine ClientEngine
+        {
+            set
+            {
+                _engine = value;
+
+                _engine.RoomUserUpdate += new EventHandler<RoomUserUpdateEventArgs>(engine_RoomUserUpdate);
+                _engine.JoinRoom += new EventHandler<JoinRoomEventArgs>(engine_JoinRoom);
+                _engine.LoginResponseReceived += new EventHandler<LoginResponseEventArgs>(engine_LoginResponseReceived);
+                _engine.RoomVariableUpdate += new EventHandler<RoomVariableUpdateArgs>(engine_RoomVariableUpdate);
+                _engine.LeaveRoom += new EventHandler<LeaveRoomEventArgs>(engine_LeaveRoom);
+            }
+
+        }
+
+        void engine_LeaveRoom(object sender, LeaveRoomEventArgs e)
+        {
+            this.RoomManager.RemoveRoom(e.RoomId);
+        }
+
+        void engine_RoomVariableUpdate(object sender, RoomVariableUpdateArgs e)
+        {
+            switch(e.Event.Action)
+            {
+                case RoomVariableUpdateAction.Add:
+                    RoomManager.AddRoomVariable(e.Event.RoomId, e.Event.Name, e.Event.Variable);
+                    break;
+
+                case RoomVariableUpdateAction.Delete:
+                    RoomManager.DeleteRoomVariable(e.Event.RoomId, e.Event.Name);
+                    break;
+
+                case RoomVariableUpdateAction.Update:
+                    RoomManager.UpdateRoomVariable(e.Event.RoomId, e.Event.Name, e.Event.Variable);
+                    break;
+            }
+        }
+    
         void engine_LoginResponseReceived(object sender, LoginResponseEventArgs e)
         {
             LoginResponse loginResponse = e.LoginResponse;
@@ -66,7 +104,7 @@ namespace SocketService.Client.API.Manager
 
             foreach (RoomVariable roomVariable in joinRoomEvent.RoomVariables)
             {
-                room.AddRoomVariable(roomVariable);
+                room.AddRoomVariable(roomVariable.Name, roomVariable);
             }
 
             foreach (UserListEntry userListEntry in joinRoomEvent.Users)
@@ -95,6 +133,8 @@ namespace SocketService.Client.API.Manager
             {
                 user = new User();
                 user.UserName = roomUserUpdateEvent.UserName;
+
+
                 //foreach (UserVariable current in roomUserUpdateEvent.UserVariables)
                 //{
                 //    user.AddUserVariable(current);

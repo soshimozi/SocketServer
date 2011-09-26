@@ -5,6 +5,7 @@ using System.Text;
 
 namespace SocketService.Framework.Client.Event
 {
+    [Serializable]
     public class LeaveRoomEvent : IEvent
     {
         #region IEvent Members
