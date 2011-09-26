@@ -30,7 +30,7 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            Room room = RoomActionEngine.Instance.Find(_roomId);
+            Room room = RoomActionEngine.Instance.GetRoomById(_roomId);
             if (room != null)
             {
                 RoomVariable var = room.RoomVariables.FirstOrDefault( 

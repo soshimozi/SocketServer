@@ -32,7 +32,7 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            Room room = RoomActionEngine.Instance.Find(_roomId);
+            Room room = RoomActionEngine.Instance.GetRoomById(_roomId);
             //RoomActionEngine.Instance.UpdateRoomVariable(room.Id, _name, _so);
 
             MSMQQueueWrapper.QueueCommand(

@@ -29,23 +29,27 @@ namespace SocketService.Command
             {
                 // get default room
                 Room room = RoomActionEngine.Instance.CreateRoom("");
+
                 User user = UserRepository.Instance.Query(u => u.ClientId.Equals(_clientId)).FirstOrDefault();
                 if (user != null)
                 {
                     UserActionEngine.Instance.ClientChangeRoom(_clientId, "");
 
                     // tell clients to add user to room
-                    //MSMQQueueWrapper.QueueCommand(
-                    //    new BroadcastObjectCommand(
-                    //        UserRepository.Instance.FindClientKeysByRoomFiltered("", _clientId).ToArray(),
-                    //        new RoomUserUpdateEvent()
-                    //        {
-                    //            Action = RoomUserUpdateAction.AddUser,
-                    //            RoomId = room.Id,
-                    //            UserName = user.Name
-                    //        }
-                    //    )
-                    //);
+                    MSMQQueueWrapper.QueueCommand(
+                        new BroadcastObjectCommand(
+                            room.Users.
+                                Where( (u) => { return u.ClientId != _clientId; } ).
+                                Select( (u1) => { return u1.ClientId; } ).
+                                ToArray(),
+                            new RoomUserUpdateEvent()
+                            {
+                                Action = RoomUserUpdateAction.AddUser,
+                                RoomId = room.Id,
+                                UserName = user.Name
+                            }
+                        )
+                    );
                 }
 
                 // send login response

@@ -88,7 +88,7 @@ namespace SocketService.Actions
             throw new NotImplementedException();
         }
 
-        public Room Find(int roomId)
+        public Room GetRoomById(int roomId)
         {
             throw new NotImplementedException();
         }
