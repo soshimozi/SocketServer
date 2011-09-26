@@ -5,7 +5,7 @@ using System.Text;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace SocketService.Framework.Crypto
+namespace SocketService.Crypto
 {
     public class Wrapper : IDisposable
     {

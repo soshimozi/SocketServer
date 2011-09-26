@@ -37,7 +37,7 @@ namespace SocketService.Command
 
             MSMQQueueWrapper.QueueCommand(
                 new BroadcastObjectCommand(
-                    UserRepository.Instance.FindClientKeysByRoom(room.Name).ToArray(),
+                    room.Users.Select( (u) => { return u.ClientId; } ).ToArray(),
                     new RoomVariableUpdateEvent()
                     {
                         RoomId = room.Id,

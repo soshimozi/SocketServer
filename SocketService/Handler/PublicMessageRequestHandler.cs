@@ -7,6 +7,7 @@ using SocketService.Framework.Request;
 using SocketService.Framework.Messaging;
 using SocketService.Command;
 using SocketService.Framework.Data;
+using SocketService.Repository;
 
 namespace SocketService.Handler
 {
@@ -15,7 +16,7 @@ namespace SocketService.Handler
     {
         public override bool HandleRequest(PublicMessageRequest request, Guid state)
         {
-            User user = UserRepository.Instance.FindUserByClientKey(state);
+            User user = UserRepository.Instance.Query( u => u.ClientId.Equals(state) ).FirstOrDefault();
             if (user != null)
             {
                 MSMQQueueWrapper.QueueCommand(

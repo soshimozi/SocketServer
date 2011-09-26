@@ -7,6 +7,7 @@ using SocketService.Command;
 using SocketService.Framework.Util;
 using SocketService.Framework.Data;
 using SocketService.Framework.SharedObjects;
+using SocketService.Repository;
 
 namespace SocketService.Actions
 {
@@ -25,13 +26,13 @@ namespace SocketService.Actions
         public bool LoginUser(Guid clientId, string loginName)
         {
             //// check for duplicates
-            //User duplicateUser = UserRepository.Instance.FindUserByName(loginName);
-            //if (duplicateUser != null)
-            //{
-            //    return false;
-            //}
-            //else
-            //{
+            User duplicateUser = UserRepository.Instance.Query(u => u.Name.Equals(loginName)).FirstOrDefault();
+            if (duplicateUser != null)
+            {
+                return false;
+            }
+            else
+            {
             //    Room room = RoomRepository.Instance.FindByName("");
             //    if (room == null)
             //    {
@@ -44,9 +45,8 @@ namespace SocketService.Actions
             //    UserRepository.Instance.AddUser(newUser);
 
             //    //ClientChangeRoom(clientId, "");
-            //    return true;
-            //}
-            throw new NotImplementedException();
+                return true;
+            }
         }
 
         public void ClientChangeRoom(Guid clientId, string roomName)

@@ -23,11 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework.Client", "SocketService.Framework.Client\SocketService.Framework.Client.csproj", "{93FD4F32-5214-40E3-8E36-5B4E354F10C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework.Request", "SocketService.Framework.Request\SocketService.Framework.Request.csproj", "{5266A3D3-25DC-492B-BFDC-973D79BA7D90}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework.SharedObjects", "SocketService.Framework.SharedObjects\SocketService.Framework.SharedObjects.csproj", "{67292447-E315-4583-8FD5-14DEA8D4B08E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Framework.Crypto", "SocketService.Framework.Crypto\SocketService.Framework.Crypto.csproj", "{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Crypto", "SocketService.Framework.Crypto\SocketService.Crypto.csproj", "{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -92,26 +88,6 @@ Global
 		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{93FD4F32-5214-40E3-8E36-5B4E354F10C4}.Release|x86.ActiveCfg = Release|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{5266A3D3-25DC-492B-BFDC-973D79BA7D90}.Release|x86.ActiveCfg = Release|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{67292447-E315-4583-8FD5-14DEA8D4B08E}.Release|x86.ActiveCfg = Release|Any CPU
 		{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU

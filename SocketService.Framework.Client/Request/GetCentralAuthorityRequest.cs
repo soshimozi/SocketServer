@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Framework.Client.Crypto;
+using SocketService.Crypto;
 
-namespace SocketService.Framework.Client.Request
+namespace SocketService.Framework.Request
 {
     [Serializable]
     public class GetCentralAuthorityRequest 

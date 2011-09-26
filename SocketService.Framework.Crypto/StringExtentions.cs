@@ -5,7 +5,7 @@ using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 
-namespace SocketService.Framework.Crypto
+namespace SocketService.Crypto
 {
     public static class StringExtentions
     {

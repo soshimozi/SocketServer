@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SocketService.Framework.Client.SharedObjects
+namespace SocketService.Framework.SharedObjects
 {
-    public enum ServerObjectDataType : int
+    public enum SharedObjectDataType : int
     {
         Integer,
         Double,

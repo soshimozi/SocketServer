@@ -5,6 +5,7 @@ using System.Text;
 using SocketService.Framework.Util;
 using SocketService.Framework.SharedObjects;
 using SocketService.Framework.Data;
+using SocketService.Repository;
 
 namespace SocketService.Actions
 {
@@ -12,11 +13,11 @@ namespace SocketService.Actions
     {
         public Room CreateRoom(string roomName)
         {
-            Room room = RoomRepository.Instance.FindByName(roomName);
+            Room room = RoomRepository.Instance.Query( r => r.Name.Equals(roomName) ).FirstOrDefault();
             if (room == null)
             {
                 room = new Room() { Name = roomName };
-                RoomRepository.Instance.AddRoom(room);
+                RoomRepository.Instance.Add(room);
             }
 
             return room;

@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SocketService.Framework.Client.Request
+namespace SocketService.Framework.Request
 {
     [Serializable]
-    public class ListUsersInRoomRequest
+    /// <summary>
+    /// Creates a room if it doesn't exist and switches requestor to that room
+    /// </summary>
+    public class CreateRoomRequest
     {
+        public string ZoneName
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets or sets the name of the room.
         /// </summary>

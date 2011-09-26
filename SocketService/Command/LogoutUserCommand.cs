@@ -7,6 +7,7 @@ using SocketService.Net.Client;
 using SocketService.Framework.Data;
 using SocketService.Framework.Client.Response;
 using SocketService.Actions;
+using SocketService.Repository;
 
 namespace SocketService.Command
 {
@@ -25,11 +26,14 @@ namespace SocketService.Command
             if (connection != null)
                 ConnectionRepository.Instance.RemoveConnection(connection);
 
-            User user = UserRepository.Instance.FindUserByClientKey(_clientId);
+            User user = UserRepository.Instance.Query(u => u.ClientId.Equals(_clientId)).FirstOrDefault();
 
             UserActionEngine.Instance.LogoutUser(_clientId);
 
-            List<User> userList = UserRepository.Instance.FindUsersByRoom(user.Room.Name);
+            if( user.Room != null )
+            {
+                List<User> userList = user.Room.Users.ToList();
+            }
 
             //// broadcast to all but this user
             //var query = from u in userList

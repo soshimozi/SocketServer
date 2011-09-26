@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.Crypto;
+using SocketService.Crypto;
 using SocketService.Net.Client;
 
 namespace SocketService.Command

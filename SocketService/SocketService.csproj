@@ -91,14 +91,15 @@
     <Compile Include="Net\SocketManager.cs" />
     <Compile Include="Net\SocketRepository.cs" />
     <Compile Include="Net\SocketServer.cs" />
-    <Compile Include="RoomRepository.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\RoomRepository.cs" />
     <Compile Include="ServerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ServerControlForm.Designer.cs">
       <DependentUpon>ServerControlForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ServiceHandlerRepository.cs" />
+    <Compile Include="Repository\ServiceHandlerRepository.cs" />
     <Compile Include="SocketService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -110,24 +111,16 @@
     <Compile Include="SocketServiceInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserRepository.cs" />
+    <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SocketService.Framework.Client\SocketService.Framework.Client.csproj">
       <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
       <Name>SocketService.Framework.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework.Crypto\SocketService.Framework.Crypto.csproj">
+    <ProjectReference Include="..\SocketService.Framework.Crypto\SocketService.Crypto.csproj">
       <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
-      <Name>SocketService.Framework.Crypto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework.Request\SocketService.Framework.Request.csproj">
-      <Project>{5266A3D3-25DC-492B-BFDC-973D79BA7D90}</Project>
-      <Name>SocketService.Framework.Request</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework.SharedObjects\SocketService.Framework.SharedObjects.csproj">
-      <Project>{67292447-E315-4583-8FD5-14DEA8D4B08E}</Project>
-      <Name>SocketService.Framework.SharedObjects</Name>
+      <Name>SocketService.Crypto</Name>
     </ProjectReference>
     <ProjectReference Include="..\SocketService.Framework\SocketService.Framework.csproj">
       <Project>{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}</Project>

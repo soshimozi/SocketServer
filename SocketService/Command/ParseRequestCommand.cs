@@ -6,7 +6,7 @@ using SocketService.Framework.Messaging;
 using SocketService.Framework.Request;
 using SocketService.Framework.Client.Serialize;
 using SocketService.Framework.ServiceHandlerLib;
-using SocketService.Framework.Crypto;
+using SocketService.Crypto;
 using SocketService.Net.Client;
 
 namespace SocketService.Command
@@ -29,7 +29,7 @@ namespace SocketService.Command
             object payload = DecryptRequest(request);
         
             Type handlerType = payload.GetType();
-            var handlerList = ServiceHandlerRepository.Instance.GetHandlerListByType(handlerType);
+            var handlerList = ServiceHandlerLookup.Instance.GetHandlerListByType(handlerType);
 
             MSMQQueueWrapper.QueueCommand(
                 new HandleClientRequestCommand(_clientId, payload, handlerList)

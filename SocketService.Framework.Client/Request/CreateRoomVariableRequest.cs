@@ -2,20 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Framework.Client.SharedObjects;
+using SocketService.Framework.SharedObjects;
 
-namespace SocketService.Framework.Client.Request
+namespace SocketService.Framework.Request
 {
     [Serializable]
     public class CreateRoomVariableRequest
     {
+        public int ZoneId
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// Gets or sets the room.
         /// </summary>
         /// <value>
         /// The room.
         /// </value>
-        public string Room
+        public int RoomId
         {
             get;
             set;
@@ -27,7 +33,7 @@ namespace SocketService.Framework.Client.Request
         /// <value>
         /// The name of the variable.
         /// </value>
-        public string VariableName
+        public string Name
         {
             get;
             set;
@@ -39,7 +45,7 @@ namespace SocketService.Framework.Client.Request
         /// <value>
         /// The value.
         /// </value>
-        public ServerObject Value
+        public SharedObject Value
         {
             get;
             set;

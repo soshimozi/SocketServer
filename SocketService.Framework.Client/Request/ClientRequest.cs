@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SocketService.Framework.Client.Request
+namespace SocketService.Framework.Request
 {
-    [Serializable()]
-    public class ClientRequestHeader : IRequestHeader
+    [Serializable]
+    public class ClientRequest //: IRequest
     {
         private readonly byte[] _publicKey;
         private readonly EncryptionType _encryption;
@@ -15,14 +15,14 @@ namespace SocketService.Framework.Client.Request
         private readonly byte [] _request;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientRequestHeader"/> class.
+        /// Initializes a new instance of the <see cref="ClientRequest"/> class.
         /// </summary>
         /// <param name="EncryptionPublicKey">The encryption public key.</param>
         /// <param name="Encryption">The encryption.</param>
         /// <param name="TimeStamp">The time stamp.</param>
         /// <param name="CRC32">The CR C32.</param>
         /// <param name="Request">The request.</param>
-        public ClientRequestHeader(byte[] EncryptionPublicKey,
+        public ClientRequest(byte[] EncryptionPublicKey,
                 EncryptionType Encryption, DateTime TimeStamp,
                 uint CRC32, byte [] Request)
         {
@@ -72,5 +72,22 @@ namespace SocketService.Framework.Client.Request
         {
             get { return _request; }
         }
+    }
+
+    public enum EncryptionType
+    {
+
+        /// <remarks/>
+        AES,
+
+        /// <remarks/>
+        DES,
+
+        /// <remarks/>
+        TripleDES,
+
+        /// <remarks/>
+        Rijindal,
+        None,
     }
 }

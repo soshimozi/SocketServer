@@ -12,17 +12,17 @@ using SocketService.Framework.ServiceHandlerLib;
 
 namespace SocketService
 {
-    public class ServiceHandlerRepository // : IServiceHandlerRepository
+    public class ServiceHandlerLookup // : IServiceHandlerRepository
     {
         [ImportMany]
         protected IEnumerable<Lazy<IServiceHandler, IServiceHandlerMetaData>> _handlerList;
 
-        private static ServiceHandlerRepository _instance = null;
+        private static ServiceHandlerLookup _instance = null;
 
         /// <summary>
-        /// Initializes the <see cref="ServiceHandlerRepository"/> class.
+        /// Initializes the <see cref="ServiceHandlerLookup"/> class.
         /// </summary>
-        static ServiceHandlerRepository()
+        static ServiceHandlerLookup()
         {
             Instance.LoadHandlers();
         }
@@ -30,20 +30,20 @@ namespace SocketService
         /// <summary>
         /// Gets the instance.
         /// </summary>
-        public static ServiceHandlerRepository Instance
+        public static ServiceHandlerLookup Instance
         {
             get
             {
                 if (_instance == null)
                 {
-                    _instance = new ServiceHandlerRepository();
+                    _instance = new ServiceHandlerLookup();
                 }
 
                 return _instance;
             }
         }
 
-        protected ServiceHandlerRepository()
+        protected ServiceHandlerLookup()
         {
             //string handlerPath
         }
