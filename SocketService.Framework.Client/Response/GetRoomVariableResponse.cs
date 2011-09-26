@@ -9,7 +9,13 @@ namespace SocketService.Framework.Client.Response
     [Serializable]
     public class GetRoomVariableResponse : IResponse
     {
-        public string Room
+        public int ZoneId
+        {
+            get;
+            set;
+        }
+
+        public int RoomId
         {
             get;
             set;
@@ -21,7 +27,7 @@ namespace SocketService.Framework.Client.Response
             set;
         }
     
-        public RoomVariable Variable
+        public SharedObject Value
         {
             get;
             set;

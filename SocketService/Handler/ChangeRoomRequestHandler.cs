@@ -21,7 +21,7 @@ namespace SocketService
                 string roomName = request.RoomName;
 
                 MSMQQueueWrapper.QueueCommand(
-                    new CreateRoomCommand(state, roomName)
+                    new CreateRoomCommand(state, request.ZoneName, roomName)
                 );
 
                 return true;

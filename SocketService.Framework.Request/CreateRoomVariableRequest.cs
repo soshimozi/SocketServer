@@ -45,7 +45,7 @@ namespace SocketService.Framework.Request
         /// <value>
         /// The value.
         /// </value>
-        public RoomVariable Variable
+        public SharedObject Value
         {
             get;
             set;

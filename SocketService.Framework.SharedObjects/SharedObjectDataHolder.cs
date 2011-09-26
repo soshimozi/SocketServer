@@ -6,7 +6,7 @@ using System.Text;
 namespace SocketService.Framework.SharedObjects
 {
     [Serializable]
-    public class ServerObjectDataHolder
+    public class SharedObjectDataHolder
     {
         private int dataType;
         private object value;
@@ -29,9 +29,9 @@ namespace SocketService.Framework.SharedObjects
         /// <value>
         /// The type of the data.
         /// </value>
-        public  ServerObjectDataType DataType
+        public  SharedObjectDataType DataType
         {
-            get { return (ServerObjectDataType)dataType; }
+            get { return (SharedObjectDataType)dataType; }
             set { dataType = (int)value; }
         } 
 
@@ -40,41 +40,41 @@ namespace SocketService.Framework.SharedObjects
             this.value = value;
 
             // default to an object
-            int dataType = (int)ServerObjectDataType.BzObject;
+            int dataType = (int)SharedObjectDataType.BzObject;
 
             if (value != null)
             {
                 if (value is Int32)
                 {
-                    dataType = (int)ServerObjectDataType.Integer;
+                    dataType = (int)SharedObjectDataType.Integer;
                 }
                 else if (value is Int16)
                 {
-                    dataType = (int)ServerObjectDataType.Short;
+                    dataType = (int)SharedObjectDataType.Short;
                 }
                 else if (value is Int64)
                 {
-                    dataType = (int)ServerObjectDataType.Long;
+                    dataType = (int)SharedObjectDataType.Long;
                 }
                 else if (value is String)
                 {
-                    dataType = (int)ServerObjectDataType.String;
+                    dataType = (int)SharedObjectDataType.String;
                 }
                 else if (value is float)
                 {
-                    dataType = (int)ServerObjectDataType.Float;
+                    dataType = (int)SharedObjectDataType.Float;
                 }
                 else if (value is Double)
                 {
-                    dataType = (int)ServerObjectDataType.Double;
+                    dataType = (int)SharedObjectDataType.Double;
                 }
                 else if (value is Char)
                 {
-                    dataType = (int)ServerObjectDataType.Character;
+                    dataType = (int)SharedObjectDataType.Character;
                 }
                 else if (value is Byte)
                 {
-                    dataType = (int)ServerObjectDataType.Byte;
+                    dataType = (int)SharedObjectDataType.Byte;
                 }
                 else if (value is Array)
                 {
@@ -82,35 +82,35 @@ namespace SocketService.Framework.SharedObjects
 
                     if (valueType.GetElementType() == typeof(int))
                     {
-                        dataType = (int)ServerObjectDataType.IntegerArray;
+                        dataType = (int)SharedObjectDataType.IntegerArray;
                     }
                     else if (value is Int16)
                     {
-                        dataType = (int)ServerObjectDataType.ShortArray;
+                        dataType = (int)SharedObjectDataType.ShortArray;
                     }
                     else if (value is Int64)
                     {
-                        dataType = (int)ServerObjectDataType.LongArray;
+                        dataType = (int)SharedObjectDataType.LongArray;
                     }
                     else if (value is String)
                     {
-                        dataType = (int)ServerObjectDataType.StringArray;
+                        dataType = (int)SharedObjectDataType.StringArray;
                     }
                     else if (value is float)
                     {
-                        dataType = (int)ServerObjectDataType.FloatArray;
+                        dataType = (int)SharedObjectDataType.FloatArray;
                     }
                     else if (value is Double)
                     {
-                        dataType = (int)ServerObjectDataType.DoubleArray;
+                        dataType = (int)SharedObjectDataType.DoubleArray;
                     }
                     else if (value is Char)
                     {
-                        dataType = (int)ServerObjectDataType.CharacterArray;
+                        dataType = (int)SharedObjectDataType.CharacterArray;
                     }
                     else if (value is Byte)
                     {
-                        dataType = (int)ServerObjectDataType.ByteArray;
+                        dataType = (int)SharedObjectDataType.ByteArray;
                     }
                 }
             }

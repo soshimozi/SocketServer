@@ -8,9 +8,6 @@ namespace SocketService
 {
     public class RoomRepository
     {
-        private object _listLock = new object();
-        private List<Room> _roomList = new List<Room>();
-
         private static RoomRepository _instance = new RoomRepository();
 
         /// <summary>
@@ -34,10 +31,7 @@ namespace SocketService
         /// <param name="room">The room.</param>
         public void AddRoom(Room room)
         {
-            lock (_listLock)
-            {
-                _roomList.Add(room);
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -47,26 +41,12 @@ namespace SocketService
         /// <returns></returns>
         public Room FindByName(string name)
         {
-            lock (_listLock)
-            {
-                var query = from room in _roomList
-                            where room.Name == name
-                            select room;
-
-                return query.FirstOrDefault();
-            }
+            throw new NotImplementedException();
         }
 
-        internal Room Find(int RoomId)
+        public Room Find(int RoomId)
         {
-            lock (_listLock)
-            {
-                var query = from room in _roomList
-                            where room.Id == RoomId
-                            select room;
-
-                return query.FirstOrDefault();
-            }
+            throw new NotImplementedException();
         }
     }
 }

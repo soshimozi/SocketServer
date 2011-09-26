@@ -67,15 +67,12 @@
     <Compile Include="Configuration\SocketServiceConfiguration.cs" />
     <Compile Include="Configuration\PluginInfoInstanceCollection.cs" />
     <Compile Include="Configuration\PluginInfoInstanceElement.cs" />
-    <Compile Include="Data\Room.cs" />
-    <Compile Include="Data\User.cs" />
-    <Compile Include="Data\Zone.cs" />
     <Compile Include="Messaging\BaseMessageHandler.cs" />
     <Compile Include="Messaging\ICommand.cs" />
     <Compile Include="Messaging\MessageServer.cs" />
     <Compile Include="Messaging\MSMQQueueWatcher.cs" />
     <Compile Include="Messaging\MSMQQueueWrapper.cs" />
-    <Compile Include="ServerDataModel.Designer.cs">
+    <Compile Include="Data\ServerDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>ServerDataModel.edmx</DependentUpon>
@@ -130,7 +127,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="ServerDataModel.edmx">
+    <EntityDeploy Include="Data\ServerDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>ServerDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>

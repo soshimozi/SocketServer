@@ -14,48 +14,50 @@ namespace SocketService.Actions
     {
         public void LogoutUser(Guid clientId)
         {
-            User user = UserRepository.Instance.FindUserByClientKey(clientId);
-            if (user != null)
-            {
-                UserRepository.Instance.RemoveUser(user);
-            }
+            //User user = UserRepository.Instance.FindUserByClientKey(clientId);
+            //if (user != null)
+            //{
+            //    UserRepository.Instance.RemoveUser(user);
+            //}
+            throw new NotImplementedException();
         }
 
         public bool LoginUser(Guid clientId, string loginName)
         {
-            // check for duplicates
-            User duplicateUser = UserRepository.Instance.FindUserByName(loginName);
-            if (duplicateUser != null)
-            {
-                return false;
-            }
-            else
-            {
-                Room room = RoomRepository.Instance.FindByName("");
-                if (room == null)
-                {
-                    room = new Room() { Name = "" };
-                    // add default room
-                    RoomRepository.Instance.AddRoom(room);
-                }
+            //// check for duplicates
+            //User duplicateUser = UserRepository.Instance.FindUserByName(loginName);
+            //if (duplicateUser != null)
+            //{
+            //    return false;
+            //}
+            //else
+            //{
+            //    Room room = RoomRepository.Instance.FindByName("");
+            //    if (room == null)
+            //    {
+            //        room = new Room() { Name = "" };
+            //        // add default room
+            //        RoomRepository.Instance.AddRoom(room);
+            //    }
 
-                User newUser = new User() { ClientKey = clientId, UserName = loginName };
-                UserRepository.Instance.AddUser(newUser);
+            //    User newUser = new User() { ClientKey = clientId, UserName = loginName };
+            //    UserRepository.Instance.AddUser(newUser);
 
-                //ClientChangeRoom(clientId, "");
-                return true;
-            }
+            //    //ClientChangeRoom(clientId, "");
+            //    return true;
+            //}
+            throw new NotImplementedException();
         }
 
         public void ClientChangeRoom(Guid clientId, string roomName)
         {
-            Room room = RoomRepository.Instance.FindByName(roomName);
-            User user = UserRepository.Instance.FindUserByClientKey(clientId);
-            if (user != null)
-            {
-                user.Room = room;
-                room.AddUser(new UserListEntry() { UserName = user.UserName });
-            }
+            //Room room = RoomRepository.Instance.FindByName(roomName);
+            //User user = UserRepository.Instance.FindUserByClientKey(clientId);
+            //if (user != null)
+            //{
+            //    user.Room = room;
+            //    room.AddUser(new UserListEntry() { UserName = user.UserName });
+            //}
         }
     }
 }

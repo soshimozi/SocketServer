@@ -14,14 +14,16 @@ namespace SocketService.Command
     [Serializable]
     public class UpdateRoomVariableCommand : BaseMessageHandler
     {
-        private readonly string _roomName;
+        private readonly int _zoneId;
+        private readonly int _roomId;
         private readonly string _name;
-        private readonly RoomVariable _so;
+        private readonly SharedObject _so;
         private readonly Guid _clientId;
 
-        public UpdateRoomVariableCommand(Guid clientId, string Room, string Name, RoomVariable Value)
+        public UpdateRoomVariableCommand(Guid clientId, int ZoneId, int RoomId, string Name, SharedObject Value)
         {
-            _roomName = Room;
+            _zoneId = ZoneId;
+            _roomId = RoomId;
             _name = Name;
             _so = Value;
             _clientId = clientId;
@@ -30,17 +32,17 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            Room room = RoomActionEngine.Instance.GetRoomByName(_roomName);
-            RoomActionEngine.Instance.UpdateRoomVariable(room.Id, _name, _so);
+            Room room = RoomActionEngine.Instance.Find(_roomId);
+            //RoomActionEngine.Instance.UpdateRoomVariable(room.Id, _name, _so);
 
             MSMQQueueWrapper.QueueCommand(
                 new BroadcastObjectCommand(
-                    UserRepository.Instance.FindClientKeysByRoom(_roomName).ToArray(),
+                    UserRepository.Instance.FindClientKeysByRoom(room.Name).ToArray(),
                     new RoomVariableUpdateEvent()
                     {
                         RoomId = room.Id,
                         Name = _name,
-                        Variable = _so,
+                        Value = _so,
                         Action = RoomVariableUpdateAction.Update
                     }
                 )

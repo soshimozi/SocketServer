@@ -18,7 +18,7 @@ namespace SocketService.Handler
             if (request != null)
             {
                 MSMQQueueWrapper.QueueCommand(
-                    new DeleteRoomVariableCommand(state, request.Room, request.Name)
+                    new DeleteRoomVariableCommand(state, request.ZoneId, request.RoomId, request.Name)
                 );
 
                 return true;

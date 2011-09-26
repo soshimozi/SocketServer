@@ -18,11 +18,11 @@ namespace SocketService
         {
             if (request != null)
             {
-                string roomName = request.RoomName;
+                //string roomName = request.RoomName;
 
-                MSMQQueueWrapper.QueueCommand(
-                    new GetRoomVariableCommand(state, request.RoomName, request.VariableName)
-                );
+                //MSMQQueueWrapper.QueueCommand(
+                //    new GetRoomVariableCommand(state, request.RoomName, request.VariableName)
+                //);
 
                 return true;
             }

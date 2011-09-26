@@ -41,13 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RoomVariable.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="ServerObject.cs" />
-    <Compile Include="ServerObjectDataHolder.cs" />
-    <Compile Include="ServerObjectDataType.cs" />
-    <Compile Include="ServerObjectRO.cs" />
+    <Compile Include="SharedObject.cs" />
+    <Compile Include="SharedObjectDataHolder.cs" />
+    <Compile Include="SharedObjectDataType.cs" />
+    <Compile Include="SharedObjectRO.cs" />
     <Compile Include="UserListEntry.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -31,10 +31,10 @@ namespace SocketService.Command
 
             List<User> userList = UserRepository.Instance.FindUsersByRoom(user.Room.Name);
 
-            // broadcast to all but this user
-            var query = from u in userList
-                        where u.ClientKey != _clientId
-                        select u.ClientKey;
+            //// broadcast to all but this user
+            //var query = from u in userList
+            //            where u.ClientId != _clientId
+            //            select u.ClientId;
 
             // TODO: Replace with PublicMessageEvent
             //MSMQQueueWrapper.QueueCommand(

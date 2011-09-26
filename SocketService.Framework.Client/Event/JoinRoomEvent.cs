@@ -21,7 +21,7 @@ namespace SocketService.Framework.Client.Event
             get { return "JoinRoomEvent"; }
         }
 
-        public RoomVariable [] RoomVariables { get; set; }
+        public SharedObject [] RoomVariables { get; set; }
 
         public UserListEntry [] Users { get; set; }
     }

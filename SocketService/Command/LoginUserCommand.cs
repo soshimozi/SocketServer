@@ -41,7 +41,7 @@ namespace SocketService.Command
                             {
                                 Action = RoomUserUpdateAction.AddUser,
                                 RoomId = room.Id,
-                                UserName = user.UserName
+                                UserName = user.Name
                             }
                         )
                     );
@@ -54,21 +54,21 @@ namespace SocketService.Command
                 );
 
                 // finally send a join room event to user
-                MSMQQueueWrapper.QueueCommand(
-                    new SendObjectCommand(_clientId,
-                        new JoinRoomEvent()
-                        {
-                            RoomName = "",
-                            RoomId = room.Id,
-                            Protected = false,
-                            Hidden = false,
-                            Capacity = -1,
-                            RoomDescription = "",
-                            RoomVariables = room.Variables.ToArray(),
-                            Users = room.Users.ToArray()
-                        }
-                    )
-                );
+                //MSMQQueueWrapper.QueueCommand(
+                //    new SendObjectCommand(_clientId,
+                //        new JoinRoomEvent()
+                //        {
+                //            RoomName = "",
+                //            RoomId = room.Id,
+                //            Protected = false,
+                //            Hidden = false,
+                //            Capacity = -1,
+                //            RoomDescription = "",
+                //            RoomVariables = room.RoomVariables.ToArray(),
+                //            Users = room.Users.ToArray()
+                //        }
+                //    )
+                //);
             }
             else
             {

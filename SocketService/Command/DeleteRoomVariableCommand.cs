@@ -14,32 +14,34 @@ namespace SocketService.Command
     public class DeleteRoomVariableCommand : BaseMessageHandler
     {
         private readonly Guid _clientId;
-        private readonly string _roomName;
+        private readonly int _zoneId;
+        private readonly int _roomId;
         private readonly string _name;
-        public DeleteRoomVariableCommand(Guid ClientId, string RoomName, string Name)
+        public DeleteRoomVariableCommand(Guid ClientId, int ZoneId, int RoomId, string Name)
         {
+            _zoneId = ZoneId;
             _clientId = ClientId;
-            _roomName = RoomName;
+            _roomId = RoomId;
             _name = Name;
         }
 
         public override void Execute()
         {
 
-            Room room = RoomActionEngine.Instance.GetRoomByName(_roomName);
-            RoomActionEngine.Instance.DeleteRoomVariable(room.Id, _name);
+            //Room room = RoomActionEngine.Instance.GetRoomByName(_roomName);
+            //RoomActionEngine.Instance.DeleteRoomVariable(room.Id, _name);
 
-            MSMQQueueWrapper.QueueCommand(
-                new BroadcastObjectCommand(
-                    UserRepository.Instance.FindClientKeysByRoom(_roomName).ToArray(),
-                    new RoomVariableUpdateEvent()
-                    {
-                        RoomId = room.Id,
-                        Name = _name,
-                        Action = RoomVariableUpdateAction.Delete
-                    }
-                )
-            );
+            //MSMQQueueWrapper.QueueCommand(
+            //    new BroadcastObjectCommand(
+            //        UserRepository.Instance.FindClientKeysByRoom(_roomName).ToArray(),
+            //        new RoomVariableUpdateEvent()
+            //        {
+            //            RoomId = room.Id,
+            //            Name = _name,
+            //            Action = RoomVariableUpdateAction.Delete
+            //        }
+            //    )
+            //);
 
             //MSMQQueueWrapper.QueueCommand(
             //    new SendObjectCommand(

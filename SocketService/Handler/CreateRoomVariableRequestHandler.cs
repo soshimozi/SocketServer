@@ -17,7 +17,7 @@ namespace SocketService
         public override bool HandleRequest(CreateRoomVariableRequest request, Guid state)
         {
             MSMQQueueWrapper.QueueCommand(
-                new CreateRoomVariableCommand(state, request.ZoneId, request.RoomId, request.Name, request.Variable)
+                new CreateRoomVariableCommand(state, request.ZoneId, request.RoomId, request.Name, request.Value)
             );
 
             return true;

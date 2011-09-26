@@ -7,6 +7,8 @@ using SocketService.Framework.SharedObjects;
 using SocketService.Actions;
 using SocketService.Framework.Client.Response;
 using SocketService.Framework;
+using SocketService.Framework.Data;
+using SocketService.Framework.Client.Serialize;
 
 namespace SocketService.Command
 {
@@ -31,11 +33,21 @@ namespace SocketService.Command
             Room room = RoomActionEngine.Instance.Find(_roomId);
             if (room != null)
             {
-                RoomVariable so = RoomActionEngine.Instance.GetRoomVariable(_room, _name);
+                RoomVariable var = room.RoomVariables.FirstOrDefault( 
+                    new Func<RoomVariable, bool>(
+                        (target) =>
+                        {
+                            return target.Id == _roomId;
+                        }
+                    )
+                );
+
+                SharedObject so = new SharedObject();
+                so.SetElementValue("", ObjectSerialize.Deserialize(var.Value), SharedObjectDataType.BzObject);
 
                 MSMQQueueWrapper.QueueCommand(
                     new SendObjectCommand(_clientId,
-                        new GetRoomVariableResponse() { Room = _room, Name = _name, Variable = so })
+                        new GetRoomVariableResponse() { ZoneId = _zoneId, RoomId = room.Id, Name = _name, Value = so })
                 );
             }
         }

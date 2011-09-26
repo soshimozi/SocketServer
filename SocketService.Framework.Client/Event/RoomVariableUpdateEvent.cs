@@ -16,7 +16,7 @@ namespace SocketService.Framework.Client.Event
 
         public int RoomId { get; set; }
         public string Name { get; set; }
-        public RoomVariable Variable { get; set; }
+        public SharedObject Value { get; set; }
         public RoomVariableUpdateAction Action { get; set; }
 
         public int ZoneId { get; set; }

@@ -34,53 +34,60 @@ namespace SocketService.Actions
 
         public RoomVariable GetRoomVariable(string roomName, string variableName)
         {
-            RoomVariable so = null;
+            //RoomVariable so = null;
 
-            Room room = RoomRepository.Instance.FindByName(roomName);
-            if (room != null)
-            {
-                so = room.GetVariable(variableName);
-            }
+            //Room room = RoomRepository.Instance.FindByName(roomName);
+            //if (room != null)
+            //{
+            //    so = room.GetVariable(variableName);
+            //}
 
-            return so;
+            //return so;
+
+            throw new NotImplementedException();
 
 
         }
 
         public void UpdateRoomVariable(int RoomId, string Name, RoomVariable Value)
         {
-            Room room = RoomRepository.Instance.Find(RoomId);
-            if (room != null)
-            {
-                RoomVariable oldValue = room.GetVariable(Name);
-                if (oldValue != null)
-                {
-                    room.RemoveVariable(oldValue);
-                }
+            //Room room = RoomRepository.Instance.Find(RoomId);
+            //if (room != null)
+            //{
+            //    RoomVariable oldValue = room.GetVariable(Name);
+            //    if (oldValue != null)
+            //    {
+            //        room.RemoveVariable(oldValue);
+            //    }
 
-                room.AddVariable(Name, Value);
-            }
+            //    room.AddVariable(Name, Value);
+            //}
+            throw new NotImplementedException();
+
         }
 
         public void DeleteRoomVariable(int RoomId, string Name)
         {
-            Room room = RoomRepository.Instance.Find(RoomId);
-            if (room != null)
-            {
-                RoomVariable oldValue = room.GetVariable(Name);
-                if (oldValue != null)
-                {
-                    room.RemoveVariable(oldValue);
-                }
-            }
+            //Room room = RoomRepository.Instance.Find(RoomId);
+            //if (room != null)
+            //{
+            //    RoomVariable oldValue = room.GetVariable(Name);
+            //    if (oldValue != null)
+            //    {
+            //        room.RemoveVariable(oldValue);
+            //    }
+            //}
+            throw new NotImplementedException();
+
         }
 
         public Room GetRoomByName(string name)
         {
-            return RoomRepository.Instance.FindByName(name);
+            //return RoomRepository.Instance.FindByName(name);
+            throw new NotImplementedException();
         }
 
-        internal Room Find(int roomId)
+        public Room Find(int roomId)
         {
             throw new NotImplementedException();
         }

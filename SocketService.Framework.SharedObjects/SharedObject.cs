@@ -7,7 +7,7 @@ using System.Collections;
 namespace SocketService.Framework.SharedObjects
 {
     [Serializable]
-    public class ServerObject
+    public class SharedObject
     {
         private Hashtable data = new Hashtable();
 
@@ -15,9 +15,9 @@ namespace SocketService.Framework.SharedObjects
         /// Gets the read only copy.
         /// </summary>
         /// <returns></returns>
-        public ServerObjectRO GetReadOnlyCopy()
+        public SharedObjectRO GetReadOnlyCopy()
         {
-            return new ServerObjectRO(data);
+            return new SharedObjectRO(data);
         }
 
         /// <summary>
@@ -26,16 +26,16 @@ namespace SocketService.Framework.SharedObjects
         /// <param name="elementName">Name of the element.</param>
         /// <param name="value">The value.</param>
         /// <param name="dataType">Type of the data.</param>
-        public void SetElementValue(string elementName, object value, ServerObjectDataType dataType)
+        public void SetElementValue(string elementName, object value, SharedObjectDataType dataType)
         {
             if (!data.ContainsKey(elementName))
             {
-                data.Add(elementName, new ServerObjectDataHolder());
+                data.Add(elementName, new SharedObjectDataHolder());
             }
 
-            (data[elementName] as ServerObjectDataHolder).Value = value;
+            (data[elementName] as SharedObjectDataHolder).Value = value;
 
-            (data[elementName] as ServerObjectDataHolder).DataType = dataType;
+            (data[elementName] as SharedObjectDataHolder).DataType = dataType;
 
         }
 
@@ -50,7 +50,7 @@ namespace SocketService.Framework.SharedObjects
             object value = null;
             if (data.ContainsKey(elementName))
             {
-                value = (data[elementName] as ServerObjectDataHolder).Value;
+                value = (data[elementName] as SharedObjectDataHolder).Value;
             }
 
             return value;
@@ -61,14 +61,14 @@ namespace SocketService.Framework.SharedObjects
         /// </summary>
         /// <param name="elementName">Name of the element.</param>
         /// <returns></returns>
-        public ServerObjectDataType GetDataTypeForElement(string elementName)
+        public SharedObjectDataType GetDataTypeForElement(string elementName)
         {
             if( !data.ContainsKey(elementName) )
             {
                 throw new ArgumentException();
             }
 
-            return (data[elementName] as ServerObjectDataHolder).DataType;
+            return (data[elementName] as SharedObjectDataHolder).DataType;
         }
     }
 }

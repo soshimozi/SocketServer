@@ -13,13 +13,13 @@ namespace SocketService.Framework.Client.Event
             get { return "PublicMessageEvent"; }
         }
 
-        public string Zone
+        public int ZoneId
         {
             get;
             set;
         }
 
-        public string Room
+        public int RoomId
         {
             get;
             set;

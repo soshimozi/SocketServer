@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SocketService.Framework.SharedObjects
 {
-    public enum ServerObjectDataType : int
+    public enum SharedObjectDataType : int
     {
         Integer,
         Double,

@@ -8,9 +8,6 @@ namespace SocketService
 {
     public class UserRepository
     {
-        private object _listLock = new object();
-        private List<User> _userList = new List<User>();
-
         private static UserRepository _instance = new UserRepository();
 
         /// <summary>
@@ -36,26 +33,13 @@ namespace SocketService
         /// <returns></returns>
         public List<User> FindUsersByRoom(string roomname)
         {
-            lock (_listLock)
-            {
-                var query = from user in _userList
-                            where user.Room != null && user.Room.Name == roomname
-                            select user;
+            throw new NotImplementedException();
 
-                return query.ToList();
-            }
         }
 
         public List<Guid> FindClientKeysByRoomFiltered(string roomname, Guid filteredClient)
         {
-            lock (_listLock)
-            {
-                var query = from user in _userList
-                            where user.Room != null && user.Room.Name == roomname && user.ClientKey != filteredClient
-                            select user.ClientKey;
-
-                return query.ToList();
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -65,14 +49,7 @@ namespace SocketService
         /// <returns></returns>
         public User FindUserByName(string username)
         {
-            lock (_listLock)
-            {
-                var query = from user in _userList
-                            where user.UserName == username
-                            select user;
-
-                return query.FirstOrDefault();
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -82,14 +59,7 @@ namespace SocketService
         /// <returns></returns>
         public User FindUserByClientKey(Guid clientKey)
         {
-            lock (_listLock)
-            {
-                var query = from user in _userList
-                            where user.ClientKey == clientKey
-                            select user;
-
-                return query.FirstOrDefault();
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -98,10 +68,7 @@ namespace SocketService
         /// <param name="user">The user.</param>
         public void AddUser(User user)
         {
-            lock (_listLock)
-            {
-                _userList.Add(user);
-            }
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -110,22 +77,12 @@ namespace SocketService
         /// <param name="user">The user.</param>
         public void RemoveUser(User user)
         {
-            lock (_listLock)
-            {
-                _userList.Remove(user);
-            }
+            throw new NotImplementedException();
         }
 
         public List<Guid> FindClientKeysByRoom(string RoomName)
         {
-            lock (_listLock)
-            {
-                var query = from user in _userList
-                            where user.Room != null && user.Room.Name == RoomName
-                            select user.ClientKey;
-
-                return query.ToList();
-            }
+            throw new NotImplementedException();
         }
     }
 }
