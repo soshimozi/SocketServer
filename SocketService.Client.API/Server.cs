@@ -7,7 +7,7 @@ using System.Net;
 using System.Threading;
 using System.Collections;
 using System.Net.Sockets;
-using SocketService.Framework.Crypto;
+using SocketService.Crypto;
 using SocketService.Framework.Client.Sockets;
 using SocketService.Framework.Request;
 using SocketService.Framework.Client.Serialize;

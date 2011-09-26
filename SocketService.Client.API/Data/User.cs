@@ -19,5 +19,7 @@ namespace SocketService.Client.API.Data
             set;
         }
 
+
+        public Room Room { get; set; }
     }
 }

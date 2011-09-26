@@ -11,6 +11,59 @@ namespace SocketService.Framework.SharedObjects
     {
         private Hashtable data = new Hashtable();
 
+        public SharedObject()
+        {
+        }
+
+        public SharedObject(object value)
+        {
+            SharedObjectDataType dt = DataTypeFromType(value.GetType());
+            SetElementValue("", value, dt);
+        }
+
+        private SharedObjectDataType DataTypeFromType(Type t)
+        {
+            if (t.IsAssignableFrom(typeof(string)))
+            {
+                return SharedObjectDataType.String;
+            }
+            else if (t.IsAssignableFrom(typeof(int)))
+            {
+                return SharedObjectDataType.Integer;
+            }
+            else if(t.IsAssignableFrom(typeof(long)))
+            {
+                return SharedObjectDataType.Long;
+            }
+            else if (t.IsAssignableFrom(typeof(double)))
+            {
+                return SharedObjectDataType.Double;
+            }
+            else if(t.IsAssignableFrom(typeof(byte)))
+            {
+                return SharedObjectDataType.Byte;
+            }
+            else if (t.IsAssignableFrom(typeof(char)))
+            {
+                return SharedObjectDataType.Character;
+            }
+            else if (t.IsClass)
+            {
+                return SharedObjectDataType.BzObject;
+            }
+            else if( t.IsArray)
+            {
+                // check array type
+                return DataTypeFromType(t.GetElementType());
+            }
+            else
+            {
+                return SharedObjectDataType.BzObject;
+            }
+
+
+        }
+
         /// <summary>
         /// Gets the read only copy.
         /// </summary>

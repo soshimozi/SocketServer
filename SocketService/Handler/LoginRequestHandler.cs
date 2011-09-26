@@ -22,12 +22,8 @@ namespace SocketService
         {
             if (request != null)
             {
-                //LoginResponse response = LoginUser(server, loginRequest.ClientId, loginRequest.RequestId, loginRequest.UserName);
-                string loginName = request.LoginName;
-
-                // queue up a new server message
                 MSMQQueueWrapper.QueueCommand(
-                    new LoginUserCommand(connectionId, loginName)
+                    new LoginUserCommand(connectionId, request.LoginName)
                 );
 
                 return true;

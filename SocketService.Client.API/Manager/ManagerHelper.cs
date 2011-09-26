@@ -47,20 +47,20 @@ namespace SocketService.Client.API.Manager
 
         void engine_RoomVariableUpdate(object sender, RoomVariableUpdateArgs e)
         {
-            switch(e.Event.Action)
-            {
-                case RoomVariableUpdateAction.Add:
-                    RoomManager.AddRoomVariable(e.Event.RoomId, e.Event.Name, e.Event.Variable);
-                    break;
+            //switch(e.Event.Action)
+            //{
+            //    case RoomVariableUpdateAction.Add:
+            //        RoomManager.AddRoomVariable(e.Event.RoomId, e.Event.Name, e.Event.Variable);
+            //        break;
 
-                case RoomVariableUpdateAction.Delete:
-                    RoomManager.DeleteRoomVariable(e.Event.RoomId, e.Event.Name);
-                    break;
+            //    case RoomVariableUpdateAction.Delete:
+            //        RoomManager.DeleteRoomVariable(e.Event.RoomId, e.Event.Name);
+            //        break;
 
-                case RoomVariableUpdateAction.Update:
-                    RoomManager.UpdateRoomVariable(e.Event.RoomId, e.Event.Name, e.Event.Variable);
-                    break;
-            }
+            //    case RoomVariableUpdateAction.Update:
+            //        RoomManager.UpdateRoomVariable(e.Event.RoomId, e.Event.Name, e.Event.Variable);
+            //        break;
+            //}
         }
     
         void engine_LoginResponseReceived(object sender, LoginResponseEventArgs e)
@@ -102,16 +102,18 @@ namespace SocketService.Client.API.Manager
             room.Capacity = joinRoomEvent.Capacity;
             room.IsHidden = joinRoomEvent.Hidden;
 
-            foreach (RoomVariable roomVariable in joinRoomEvent.RoomVariables)
-            {
-                room.AddRoomVariable(roomVariable.Name, roomVariable);
-            }
+            //foreach (SharedObject roomVariable in joinRoomEvent.RoomVariables)
+            //{
+            //    room.AddRoomVariable(roomVariable.Name, roomVariable);
+            //}
 
             foreach (UserListEntry userListEntry in joinRoomEvent.Users)
             {
                 User u = this.UserManager.AddUser(this.UserListEntryToUser(userListEntry));
                 room.AddUser(u);
             }
+
+            this.UserManager.Me.Room = room;
         }
 
         private User UserListEntryToUser(UserListEntry entry)

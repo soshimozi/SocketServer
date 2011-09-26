@@ -10,7 +10,7 @@ namespace SocketService.Client.API.Data
     public class Room
     {
         private readonly List<User> _userList = new List<User>();
-        private readonly Dictionary<String, RoomVariable> _roomVariableList = new Dictionary<String, RoomVariable>();
+        private readonly Dictionary<String, SharedObject> _roomVariableList = new Dictionary<String, SharedObject>();
 
         private static int _nextId = 0;
 
@@ -113,7 +113,7 @@ namespace SocketService.Client.API.Data
 
         }
 
-        public void AddRoomVariable(String Name, RoomVariable Value)
+        public void AddRoomVariable(String Name, SharedObject Value)
         {
             Monitor.Enter(this);
             try
@@ -157,7 +157,7 @@ namespace SocketService.Client.API.Data
 
         }
 
-        public void UpdateVariable(string Name, RoomVariable Value)
+        public void UpdateVariable(string Name, SharedObject Value)
         {
             Monitor.Enter(this);
             try

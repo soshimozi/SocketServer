@@ -144,11 +144,11 @@ namespace ConsoleApplication1
 
         private void GetRoomVariableRequest(string room, string varname)
         {
-            GetRoomVariableRequest grvr = new GetRoomVariableRequest();
-            grvr.RoomName = room;
-            grvr.VariableName = varname;
+            //GetRoomVariableRequest grvr = new GetRoomVariableRequest();
+            //grvr.RoomName = room;
+            //grvr.VariableName = varname;
 
-            _server.SendRequestEncrypted(grvr);
+            //_server.SendRequestEncrypted(grvr);
         }
 
         private void JoinRoom(string roomName)
@@ -172,8 +172,8 @@ namespace ConsoleApplication1
 
         private void CreateRoomVariable()
         {
-            Console.Write("Room: ");
-            string room = Console.ReadLine();
+            //Console.Write("Room: ");
+            //string room = Console.ReadLine();
 
             Console.WriteLine();
             Console.Write("Name: ");
@@ -183,29 +183,26 @@ namespace ConsoleApplication1
             Console.Write("Value: ");
             string stringValue = Console.ReadLine();
 
-            ServerObject value = new ServerObject();
-            value.SetElementValue("__default__", stringValue, ServerObjectDataType.String);
+            SharedObject value = new SharedObject();
+            value.SetElementValue("__default__", stringValue, SharedObjectDataType.String);
 
-            ServerObject[] valueArray = new ServerObject[1];
-            ServerObject arrayObject = new ServerObject();
-            arrayObject.SetElementValue("value", 123, ServerObjectDataType.Integer);
+            SharedObject[] valueArray = new SharedObject[1];
+            SharedObject arrayObject = new SharedObject();
+            arrayObject.SetElementValue("value", 123, SharedObjectDataType.Integer);
             valueArray[0] = arrayObject;
 
-            value.SetElementValue("arrayTest", valueArray, ServerObjectDataType.BzObjectArray);
+            value.SetElementValue("arrayTest", valueArray, SharedObjectDataType.BzObjectArray);
 
             CreateRoomVariableRequest crvr = new CreateRoomVariableRequest();
-            crvr.Room = room;
+            //crvr.RoomId = room;  get my room id
             crvr.Name = name;
-            crvr.Variable = new RoomVariable() { RoomId = 0, Value = value };
+            crvr.Value = value;
 
             _server.SendRequestEncrypted(crvr);
         }
 
         void engine_GetRoomVariableResponseRecieved(object sender, GetRoomVariableResponseArgs e)
         {
-            Console.Write(e.Response.Room);
-            Console.Write(" : ");
-            Console.WriteLine(e.Response.Variable.Value.GetValueForElement("__default__"));
         }
 
         void engine_LoginResponseReceived(object sender, LoginResponseEventArgs e)

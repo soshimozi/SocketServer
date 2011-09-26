@@ -64,14 +64,6 @@
       <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
       <Name>SocketService.Framework.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework.Request\SocketService.Framework.Request.csproj">
-      <Project>{5266A3D3-25DC-492B-BFDC-973D79BA7D90}</Project>
-      <Name>SocketService.Framework.Request</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework.SharedObjects\SocketService.Framework.SharedObjects.csproj">
-      <Project>{67292447-E315-4583-8FD5-14DEA8D4B08E}</Project>
-      <Name>SocketService.Framework.SharedObjects</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

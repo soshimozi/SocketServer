@@ -45,7 +45,7 @@ namespace SocketService.Client.API.Manager
             }
         }
 
-        public void AddRoomVariable(int RoomId, string Name, RoomVariable Value)
+        public void AddRoomVariable(int RoomId, string Name, SharedObject Value)
         {
             Room room = FindById(RoomId);
             if (room != null)
@@ -63,7 +63,7 @@ namespace SocketService.Client.API.Manager
             }
         }
 
-        public void UpdateRoomVariable(int RoomId, string Name, RoomVariable Value)
+        public void UpdateRoomVariable(int RoomId, string Name, SharedObject Value)
         {
             Room room = FindById(RoomId);
             if (room != null)

@@ -52,16 +52,6 @@
     <Compile Include="PublicMessageRequest.cs" />
     <Compile Include="UpdateRoomVariableRequest.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\SocketService.Framework.Crypto\SocketService.Framework.Crypto.csproj">
-      <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
-      <Name>SocketService.Framework.Crypto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework.SharedObjects\SocketService.Framework.SharedObjects.csproj">
-      <Project>{67292447-E315-4583-8FD5-14DEA8D4B08E}</Project>
-      <Name>SocketService.Framework.SharedObjects</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

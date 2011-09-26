@@ -15,12 +15,11 @@ namespace SocketService.Actions
     {
         public void LogoutUser(Guid clientId)
         {
-            //User user = UserRepository.Instance.FindUserByClientKey(clientId);
-            //if (user != null)
-            //{
-            //    UserRepository.Instance.RemoveUser(user);
-            //}
-            throw new NotImplementedException();
+            User user = UserRepository.Instance.Query(u => u.ClientId.Equals(clientId)).FirstOrDefault();
+            if (user != null)
+            {
+                UserRepository.Instance.Delete(user);
+            }
         }
 
         public bool LoginUser(Guid clientId, string loginName)
@@ -33,31 +32,40 @@ namespace SocketService.Actions
             }
             else
             {
-            //    Room room = RoomRepository.Instance.FindByName("");
-            //    if (room == null)
-            //    {
-            //        room = new Room() { Name = "" };
-            //        // add default room
-            //        RoomRepository.Instance.AddRoom(room);
-            //    }
+                Room room = RoomRepository.Instance.Query(r => r.Name.Equals(RoomActionEngine.DefaultRoom)).FirstOrDefault();
 
-            //    User newUser = new User() { ClientKey = clientId, UserName = loginName };
-            //    UserRepository.Instance.AddUser(newUser);
+                if (room != null)
+                {
+                    User user = new User() { ClientId = clientId, Name = loginName, Room = room };
+                    UserRepository.Instance.Add(user);
 
-            //    //ClientChangeRoom(clientId, "");
+                    room.Users.Add(user);
+
+                    RoomRepository.Instance.Update(room);
+                    UserRepository.Instance.Update(user);
+                }
+
                 return true;
             }
         }
 
         public void ClientChangeRoom(Guid clientId, string roomName)
         {
-            //Room room = RoomRepository.Instance.FindByName(roomName);
-            //User user = UserRepository.Instance.FindUserByClientKey(clientId);
-            //if (user != null)
-            //{
-            //    user.Room = room;
-            //    room.AddUser(new UserListEntry() { UserName = user.UserName });
-            //}
+            User user = UserRepository.Instance.Query(u => u.ClientId.Equals(clientId)).FirstOrDefault();
+            Room room = RoomRepository.Instance.Query(r => r.Name.Equals(roomName)).FirstOrDefault();
+
+            if (user != null && room != null)
+            {
+                // remove from old room
+                if (user.Room != null)
+                {
+                    room.Users.Remove(user);
+                }
+
+                room.Users.Add(user);
+                RoomRepository.Instance.Update(room);
+                UserRepository.Instance.Update(user);
+            }
         }
     }
 }

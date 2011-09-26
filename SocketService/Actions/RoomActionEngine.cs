@@ -11,6 +11,8 @@ namespace SocketService.Actions
 {
     class RoomActionEngine : SingletonBase<RoomActionEngine>
     {
+        public const string DefaultRoom = "";
+
         public Room CreateRoom(string roomName)
         {
             Room room = RoomRepository.Instance.Query( r => r.Name.Equals(roomName) ).FirstOrDefault();

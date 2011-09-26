@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketService.Framework.Crypto;
+using SocketService.Crypto;
 using SocketService.Framework.Client.Sockets;
 using SocketService.Framework.Client.Response;
 using System.Net.Sockets;
