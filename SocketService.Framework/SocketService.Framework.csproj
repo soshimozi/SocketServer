@@ -49,6 +49,8 @@
     <Reference Include="log4net">
       <HintPath>..\References\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Practices.Unity.Configuration, Version=2.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Configuration" />
@@ -67,6 +69,12 @@
     <Compile Include="Configuration\SocketServiceConfiguration.cs" />
     <Compile Include="Configuration\PluginInfoInstanceCollection.cs" />
     <Compile Include="Configuration\PluginInfoInstanceElement.cs" />
+    <Compile Include="Data\AutoIdElement.cs" />
+    <Compile Include="Data\DatabaseContextFactory.cs" />
+    <Compile Include="Data\Room.cs" />
+    <Compile Include="Data\User.cs" />
+    <Compile Include="Data\Zone.cs" />
+    <Compile Include="DependencyFactory.cs" />
     <Compile Include="Messaging\BaseMessageHandler.cs" />
     <Compile Include="Messaging\ICommand.cs" />
     <Compile Include="Messaging\MessageServer.cs" />
@@ -89,11 +97,6 @@
       <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
       <Name>SocketService.Framework.Client</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ServerData.sdf">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
@@ -130,7 +133,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="ServerDataModel.edmx.sqlce" />
+    <None Include="Data\ServerDataModel.edmx.sqlce" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

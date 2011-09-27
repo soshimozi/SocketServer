@@ -9,13 +9,13 @@ namespace SocketService.Framework.Client.Response
     [Serializable]
     public class GetRoomVariableResponse : IResponse
     {
-        public int ZoneId
+        public long ZoneId
         {
             get;
             set;
         }
 
-        public int RoomId
+        public long RoomId
         {
             get;
             set;

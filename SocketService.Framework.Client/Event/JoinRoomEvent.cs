@@ -9,7 +9,8 @@ namespace SocketService.Framework.Client.Event
     [Serializable]
     public class JoinRoomEvent : IEvent
     {
-        public int RoomId { get; set; }
+        public long ZoneId { get; set; }
+        public long RoomId { get; set; }
         public string RoomName { get; set; }
         public string RoomDescription { get; set; }
         public bool Protected { get; set; }

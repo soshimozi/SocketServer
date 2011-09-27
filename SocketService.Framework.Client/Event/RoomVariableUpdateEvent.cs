@@ -14,12 +14,11 @@ namespace SocketService.Framework.Client.Event
             get { return "RoomVariableUpdateEvent"; }
         }
 
-        public int RoomId { get; set; }
+        public long ZoneId { get; set; }
+        public long RoomId { get; set; }
         public string Name { get; set; }
         public SharedObject Value { get; set; }
         public RoomVariableUpdateAction Action { get; set; }
-
-        public int ZoneId { get; set; }
     }
 
     public enum RoomVariableUpdateAction

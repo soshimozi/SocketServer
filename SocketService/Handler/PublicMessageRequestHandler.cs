@@ -16,7 +16,7 @@ namespace SocketService.Handler
     {
         public override bool HandleRequest(PublicMessageRequest request, Guid state)
         {
-            User user = UserRepository.Instance.Query( u => u.ClientId.Equals(state) ).FirstOrDefault();
+            User user = UserRepository.Instance.Query( u => u.ClientKey.Equals(state) ).FirstOrDefault();
             if (user != null)
             {
                 MSMQQueueWrapper.QueueCommand(

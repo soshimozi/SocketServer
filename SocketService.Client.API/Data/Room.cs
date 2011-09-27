@@ -12,19 +12,23 @@ namespace SocketService.Client.API.Data
         private readonly List<User> _userList = new List<User>();
         private readonly Dictionary<String, SharedObject> _roomVariableList = new Dictionary<String, SharedObject>();
 
-        private static int _nextId = 0;
+        private static long _nextId = 0;
 
-        public Room()
+        public Room(long id)
         {
-            RoomId = NextId();
+            RoomId = id;
         }
 
-        private static int NextId()
+        public Room() : this(NextId())
+        {
+        }
+
+        private static long NextId()
         {
             return _nextId++;
         }
 
-        public int RoomId
+        public long RoomId
         {
             get;
             private set;
@@ -62,10 +66,10 @@ namespace SocketService.Client.API.Data
     
         public void AddUser(User user)
         {
-            User u = UserByName(user.UserName);
+            //User u = UserByName(user.UserName);
 
-            if (u == null)
-            {
+            //if (u == null)
+            //{
                 Monitor.Enter(this);
                 try
                 {
@@ -75,14 +79,14 @@ namespace SocketService.Client.API.Data
                 {
                     Monitor.Exit(this);
                 }
-            }
+            //}
         }
 
-        public void RemoveUser(string userName)
+        public void RemoveUser(User user)
         {
-            User user = UserByName(userName);
-            if (user != null)
-            {
+            //User user = UserByName(userName);
+            //if (user != null)
+            //{
                 Monitor.Enter(this);
                 try
                 {
@@ -92,26 +96,26 @@ namespace SocketService.Client.API.Data
                 {
                     Monitor.Exit(this);
                 }
-            }
+            //}
         }
 
-        public User UserByName(string userName)
-        {
-            Monitor.Enter(this);
-            try
-            {
-                var query = from u in _userList
-                            where u.UserName.Equals(userName)
-                            select u;
+        //public User UserByName(string userName)
+        //{
+        //    Monitor.Enter(this);
+        //    try
+        //    {
+        //        var query = from u in _userList
+        //                    where u.UserName.Equals(userName)
+        //                    select u;
 
-                return query.FirstOrDefault();
-            }
-            finally
-            {
-                Monitor.Exit(this);
-            }
+        //        return query.FirstOrDefault();
+        //    }
+        //    finally
+        //    {
+        //        Monitor.Exit(this);
+        //    }
 
-        }
+        //}
 
         public void AddRoomVariable(String Name, SharedObject Value)
         {
@@ -154,7 +158,6 @@ namespace SocketService.Client.API.Data
             {
                 Monitor.Exit(this);
             }
-
         }
 
         public void UpdateVariable(string Name, SharedObject Value)

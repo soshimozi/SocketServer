@@ -26,8 +26,14 @@ namespace SocketService.Command
 
         public override void Execute()
         {
+            // get/create default zone
+            Zone zone = ZoneActionEngine.Instance.CreateZone(ZoneActionEngine.DefaultZone);
+
+            // get/create default room
+            Room room = RoomActionEngine.Instance.CreateRoom(RoomActionEngine.DefaultRoom, zone);
+
             // authenticate
-            if (!UserActionEngine.Instance.LoginUser(_clientId, _username))
+            if (!UserActionEngine.Instance.LoginUser(_clientId, _username, room))
             {
                 MSMQQueueWrapper.QueueCommand(
                     new SendObjectCommand(_clientId,
@@ -38,25 +44,23 @@ namespace SocketService.Command
             }
 
 
-            // get/create default room
-            Room room = RoomActionEngine.Instance.CreateRoom(RoomActionEngine.DefaultRoom);
-
-            User user = UserRepository.Instance.Query(u => u.ClientId.Equals(_clientId)).FirstOrDefault();
+            User user = UserRepository.Instance.Query(u => u.ClientKey.Equals(_clientId)).FirstOrDefault();
             if (user != null)
             {
-                //UserActionEngine.Instance.ClientChangeRoom(_clientId, RoomActionEngine.DefaultRoom);
+                UserActionEngine.Instance.ClientChangeRoom(_clientId, RoomActionEngine.DefaultRoom);
 
                 // tell clients about new user
                 MSMQQueueWrapper.QueueCommand(
                     new BroadcastObjectCommand(
                         room.Users.
-                            Where((u) => { return u.ClientId != _clientId; }).
-                            Select((u) => { return u.ClientId; }).
+                            Where((u) => { return u.ClientKey != _clientId; }).
+                            Select((u) => { return u.ClientKey; }).
                             ToArray(),
                         new RoomUserUpdateEvent()
                         {
                             Action = RoomUserUpdateAction.AddUser,
                             RoomId = room.Id,
+                            RoomName = room.Name,
                             UserName = user.Name
                         }
                     )

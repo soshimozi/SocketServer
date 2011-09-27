@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server Compact Edition
 -- --------------------------------------------------
--- Date Created: 09/25/2011 21:26:10
--- Generated from EDMX file: C:\Users\MonkeyBreath\Desktop\SocketServer\SocketService.Framework\ServerDataModel.edmx
+-- Date Created: 09/26/2011 18:46:02
+-- Generated from EDMX file: C:\Users\MonkeyBreath\Desktop\SocketServer\SocketService.Framework\Data\ServerDataModel.edmx
 -- --------------------------------------------------
 
 
@@ -42,9 +42,9 @@ GO
 GO
     DROP TABLE [Variables];
 GO
-    DROP TABLE [Plugins];
-GO
     DROP TABLE [Extensions];
+GO
+    DROP TABLE [Plugins];
 GO
     DROP TABLE [Variables_RoomVariable];
 GO
@@ -57,63 +57,67 @@ GO
 
 -- Creating table 'Zones'
 CREATE TABLE [Zones] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] bigint  NOT NULL,
     [Name] nvarchar(4000)  NOT NULL
 );
 GO
 
 -- Creating table 'Rooms'
 CREATE TABLE [Rooms] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [ZoneId] int  NOT NULL,
-    [Name] nvarchar(4000)  NOT NULL
+    [Id] bigint  NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL,
+    [IsPersistable] bit  NOT NULL,
+    [Capacity] int  NOT NULL,
+    [IsPrivate] bit  NOT NULL,
+    [Password] nvarchar(4000)  NOT NULL,
+    [ZoneId] bigint  NOT NULL
 );
 GO
 
 -- Creating table 'Users'
 CREATE TABLE [Users] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [ClientId] uniqueidentifier  NOT NULL,
+    [Id] bigint  NOT NULL,
     [Name] nvarchar(4000)  NOT NULL,
-    [RoomId] int  NOT NULL
+    [ClientKey] uniqueidentifier  NOT NULL,
+    [RoomId] bigint  NOT NULL
 );
 GO
 
 -- Creating table 'Variables'
 CREATE TABLE [Variables] (
-    [Id] int IDENTITY(1,1) NOT NULL,
+    [Id] bigint  NOT NULL,
     [Name] nvarchar(4000)  NOT NULL,
     [Value] varbinary(8000)  NOT NULL
 );
 GO
 
--- Creating table 'Plugins'
-CREATE TABLE [Plugins] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Handle] nvarchar(4000)  NOT NULL,
-    [ExtensionId] int  NOT NULL,
-    [RoomId] int  NOT NULL
+-- Creating table 'Extensions'
+CREATE TABLE [Extensions] (
+    [Id] bigint  NOT NULL,
+    [Name] nvarchar(4000)  NOT NULL
 );
 GO
 
--- Creating table 'Extensions'
-CREATE TABLE [Extensions] (
-    [Id] int IDENTITY(1,1) NOT NULL,
-    [Name] nvarchar(4000)  NOT NULL
+-- Creating table 'Plugins'
+CREATE TABLE [Plugins] (
+    [Id] bigint IDENTITY(1,1) NOT NULL,
+    [Handle] nvarchar(4000)  NOT NULL,
+    [ExtensionId] bigint  NOT NULL,
+    [RoomId] bigint  NOT NULL
 );
 GO
 
 -- Creating table 'Variables_RoomVariable'
 CREATE TABLE [Variables_RoomVariable] (
-    [RoomId] int  NOT NULL,
-    [Id] int  NOT NULL
+    [RoomId] bigint  NOT NULL,
+    [Id] bigint  NOT NULL
 );
 GO
 
 -- Creating table 'Variables_UserVariable'
 CREATE TABLE [Variables_UserVariable] (
-    [UserId] int  NOT NULL,
-    [Id] int  NOT NULL
+    [UserId] bigint  NOT NULL,
+    [Id] bigint  NOT NULL
 );
 GO
 
@@ -145,15 +149,15 @@ ADD CONSTRAINT [PK_Variables]
     PRIMARY KEY ([Id] );
 GO
 
--- Creating primary key on [Id] in table 'Plugins'
-ALTER TABLE [Plugins]
-ADD CONSTRAINT [PK_Plugins]
-    PRIMARY KEY ([Id] );
-GO
-
 -- Creating primary key on [Id] in table 'Extensions'
 ALTER TABLE [Extensions]
 ADD CONSTRAINT [PK_Extensions]
+    PRIMARY KEY ([Id] );
+GO
+
+-- Creating primary key on [Id] in table 'Plugins'
+ALTER TABLE [Plugins]
+ADD CONSTRAINT [PK_Plugins]
     PRIMARY KEY ([Id] );
 GO
 

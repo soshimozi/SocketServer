@@ -13,9 +13,12 @@ namespace SocketService.Framework.Client.Event
             get { return "RoomUserUpdateEvent"; }
         }
 
+        public long RoomId { get; set; }
+        public long ZoneId { get; set; }
         public RoomUserUpdateAction Action { get; set; }
         public string UserName { get; set; }
-        public int RoomId { get; set; }
+
+        public string RoomName { get; set; }
     }
 
     public enum RoomUserUpdateAction

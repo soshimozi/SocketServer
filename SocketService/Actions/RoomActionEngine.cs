@@ -13,13 +13,18 @@ namespace SocketService.Actions
     {
         public const string DefaultRoom = "";
 
-        public Room CreateRoom(string roomName)
+        public Room CreateRoom(string roomName, Zone zone)
         {
             Room room = RoomRepository.Instance.Query( r => r.Name.Equals(roomName) ).FirstOrDefault();
             if (room == null)
             {
-                room = new Room() { Name = roomName };
+                room = new Room() { Name = roomName, Password = string.Empty, Capacity = -1, IsPersistable = false, IsPrivate = false, Zone = zone };
+
                 RoomRepository.Instance.Add(room);
+                zone.Rooms.Add(room);
+
+                ZoneRepository.Instance.Update(zone);
+                RoomRepository.Instance.Update(room);
             }
 
             return room;

@@ -28,9 +28,13 @@ namespace SocketService.Repository
         }
 
         private readonly ServerDataEntities _context;
-        public RoomRepository()
+        public RoomRepository() : this(DatabaseContextFactory.Context)
         {
-            _context = new ServerDataEntities();
+        }
+
+        public RoomRepository(ServerDataEntities Context)
+        {
+            _context = Context;
         }
 
         ///// <summary>

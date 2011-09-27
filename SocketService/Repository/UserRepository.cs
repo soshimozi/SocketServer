@@ -8,7 +8,7 @@ namespace SocketService.Repository
 {
     public class UserRepository : IRepository<User>, IDisposable
     {
-        private static UserRepository _instance = new UserRepository();
+        private static UserRepository _instance = null;
 
         /// <summary>
         /// Gets the instance.
@@ -29,9 +29,13 @@ namespace SocketService.Repository
         private readonly ServerDataEntities _context;
 
         #region ctor
-        public UserRepository()
+        public UserRepository() : this(DatabaseContextFactory.Context)
         {
-            _context = new ServerDataEntities();
+        }
+
+        public UserRepository(ServerDataEntities Context)
+        {
+            _context = Context;
         }
         #endregion
         ///// <summary>

@@ -15,16 +15,16 @@ namespace SocketService.Actions
     {
         public void LogoutUser(Guid clientId)
         {
-            User user = UserRepository.Instance.Query(u => u.ClientId.Equals(clientId)).FirstOrDefault();
+            User user = UserRepository.Instance.Query(u => u.ClientKey.Equals(clientId)).FirstOrDefault();
             if (user != null)
             {
                 UserRepository.Instance.Delete(user);
             }
         }
 
-        public bool LoginUser(Guid clientId, string loginName)
+        public bool LoginUser(Guid clientId, string loginName, Room entryRoom)
         {
-            //// check for duplicates
+            // check for duplicates
             User duplicateUser = UserRepository.Instance.Query(u => u.Name.Equals(loginName)).FirstOrDefault();
             if (duplicateUser != null)
             {
@@ -32,18 +32,13 @@ namespace SocketService.Actions
             }
             else
             {
-                Room room = RoomRepository.Instance.Query(r => r.Name.Equals(RoomActionEngine.DefaultRoom)).FirstOrDefault();
+                User user = new User() { ClientKey = clientId, Name = loginName, Room = entryRoom };
+                UserRepository.Instance.Add(user);
 
-                if (room != null)
-                {
-                    User user = new User() { ClientId = clientId, Name = loginName, Room = room };
-                    UserRepository.Instance.Add(user);
+                entryRoom.Users.Add(user);
 
-                    room.Users.Add(user);
-
-                    RoomRepository.Instance.Update(room);
-                    UserRepository.Instance.Update(user);
-                }
+                RoomRepository.Instance.Update(entryRoom);
+                UserRepository.Instance.Update(user);
 
                 return true;
             }
@@ -51,7 +46,7 @@ namespace SocketService.Actions
 
         public void ClientChangeRoom(Guid clientId, string roomName)
         {
-            User user = UserRepository.Instance.Query(u => u.ClientId.Equals(clientId)).FirstOrDefault();
+            User user = UserRepository.Instance.Query(u => u.ClientKey.Equals(clientId)).FirstOrDefault();
             Room room = RoomRepository.Instance.Query(r => r.Name.Equals(roomName)).FirstOrDefault();
 
             if (user != null && room != null)

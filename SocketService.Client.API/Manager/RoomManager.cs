@@ -15,7 +15,7 @@ namespace SocketService.Client.API.Manager
         {
         }
 
-        public Room FindById(int roomId)
+        public Room FindById(long roomId)
         {
             Monitor.Enter(this);
             try
@@ -45,7 +45,7 @@ namespace SocketService.Client.API.Manager
             }
         }
 
-        public void AddRoomVariable(int RoomId, string Name, SharedObject Value)
+        public void AddRoomVariable(long RoomId, string Name, SharedObject Value)
         {
             Room room = FindById(RoomId);
             if (room != null)
@@ -54,7 +54,7 @@ namespace SocketService.Client.API.Manager
             }
         }
 
-        public void DeleteRoomVariable(int RoomId, string Name)
+        public void DeleteRoomVariable(long RoomId, string Name)
         {
             Room room = FindById(RoomId);
             if ( room != null )
@@ -63,7 +63,7 @@ namespace SocketService.Client.API.Manager
             }
         }
 
-        public void UpdateRoomVariable(int RoomId, string Name, SharedObject Value)
+        public void UpdateRoomVariable(long RoomId, string Name, SharedObject Value)
         {
             Room room = FindById(RoomId);
             if (room != null)
@@ -72,7 +72,7 @@ namespace SocketService.Client.API.Manager
             }
         }
 
-        public void RemoveRoom(int Id)
+        public void RemoveRoom(long Id)
         {
             Room room = FindById(Id);
             if (room != null)

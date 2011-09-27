@@ -142,22 +142,6 @@ namespace SocketService.Framework.Data
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Plugin> Plugins
-        {
-            get
-            {
-                if ((_Plugins == null))
-                {
-                    _Plugins = base.CreateObjectSet<Plugin>("Plugins");
-                }
-                return _Plugins;
-            }
-        }
-        private ObjectSet<Plugin> _Plugins;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<Extension> Extensions
         {
             get
@@ -170,6 +154,22 @@ namespace SocketService.Framework.Data
             }
         }
         private ObjectSet<Extension> _Extensions;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Plugin> Plugins
+        {
+            get
+            {
+                if ((_Plugins == null))
+                {
+                    _Plugins = base.CreateObjectSet<Plugin>("Plugins");
+                }
+                return _Plugins;
+            }
+        }
+        private ObjectSet<Plugin> _Plugins;
 
         #endregion
         #region AddTo Methods
@@ -207,19 +207,19 @@ namespace SocketService.Framework.Data
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Plugins EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToPlugins(Plugin plugin)
-        {
-            base.AddObject("Plugins", plugin);
-        }
-    
-        /// <summary>
         /// Deprecated Method for adding a new object to the Extensions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
         public void AddToExtensions(Extension extension)
         {
             base.AddObject("Extensions", extension);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Plugins EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToPlugins(Plugin plugin)
+        {
+            base.AddObject("Plugins", plugin);
         }
 
         #endregion
@@ -245,7 +245,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="name">Initial value of the Name property.</param>
-        public static Extension CreateExtension(global::System.Int32 id, global::System.String name)
+        public static Extension CreateExtension(global::System.Int64 id, global::System.String name)
         {
             Extension extension = new Extension();
             extension.Id = id;
@@ -261,7 +261,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 Id
+        public global::System.Int64 Id
         {
             get
             {
@@ -279,8 +279,8 @@ namespace SocketService.Framework.Data
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
         partial void OnIdChanged();
     
         /// <summary>
@@ -353,7 +353,7 @@ namespace SocketService.Framework.Data
         /// <param name="handle">Initial value of the Handle property.</param>
         /// <param name="extensionId">Initial value of the ExtensionId property.</param>
         /// <param name="roomId">Initial value of the RoomId property.</param>
-        public static Plugin CreatePlugin(global::System.Int32 id, global::System.String handle, global::System.Int32 extensionId, global::System.Int32 roomId)
+        public static Plugin CreatePlugin(global::System.Int64 id, global::System.String handle, global::System.Int64 extensionId, global::System.Int64 roomId)
         {
             Plugin plugin = new Plugin();
             plugin.Id = id;
@@ -371,7 +371,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 Id
+        public global::System.Int64 Id
         {
             get
             {
@@ -389,8 +389,8 @@ namespace SocketService.Framework.Data
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
         partial void OnIdChanged();
     
         /// <summary>
@@ -422,7 +422,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 ExtensionId
+        public global::System.Int64 ExtensionId
         {
             get
             {
@@ -437,8 +437,8 @@ namespace SocketService.Framework.Data
                 OnExtensionIdChanged();
             }
         }
-        private global::System.Int32 _ExtensionId;
-        partial void OnExtensionIdChanging(global::System.Int32 value);
+        private global::System.Int64 _ExtensionId;
+        partial void OnExtensionIdChanging(global::System.Int64 value);
         partial void OnExtensionIdChanged();
     
         /// <summary>
@@ -446,7 +446,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 RoomId
+        public global::System.Int64 RoomId
         {
             get
             {
@@ -461,8 +461,8 @@ namespace SocketService.Framework.Data
                 OnRoomIdChanged();
             }
         }
-        private global::System.Int32 _RoomId;
-        partial void OnRoomIdChanging(global::System.Int32 value);
+        private global::System.Int64 _RoomId;
+        partial void OnRoomIdChanging(global::System.Int64 value);
         partial void OnRoomIdChanged();
 
         #endregion
@@ -562,14 +562,22 @@ namespace SocketService.Framework.Data
         /// Create a new Room object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="zoneId">Initial value of the ZoneId property.</param>
         /// <param name="name">Initial value of the Name property.</param>
-        public static Room CreateRoom(global::System.Int32 id, global::System.Int32 zoneId, global::System.String name)
+        /// <param name="isPersistable">Initial value of the IsPersistable property.</param>
+        /// <param name="capacity">Initial value of the Capacity property.</param>
+        /// <param name="isPrivate">Initial value of the IsPrivate property.</param>
+        /// <param name="password">Initial value of the Password property.</param>
+        /// <param name="zoneId">Initial value of the ZoneId property.</param>
+        public static Room CreateRoom(global::System.Int64 id, global::System.String name, global::System.Boolean isPersistable, global::System.Int32 capacity, global::System.Boolean isPrivate, global::System.String password, global::System.Int64 zoneId)
         {
             Room room = new Room();
             room.Id = id;
-            room.ZoneId = zoneId;
             room.Name = name;
+            room.IsPersistable = isPersistable;
+            room.Capacity = capacity;
+            room.IsPrivate = isPrivate;
+            room.Password = password;
+            room.ZoneId = zoneId;
             return room;
         }
 
@@ -581,7 +589,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 Id
+        public global::System.Int64 Id
         {
             get
             {
@@ -599,33 +607,9 @@ namespace SocketService.Framework.Data
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
         partial void OnIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ZoneId
-        {
-            get
-            {
-                return _ZoneId;
-            }
-            set
-            {
-                OnZoneIdChanging(value);
-                ReportPropertyChanging("ZoneId");
-                _ZoneId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ZoneId");
-                OnZoneIdChanged();
-            }
-        }
-        private global::System.Int32 _ZoneId;
-        partial void OnZoneIdChanging(global::System.Int32 value);
-        partial void OnZoneIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -650,6 +634,126 @@ namespace SocketService.Framework.Data
         private global::System.String _Name;
         partial void OnNameChanging(global::System.String value);
         partial void OnNameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsPersistable
+        {
+            get
+            {
+                return _IsPersistable;
+            }
+            set
+            {
+                OnIsPersistableChanging(value);
+                ReportPropertyChanging("IsPersistable");
+                _IsPersistable = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsPersistable");
+                OnIsPersistableChanged();
+            }
+        }
+        private global::System.Boolean _IsPersistable;
+        partial void OnIsPersistableChanging(global::System.Boolean value);
+        partial void OnIsPersistableChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Capacity
+        {
+            get
+            {
+                return _Capacity;
+            }
+            set
+            {
+                OnCapacityChanging(value);
+                ReportPropertyChanging("Capacity");
+                _Capacity = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Capacity");
+                OnCapacityChanged();
+            }
+        }
+        private global::System.Int32 _Capacity;
+        partial void OnCapacityChanging(global::System.Int32 value);
+        partial void OnCapacityChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Boolean IsPrivate
+        {
+            get
+            {
+                return _IsPrivate;
+            }
+            set
+            {
+                OnIsPrivateChanging(value);
+                ReportPropertyChanging("IsPrivate");
+                _IsPrivate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("IsPrivate");
+                OnIsPrivateChanged();
+            }
+        }
+        private global::System.Boolean _IsPrivate;
+        partial void OnIsPrivateChanging(global::System.Boolean value);
+        partial void OnIsPrivateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String Password
+        {
+            get
+            {
+                return _Password;
+            }
+            set
+            {
+                OnPasswordChanging(value);
+                ReportPropertyChanging("Password");
+                _Password = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("Password");
+                OnPasswordChanged();
+            }
+        }
+        private global::System.String _Password;
+        partial void OnPasswordChanging(global::System.String value);
+        partial void OnPasswordChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 ZoneId
+        {
+            get
+            {
+                return _ZoneId;
+            }
+            set
+            {
+                OnZoneIdChanging(value);
+                ReportPropertyChanging("ZoneId");
+                _ZoneId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ZoneId");
+                OnZoneIdChanged();
+            }
+        }
+        private global::System.Int64 _ZoneId;
+        partial void OnZoneIdChanging(global::System.Int64 value);
+        partial void OnZoneIdChanged();
 
         #endregion
     
@@ -779,7 +883,7 @@ namespace SocketService.Framework.Data
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="value">Initial value of the Value property.</param>
         /// <param name="roomId">Initial value of the RoomId property.</param>
-        public static RoomVariable CreateRoomVariable(global::System.Int32 id, global::System.String name, global::System.Byte[] value, global::System.Int32 roomId)
+        public static RoomVariable CreateRoomVariable(global::System.Int64 id, global::System.String name, global::System.Byte[] value, global::System.Int64 roomId)
         {
             RoomVariable roomVariable = new RoomVariable();
             roomVariable.Id = id;
@@ -797,7 +901,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 RoomId
+        public global::System.Int64 RoomId
         {
             get
             {
@@ -812,8 +916,8 @@ namespace SocketService.Framework.Data
                 OnRoomIdChanged();
             }
         }
-        private global::System.Int32 _RoomId;
-        partial void OnRoomIdChanging(global::System.Int32 value);
+        private global::System.Int64 _RoomId;
+        partial void OnRoomIdChanging(global::System.Int64 value);
         partial void OnRoomIdChanged();
 
         #endregion
@@ -875,15 +979,15 @@ namespace SocketService.Framework.Data
         /// Create a new User object.
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="clientId">Initial value of the ClientId property.</param>
         /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="clientKey">Initial value of the ClientKey property.</param>
         /// <param name="roomId">Initial value of the RoomId property.</param>
-        public static User CreateUser(global::System.Int32 id, global::System.Guid clientId, global::System.String name, global::System.Int32 roomId)
+        public static User CreateUser(global::System.Int64 id, global::System.String name, global::System.Guid clientKey, global::System.Int64 roomId)
         {
             User user = new User();
             user.Id = id;
-            user.ClientId = clientId;
             user.Name = name;
+            user.ClientKey = clientKey;
             user.RoomId = roomId;
             return user;
         }
@@ -896,7 +1000,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 Id
+        public global::System.Int64 Id
         {
             get
             {
@@ -914,33 +1018,9 @@ namespace SocketService.Framework.Data
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
         partial void OnIdChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Guid ClientId
-        {
-            get
-            {
-                return _ClientId;
-            }
-            set
-            {
-                OnClientIdChanging(value);
-                ReportPropertyChanging("ClientId");
-                _ClientId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("ClientId");
-                OnClientIdChanged();
-            }
-        }
-        private global::System.Guid _ClientId;
-        partial void OnClientIdChanging(global::System.Guid value);
-        partial void OnClientIdChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -971,7 +1051,31 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 RoomId
+        public global::System.Guid ClientKey
+        {
+            get
+            {
+                return _ClientKey;
+            }
+            set
+            {
+                OnClientKeyChanging(value);
+                ReportPropertyChanging("ClientKey");
+                _ClientKey = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("ClientKey");
+                OnClientKeyChanged();
+            }
+        }
+        private global::System.Guid _ClientKey;
+        partial void OnClientKeyChanging(global::System.Guid value);
+        partial void OnClientKeyChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int64 RoomId
         {
             get
             {
@@ -986,8 +1090,8 @@ namespace SocketService.Framework.Data
                 OnRoomIdChanged();
             }
         }
-        private global::System.Int32 _RoomId;
-        partial void OnRoomIdChanging(global::System.Int32 value);
+        private global::System.Int64 _RoomId;
+        partial void OnRoomIdChanging(global::System.Int64 value);
         partial void OnRoomIdChanged();
 
         #endregion
@@ -1074,7 +1178,7 @@ namespace SocketService.Framework.Data
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="value">Initial value of the Value property.</param>
         /// <param name="userId">Initial value of the UserId property.</param>
-        public static UserVariable CreateUserVariable(global::System.Int32 id, global::System.String name, global::System.Byte[] value, global::System.Int32 userId)
+        public static UserVariable CreateUserVariable(global::System.Int64 id, global::System.String name, global::System.Byte[] value, global::System.Int64 userId)
         {
             UserVariable userVariable = new UserVariable();
             userVariable.Id = id;
@@ -1092,7 +1196,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 UserId
+        public global::System.Int64 UserId
         {
             get
             {
@@ -1107,8 +1211,8 @@ namespace SocketService.Framework.Data
                 OnUserIdChanged();
             }
         }
-        private global::System.Int32 _UserId;
-        partial void OnUserIdChanging(global::System.Int32 value);
+        private global::System.Int64 _UserId;
+        partial void OnUserIdChanging(global::System.Int64 value);
         partial void OnUserIdChanged();
 
         #endregion
@@ -1174,7 +1278,7 @@ namespace SocketService.Framework.Data
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="name">Initial value of the Name property.</param>
         /// <param name="value">Initial value of the Value property.</param>
-        public static Variable CreateVariable(global::System.Int32 id, global::System.String name, global::System.Byte[] value)
+        public static Variable CreateVariable(global::System.Int64 id, global::System.String name, global::System.Byte[] value)
         {
             Variable variable = new Variable();
             variable.Id = id;
@@ -1191,7 +1295,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 Id
+        public global::System.Int64 Id
         {
             get
             {
@@ -1209,8 +1313,8 @@ namespace SocketService.Framework.Data
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
         partial void OnIdChanged();
     
         /// <summary>
@@ -1280,7 +1384,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="name">Initial value of the Name property.</param>
-        public static Zone CreateZone(global::System.Int32 id, global::System.String name)
+        public static Zone CreateZone(global::System.Int64 id, global::System.String name)
         {
             Zone zone = new Zone();
             zone.Id = id;
@@ -1296,7 +1400,7 @@ namespace SocketService.Framework.Data
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 Id
+        public global::System.Int64 Id
         {
             get
             {
@@ -1314,8 +1418,8 @@ namespace SocketService.Framework.Data
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
+        private global::System.Int64 _Id;
+        partial void OnIdChanging(global::System.Int64 value);
         partial void OnIdChanged();
     
         /// <summary>

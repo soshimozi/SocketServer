@@ -93,6 +93,7 @@
     <Compile Include="Net\SocketServer.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="Repository\RoomRepository.cs" />
+    <Compile Include="Repository\ZoneRepository.cs" />
     <Compile Include="ServerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>

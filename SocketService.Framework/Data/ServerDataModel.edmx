@@ -4,14 +4,14 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="ServerDataModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+    <Schema Namespace="ServerDataModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="ServerDataModelStoreContainer">
     <EntitySet Name="Zones" EntityType="ServerDataModel.Store.Zones" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Rooms" EntityType="ServerDataModel.Store.Rooms" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Users" EntityType="ServerDataModel.Store.Users" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Variables" EntityType="ServerDataModel.Store.Variables" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Plugins" EntityType="ServerDataModel.Store.Plugins" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Extensions" EntityType="ServerDataModel.Store.Extensions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Plugins" EntityType="ServerDataModel.Store.Plugins" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Variables_RoomVariable" EntityType="ServerDataModel.Store.Variables_RoomVariable" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Variables_UserVariable" EntityType="ServerDataModel.Store.Variables_UserVariable" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="ZoneRoom" Association="ServerDataModel.Store.ZoneRoom">
@@ -51,63 +51,67 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" />
   </EntityType>
   <EntityType Name="Rooms">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ZoneId" Type="int" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="IsPersistable" Type="bit" Nullable="false" />
+    <Property Name="Capacity" Type="int" Nullable="false" />
+    <Property Name="IsPrivate" Type="bit" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" />
+    <Property Name="ZoneId" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Users">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="ClientId" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" />
-    <Property Name="RoomId" Type="int" Nullable="false" />
+    <Property Name="ClientKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoomId" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Variables">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" />
     <Property Name="Value" Type="varbinary" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Plugins">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Handle" Type="nvarchar" Nullable="false" />
-    <Property Name="ExtensionId" Type="int" Nullable="false" />
-    <Property Name="RoomId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Extensions">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
     <Property Name="Name" Type="nvarchar" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Plugins">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Handle" Type="nvarchar" Nullable="false" />
+    <Property Name="ExtensionId" Type="bigint" Nullable="false" />
+    <Property Name="RoomId" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Variables_RoomVariable">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="RoomId" Type="int" Nullable="false" />
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="RoomId" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
   </EntityType>
   <EntityType Name="Variables_UserVariable">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="UserId" Type="int" Nullable="false" />
-    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="UserId" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
   </EntityType>
   <Association Name="ZoneRoom">
     <End Role="Zone" Type="ServerDataModel.Store.Zones" Multiplicity="1" />
@@ -212,16 +216,18 @@
         <EntityContainer Name="ServerDataEntities" annotation:LazyLoadingEnabled="true" >
           <EntitySet Name="Zones" EntityType="ServerDataModel.Zone" />
           <EntitySet Name="Rooms" EntityType="ServerDataModel.Room" />
+          <EntitySet Name="Users" EntityType="ServerDataModel.User" />
+          <EntitySet Name="Variables" EntityType="ServerDataModel.Variable" />
+          <EntitySet Name="Extensions" EntityType="ServerDataModel.Extension" />
+          <EntitySet Name="Plugins" EntityType="ServerDataModel.Plugin" />
           <AssociationSet Name="ZoneRoom" Association="ServerDataModel.ZoneRoom">
             <End Role="Zone" EntitySet="Zones" />
             <End Role="Room" EntitySet="Rooms" />
           </AssociationSet>
-          <EntitySet Name="Users" EntityType="ServerDataModel.User" />
           <AssociationSet Name="RoomUser" Association="ServerDataModel.RoomUser">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="User" EntitySet="Users" />
           </AssociationSet>
-          <EntitySet Name="Variables" EntityType="ServerDataModel.Variable" />
           <AssociationSet Name="RoomRoomVariable" Association="ServerDataModel.RoomRoomVariable">
             <End Role="Room" EntitySet="Rooms" />
             <End Role="RoomVariable" EntitySet="Variables" />
@@ -230,8 +236,6 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserVariable" EntitySet="Variables" />
           </AssociationSet>
-          <EntitySet Name="Plugins" EntityType="ServerDataModel.Plugin" />
-          <EntitySet Name="Extensions" EntityType="ServerDataModel.Extension" />
           <AssociationSet Name="ExtensionPlugin" Association="ServerDataModel.ExtensionPlugin">
             <End Role="Extension" EntitySet="Extensions" />
             <End Role="Plugin" EntitySet="Plugins" />
@@ -245,21 +249,71 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Rooms" Relationship="ServerDataModel.ZoneRoom" FromRole="Zone" ToRole="Room" />
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Rooms" Relationship="ServerDataModel.ZoneRoom" FromRole="Zone" ToRole="Room" />
         </EntityType>
         <EntityType Name="Room">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Zone" Relationship="ServerDataModel.ZoneRoom" FromRole="Room" ToRole="Zone" />
-          <Property Type="Int32" Name="ZoneId" Nullable="false" />
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Boolean" Name="IsPersistable" Nullable="false" />
+          <Property Type="Int32" Name="Capacity" Nullable="false" />
+          <Property Type="Boolean" Name="IsPrivate" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" />
+          <NavigationProperty Name="Zone" Relationship="ServerDataModel.ZoneRoom" FromRole="Room" ToRole="Zone" />
+          <Property Type="Int64" Name="ZoneId" Nullable="false" />
           <NavigationProperty Name="Users" Relationship="ServerDataModel.RoomUser" FromRole="Room" ToRole="User" />
           <NavigationProperty Name="RoomVariables" Relationship="ServerDataModel.RoomRoomVariable" FromRole="Room" ToRole="RoomVariable" />
           <NavigationProperty Name="Plugins" Relationship="ServerDataModel.RoomPlugin" FromRole="Room" ToRole="Plugin" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Guid" Name="ClientKey" Nullable="false" />
+          <NavigationProperty Name="Room" Relationship="ServerDataModel.RoomUser" FromRole="User" ToRole="Room" />
+          <Property Type="Int64" Name="RoomId" Nullable="false" />
+          <NavigationProperty Name="UserVariables" Relationship="ServerDataModel.UserUserVariable" FromRole="User" ToRole="UserVariable" />
+        </EntityType>
+        <EntityType Name="Variable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Binary" Name="Value" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserVariable" BaseType="ServerDataModel.Variable" >
+          <NavigationProperty Name="User" Relationship="ServerDataModel.UserUserVariable" FromRole="UserVariable" ToRole="User" />
+          <Property Type="Int64" Name="UserId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoomVariable" BaseType="ServerDataModel.Variable">
+          <NavigationProperty Name="Room" Relationship="ServerDataModel.RoomRoomVariable" FromRole="RoomVariable" ToRole="Room" />
+          <Property Type="Int64" Name="RoomId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Extension">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Plugins" Relationship="ServerDataModel.ExtensionPlugin" FromRole="Extension" ToRole="Plugin" />
+        </EntityType>
+        <EntityType Name="Plugin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Handle" Nullable="false" />
+          <NavigationProperty Name="Extension" Relationship="ServerDataModel.ExtensionPlugin" FromRole="Plugin" ToRole="Extension" />
+          <Property Type="Int64" Name="ExtensionId" Nullable="false" />
+          <NavigationProperty Name="Room" Relationship="ServerDataModel.RoomPlugin" FromRole="Plugin" ToRole="Room" />
+          <Property Type="Int64" Name="RoomId" Nullable="false" />
         </EntityType>
         <Association Name="ZoneRoom">
           <End Type="ServerDataModel.Zone" Role="Zone" Multiplicity="1" />
@@ -273,17 +327,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="User">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Guid" Name="ClientId" Nullable="false" />
-          <Property Type="String" Name="Name" Nullable="false" />
-          <NavigationProperty Name="Room" Relationship="ServerDataModel.RoomUser" FromRole="User" ToRole="Room" />
-          <Property Type="Int32" Name="RoomId" Nullable="false" />
-          <NavigationProperty Name="UserVariables" Relationship="ServerDataModel.UserUserVariable" FromRole="User" ToRole="UserVariable" />
-        </EntityType>
         <Association Name="RoomUser">
           <End Type="ServerDataModel.Room" Role="Room" Multiplicity="1" />
           <End Type="ServerDataModel.User" Role="User" Multiplicity="*" />
@@ -296,22 +339,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Variable">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" />
-          <Property Type="Binary" Name="Value" Nullable="false" />
-        </EntityType>
-        <EntityType Name="RoomVariable" BaseType="ServerDataModel.Variable">
-          <NavigationProperty Name="Room" Relationship="ServerDataModel.RoomRoomVariable" FromRole="RoomVariable" ToRole="Room" />
-          <Property Type="Int32" Name="RoomId" Nullable="false" />
-        </EntityType>
-        <EntityType Name="UserVariable" BaseType="ServerDataModel.Variable">
-          <NavigationProperty Name="User" Relationship="ServerDataModel.UserUserVariable" FromRole="UserVariable" ToRole="User" />
-          <Property Type="Int32" Name="UserId" Nullable="false" />
-        </EntityType>
         <Association Name="RoomRoomVariable">
           <End Type="ServerDataModel.Room" Role="Room" Multiplicity="1" />
           <End Type="ServerDataModel.RoomVariable" Role="RoomVariable" Multiplicity="*" />
@@ -336,25 +363,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Plugin">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Handle" Nullable="false" />
-          <NavigationProperty Name="Extension" Relationship="ServerDataModel.ExtensionPlugin" FromRole="Plugin" ToRole="Extension" />
-          <Property Type="Int32" Name="ExtensionId" Nullable="false" />
-          <NavigationProperty Name="Room" Relationship="ServerDataModel.RoomPlugin" FromRole="Plugin" ToRole="Room" />
-          <Property Type="Int32" Name="RoomId" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Extension">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" Nullable="false" />
-          <NavigationProperty Name="Plugins" Relationship="ServerDataModel.ExtensionPlugin" FromRole="Extension" ToRole="Plugin" />
-        </EntityType>
         <Association Name="ExtensionPlugin">
           <End Type="ServerDataModel.Extension" Role="Extension" Multiplicity="1" />
           <End Type="ServerDataModel.Plugin" Role="Plugin" Multiplicity="*" />
@@ -379,7 +387,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -397,8 +405,12 @@
       <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.Room)">
         <MappingFragment StoreEntitySet="Rooms">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IsPersistable" ColumnName="IsPersistable" />
+          <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+          <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ZoneId" ColumnName="ZoneId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -406,8 +418,8 @@
       <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.User)">
         <MappingFragment StoreEntitySet="Users">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="ClientId" ColumnName="ClientId" />
           <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ClientKey" ColumnName="ClientKey" />
           <ScalarProperty Name="RoomId" ColumnName="RoomId" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -433,6 +445,14 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Extensions">
+      <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.Extension)">
+        <MappingFragment StoreEntitySet="Extensions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="Plugins">
       <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.Plugin)">
         <MappingFragment StoreEntitySet="Plugins">
@@ -440,14 +460,6 @@
           <ScalarProperty Name="Handle" ColumnName="Handle" />
           <ScalarProperty Name="ExtensionId" ColumnName="ExtensionId" />
           <ScalarProperty Name="RoomId" ColumnName="RoomId" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Extensions">
-      <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.Extension)">
-        <MappingFragment StoreEntitySet="Extensions">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -471,48 +483,50 @@
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
       <Diagram Name="Model1" >
-        <EntityTypeShape EntityType="ServerDataModel.Zone" Width="1.5" PointX="7.25" PointY="0.625" Height="1.5956835937499996" />
-        <EntityTypeShape EntityType="ServerDataModel.Room" Width="1.5" PointX="5" PointY="0.5" Height="2.3648893229166665" />
+        <EntityTypeShape EntityType="ServerDataModel.Zone" Width="1.5" PointX="7" PointY="0.5" Height="1.59568359375" />
+        <EntityTypeShape EntityType="ServerDataModel.Room" Width="1.5" PointX="5.125" PointY="0.5" Height="2.9417936197916665" />
+        <EntityTypeShape EntityType="ServerDataModel.User" Width="1.5" PointX="2.75" PointY="2.625" Height="2.172587890625" />
+        <EntityTypeShape EntityType="ServerDataModel.Variable" Width="1.5" PointX="0.5" PointY="3" Height="1.59568359375" />
+        <EntityTypeShape EntityType="ServerDataModel.UserVariable" Width="1.5" PointX="0.5" PointY="0.625" Height="1.0187792968750031" />
+        <EntityTypeShape EntityType="ServerDataModel.RoomVariable" Width="1.5" PointX="2.375" PointY="0.625" Height="1.4033821614583339" />
+        <EntityTypeShape EntityType="ServerDataModel.Extension" Width="1.5" PointX="7.75" PointY="4.25" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="ServerDataModel.Plugin" Width="1.5" PointX="5.25" PointY="4.25" Height="2.1725878906249996" />
         <AssociationConnector Association="ServerDataModel.ZoneRoom">
-          <ConnectorPoint PointX="7.25" PointY="1.4228417968749998" />
-          <ConnectorPoint PointX="6.5" PointY="1.4228417968749998" />
+          <ConnectorPoint PointX="7" PointY="1.297841796875" />
+          <ConnectorPoint PointX="6.625" PointY="1.297841796875" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ServerDataModel.User" Width="1.5" PointX="3.375" PointY="4.125" Height="2.1725878906249996" />
         <AssociationConnector Association="ServerDataModel.RoomUser">
-          <ConnectorPoint PointX="5.40625" PointY="2.8648893229166665" />
-          <ConnectorPoint PointX="5.40625" PointY="6.266337890625" />
-          <ConnectorPoint PointX="4.875" PointY="6.266337890625" />
+          <ConnectorPoint PointX="5.125" PointY="3.1295475260416667" />
+          <ConnectorPoint PointX="4.25" PointY="3.1295475260416667" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ServerDataModel.Variable" Width="1.5" PointX="0.75" PointY="4" Height="1.5956835937499996" />
-        <EntityTypeShape EntityType="ServerDataModel.RoomVariable" Width="1.5" PointX="0.75" PointY="0.875" Height="1.4033821614583335" />
-        <InheritanceConnector EntityType="ServerDataModel.RoomVariable" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="4" />
-          <ConnectorPoint PointX="1.5" PointY="2.2783821614583335" />
-        </InheritanceConnector>
-        <EntityTypeShape EntityType="ServerDataModel.UserVariable" Width="1.5" PointX="3" PointY="1.875" Height="1.4033821614583335" />
-        <InheritanceConnector EntityType="ServerDataModel.UserVariable" ManuallyRouted="false">
-          <ConnectorPoint PointX="1.5" PointY="4" />
-          <ConnectorPoint PointX="1.5" PointY="3.6533821614583335" />
-          <ConnectorPoint PointX="3.75" PointY="3.6533821614583335" />
-          <ConnectorPoint PointX="3.75" PointY="3.2783821614583335" />
-        </InheritanceConnector>
         <AssociationConnector Association="ServerDataModel.RoomRoomVariable">
-          <ConnectorPoint PointX="5" PointY="1.34375" />
-          <ConnectorPoint PointX="2.25" PointY="1.34375" />
+          <ConnectorPoint PointX="5.125" PointY="1.2354484049479164" />
+          <ConnectorPoint PointX="3.875" PointY="1.2354484049479164" />
         </AssociationConnector>
         <AssociationConnector Association="ServerDataModel.UserUserVariable">
-          <ConnectorPoint PointX="4.1875" PointY="4.125" />
-          <ConnectorPoint PointX="4.1875" PointY="3.2783821614583335" />
+          <ConnectorPoint PointX="2.75" PointY="3.7112939453125" />
+          <ConnectorPoint PointX="2.25" PointY="3.7112939453125" />
+          <ConnectorPoint PointX="2.25" PointY="2.75" />
+          <ConnectorPoint PointX="1.25" PointY="2.75" />
+          <ConnectorPoint PointX="1.25" PointY="2.0283821614583335" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="ServerDataModel.Plugin" Width="1.5" PointX="5.875" PointY="4" Height="2.1725878906249996" />
-        <EntityTypeShape EntityType="ServerDataModel.Extension" Width="1.5" PointX="7.875" PointY="4" Height="1.5956835937499996" />
+        <InheritanceConnector EntityType="ServerDataModel.UserVariable">
+          <ConnectorPoint PointX="1.25" PointY="3" />
+          <ConnectorPoint PointX="1.25" PointY="2.0283821614583335" />
+        </InheritanceConnector>
+        <InheritanceConnector EntityType="ServerDataModel.RoomVariable">
+          <ConnectorPoint PointX="1.25" PointY="3" />
+          <ConnectorPoint PointX="1.25" PointY="2.3283821614583333" />
+          <ConnectorPoint PointX="3.125" PointY="2.3283821614583333" />
+          <ConnectorPoint PointX="3.125" PointY="2.0283821614583339" />
+        </InheritanceConnector>
         <AssociationConnector Association="ServerDataModel.ExtensionPlugin">
-          <ConnectorPoint PointX="7.875" PointY="4.797841796875" />
-          <ConnectorPoint PointX="7.375" PointY="4.797841796875" />
+          <ConnectorPoint PointX="7.75" PointY="5.047841796875" />
+          <ConnectorPoint PointX="6.75" PointY="5.047841796875" />
         </AssociationConnector>
         <AssociationConnector Association="ServerDataModel.RoomPlugin">
-          <ConnectorPoint PointX="6.1875" PointY="2.8648893229166665" />
-          <ConnectorPoint PointX="6.1875" PointY="4" />
+          <ConnectorPoint PointX="5.9375" PointY="3.6340950520833331" />
+          <ConnectorPoint PointX="5.9375" PointY="4.25" />
         </AssociationConnector>
       </Diagram>
     </Diagrams>

@@ -26,7 +26,7 @@ namespace SocketService.Command
             if (connection != null)
                 ConnectionRepository.Instance.RemoveConnection(connection);
 
-            User user = UserRepository.Instance.Query(u => u.ClientId.Equals(_clientId)).FirstOrDefault();
+            User user = UserRepository.Instance.Query(u => u.ClientKey.Equals(_clientId)).FirstOrDefault();
 
             UserActionEngine.Instance.LogoutUser(_clientId);
 

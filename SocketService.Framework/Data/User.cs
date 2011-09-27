@@ -5,24 +5,12 @@ using System.Text;
 
 namespace SocketService.Framework.Data
 {
-    public class User
+    public partial class User 
     {
-        public string UserName
+        public User()
         {
-            get;
-            set;
+            Id = AutoIdElement.GetNextID();
         }
 
-        public Room Room
-        {
-            get;
-            set;
-        }
-
-        public Guid ClientKey
-        {
-            get;
-            set;
-        }
     }
 }
