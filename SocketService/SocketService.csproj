@@ -73,6 +73,7 @@
     <Compile Include="Command\ParseRequestCommand.cs" />
     <Compile Include="Command\PublicMessageCommand.cs" />
     <Compile Include="Command\SendObjectCommand.cs" />
+    <Compile Include="Command\ServerStoppingCommand.cs" />
     <Compile Include="Command\UpdateRoomVariableCommand.cs" />
     <Compile Include="Handler\ChangeRoomRequestHandler.cs" />
     <Compile Include="Handler\CreateRoomVariableRequestHandler.cs" />

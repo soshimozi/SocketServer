@@ -14,7 +14,7 @@ using SocketService.Net.Client;
 
 namespace SocketService.Net
 {
-	public class SocketServer //: ISocketServer
+	public class SocketServer
 	{
 		private static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

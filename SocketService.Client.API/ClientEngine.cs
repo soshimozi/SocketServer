@@ -11,7 +11,6 @@ using SocketService.Framework.Client.Serialize;
 using System.Collections;
 using SocketService.Framework.Request;
 using SocketService.Framework.SharedObjects;
-using SocketService.Client.API.Command;
 using SocketService.Framework.Client.Event;
 using SocketService.Client.API.Event;
 using SocketService.Client.API.Manager;

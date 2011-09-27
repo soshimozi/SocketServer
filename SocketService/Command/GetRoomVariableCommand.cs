@@ -9,6 +9,7 @@ using SocketService.Framework.Client.Response;
 using SocketService.Framework;
 using SocketService.Framework.Data;
 using SocketService.Framework.Client.Serialize;
+using SocketService.Repository;
 
 namespace SocketService.Command
 {
@@ -30,7 +31,7 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            Room room = RoomActionEngine.Instance.GetRoomById(_roomId);
+            Room room = RoomRepository.Instance.Find(_roomId);
             if (room != null)
             {
                 RoomVariable var = room.RoomVariables.FirstOrDefault( 

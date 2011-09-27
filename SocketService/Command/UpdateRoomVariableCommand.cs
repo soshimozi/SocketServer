@@ -8,6 +8,7 @@ using SocketService.Actions;
 using SocketService.Framework.Client.Event;
 using SocketService.Framework.Data;
 using SocketService.Framework.Client.Response;
+using SocketService.Repository;
 
 namespace SocketService.Command
 {
@@ -32,7 +33,8 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            Room room = RoomActionEngine.Instance.GetRoomById(_roomId);
+            Room room = RoomRepository.Instance.Find(_roomId);
+
             //RoomActionEngine.Instance.UpdateRoomVariable(room.Id, _name, _so);
 
             MSMQQueueWrapper.QueueCommand(

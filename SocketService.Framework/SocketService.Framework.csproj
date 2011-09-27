@@ -74,7 +74,6 @@
     <Compile Include="Data\Room.cs" />
     <Compile Include="Data\User.cs" />
     <Compile Include="Data\Zone.cs" />
-    <Compile Include="DependencyFactory.cs" />
     <Compile Include="Messaging\BaseMessageHandler.cs" />
     <Compile Include="Messaging\ICommand.cs" />
     <Compile Include="Messaging\MessageServer.cs" />

@@ -77,7 +77,7 @@ namespace SocketService.Net
         /// </summary>
         public void StopServer()
         {
-            _socketServer.StopServer();
+            MSMQQueueWrapper.QueueCommand(new ServerStoppingCommand(_socketServer));
         }
 
         private void ParseRequest(Guid clientId, byte[] requestData)

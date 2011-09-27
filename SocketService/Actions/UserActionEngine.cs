@@ -62,5 +62,14 @@ namespace SocketService.Actions
                 UserRepository.Instance.Update(user);
             }
         }
+
+        public void RemoveAllUsers()
+        {
+            User [] users = UserRepository.Instance.GetAll();
+            foreach (User user in users)
+            {
+                UserRepository.Instance.Delete(user);
+            }
+        }
     }
 }
