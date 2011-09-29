@@ -105,7 +105,18 @@ namespace SocketService.Actions
             List<Room> rooms = RoomRepository.Instance.Query(r => !r.IsPersistable).ToList();
             foreach (Room room in rooms)
             {
-                RoomRepository.Instance.Delete(room);
+                Zone zone = room.Zone;
+                if (zone != null)
+                {
+                    zone.Rooms.Remove(room);
+
+                    RoomRepository.Instance.Delete(room);
+                    ZoneRepository.Instance.Update(zone);
+                }
+                else
+                {
+                    RoomRepository.Instance.Delete(room);
+                }
             }
         }
     }

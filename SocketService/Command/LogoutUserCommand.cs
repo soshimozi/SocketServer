@@ -26,14 +26,14 @@ namespace SocketService.Command
             if (connection != null)
                 ConnectionRepository.Instance.RemoveConnection(connection);
 
-            User user = UserRepository.Instance.Query(u => u.ClientKey.Equals(_clientId)).FirstOrDefault();
+            //User user = UserRepository.Instance.Query(u => u.ClientKey.Equals(_clientId)).FirstOrDefault();
 
             UserActionEngine.Instance.LogoutUser(_clientId);
 
-            if( user.Room != null )
-            {
-                List<User> userList = user.Room.Users.ToList();
-            }
+            //if( user.Room != null )
+            //{
+            //    List<User> userList = user.Room.Users.ToList();
+            //}
 
             //// broadcast to all but this user
             //var query = from u in userList

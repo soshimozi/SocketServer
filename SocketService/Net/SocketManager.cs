@@ -68,6 +68,8 @@ namespace SocketService.Net
 
             if (configuration != null)
             {
+                MSMQQueueWrapper.QueueCommand(new ServerStartingCommand());
+
                 _socketServer.StartServer(configuration.ListenPort);
             }
         }
@@ -77,7 +79,7 @@ namespace SocketService.Net
         /// </summary>
         public void StopServer()
         {
-            MSMQQueueWrapper.QueueCommand(new ServerStoppingCommand(_socketServer));
+            _socketServer.StopServer();
         }
 
         private void ParseRequest(Guid clientId, byte[] requestData)

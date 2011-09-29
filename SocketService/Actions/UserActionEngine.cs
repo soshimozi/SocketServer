@@ -18,6 +18,11 @@ namespace SocketService.Actions
             User user = UserRepository.Instance.Query(u => u.ClientKey.Equals(clientId)).FirstOrDefault();
             if (user != null)
             {
+                if (user.Room != null)
+                {
+                    user.Room.Users.Remove(user);
+                }
+
                 UserRepository.Instance.Delete(user);
             }
         }
@@ -68,6 +73,8 @@ namespace SocketService.Actions
             User [] users = UserRepository.Instance.GetAll();
             foreach (User user in users)
             {
+                user.Room.Users.Remove(user);
+
                 UserRepository.Instance.Delete(user);
             }
         }
