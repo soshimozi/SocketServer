@@ -1,28 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SocketService.Framework.Util
+﻿namespace SocketService.Framework.Util
 {
-    public class SingletonBase<T> where T : new()
+    public class SingletonBase<T> where T : class, new()
     {
-        private static T _instance = default(T);
+        private static T _instance;
 
         /// <summary>
         /// Gets the instance.
         /// </summary>
         public static T Instance
         {
-            get
-            {
-                if( _instance == null )
-                {
-                    _instance = new T();
-                }
-
-                return _instance;
-            }
+            get { return _instance ?? (_instance = new T()); }
         }
     }
 }

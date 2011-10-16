@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace SocketService.Framework.Configuration
 {
@@ -15,7 +11,7 @@ namespace SocketService.Framework.Configuration
 
         protected override object GetElementKey(ConfigurationElement element)
         {
-            return ((PluginInfoInstanceElement)element).Name;
+            return ((PluginInfoInstanceElement) element).Name;
         }
     }
 }

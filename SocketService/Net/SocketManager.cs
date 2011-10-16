@@ -1,22 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+using System.Configuration;
 using System.Reflection;
-using System.IO;
-using SocketService.Framework.Messaging;
 using SocketService.Command;
 using SocketService.Framework.Configuration;
-using System.Configuration;
-using SocketService.Framework.ServiceHandlerLib;
+using SocketService.Framework.Messaging;
 using SocketService.Net.Client;
+using log4net;
 
 namespace SocketService.Net
 {
     public class SocketManager //: IServerContext
     {
+        private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private readonly SocketServer _socketServer;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SocketManager"/> class.
         /// </summary>
@@ -25,12 +22,12 @@ namespace SocketService.Net
             // create server, doesn't start pumping until we get the Start command
             _socketServer = new SocketServer();
 
-            _socketServer.ClientConnecting += new EventHandler<ConnectArgs>(SocketServer_ClientConnecting);
-            _socketServer.ClientDisconnecting += new EventHandler<DisconnectedArgs>(SocketServer_ClientDisconnecting);
-            _socketServer.DataRecieved += new EventHandler<DataRecievedArgs>(SocketServer_DataRecieved);
+            _socketServer.ClientConnecting += SocketServerClientConnecting;
+            _socketServer.ClientDisconnecting += SocketServerClientDisconnecting;
+            _socketServer.DataRecieved += SocketServerDataRecieved;
         }
 
-        protected void SocketServer_DataRecieved(object sender, DataRecievedArgs e)
+        protected void SocketServerDataRecieved(object sender, DataRecievedArgs e)
         {
             Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(e.ClientId);
             if (connection != null)
@@ -39,15 +36,15 @@ namespace SocketService.Net
             }
         }
 
-        protected void SocketServer_ClientConnecting(object sender, ConnectArgs e)
+        protected void SocketServerClientConnecting(object sender, ConnectArgs e)
         {
             SocketRepository.Instance.AddSocket(e.ClientId, e.RawSocket);
 
-            Connection connection = new Connection(e.ClientId);
+            var connection = new Connection(e.ClientId);
             ConnectionRepository.Instance.AddConnection(connection);
         }
 
-        protected void SocketServer_ClientDisconnecting(object sender, DisconnectedArgs e)
+        protected void SocketServerClientDisconnecting(object sender, DisconnectedArgs e)
         {
             MSMQQueueWrapper.QueueCommand(new LogoutUserCommand(e.ClientId));
         }
@@ -55,16 +52,18 @@ namespace SocketService.Net
         /// <summary>
         /// Starts the server.
         /// </summary>
-        /// <param name="port">The port.</param>
         public void StartServer()
         {
             SocketServiceConfiguration configuration = null;
             try
             {
-                configuration = (SocketServiceConfiguration)ConfigurationManager.GetSection("SocketServerConfiguration");
+                configuration =
+                    (SocketServiceConfiguration) ConfigurationManager.GetSection("SocketServerConfiguration");
             }
-            catch (Exception)
-            { }
+            catch (Exception exception)
+            {
+                Logger.Error(exception.ToString());
+            }
 
             if (configuration != null)
             {

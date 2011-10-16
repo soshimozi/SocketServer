@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using SocketService.Client.API.Data;
 using SocketService.Framework.SharedObjects;
@@ -11,9 +9,6 @@ namespace SocketService.Client.API.Manager
     public class RoomManager
     {
         private readonly List<Room> _roomList = new List<Room>();
-        public RoomManager()
-        {
-        }
 
         public Room FindById(long roomId)
         {
@@ -45,42 +40,34 @@ namespace SocketService.Client.API.Manager
             }
         }
 
-        public void AddRoomVariable(long RoomId, string Name, SharedObject Value)
+        public void AddRoomVariable(long roomId, string name, SharedObject value)
         {
-            Room room = FindById(RoomId);
-            if (room != null)
-            {
-                room.AddRoomVariable(Name, Value);
-            }
+            var room = FindById(roomId);
+            if (room == null) return;
+            room.AddRoomVariable(name, value);
         }
 
-        public void DeleteRoomVariable(long RoomId, string Name)
+        public void DeleteRoomVariable(long roomId, string name)
         {
-            Room room = FindById(RoomId);
-            if ( room != null )
-            {
-                room.RemoveVariable(Name);
-            }
+            var room = FindById(roomId);
+            if (room == null) return;
+            room.RemoveVariable(name);
         }
 
-        public void UpdateRoomVariable(long RoomId, string Name, SharedObject Value)
+        public void UpdateRoomVariable(long roomId, string name, SharedObject value)
         {
-            Room room = FindById(RoomId);
-            if (room != null)
-            {
-                room.UpdateVariable(Name, Value);
-            }
+            var room = FindById(roomId);
+            if (room == null) return;
+            room.UpdateVariable(name, value);
         }
 
-        public void RemoveRoom(long Id)
+        public void RemoveRoom(long id)
         {
-            Room room = FindById(Id);
-            if (room != null)
+            var room = FindById(id);
+            if (room == null) return;
+            lock (_roomList)
             {
-                lock (_roomList)
-                {
-                    _roomList.Remove(room);
-                }
+                _roomList.Remove(room);
             }
         }
     }

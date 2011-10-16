@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SocketService.Crypto
+﻿namespace SocketService.Crypto
 {
     /// <summary>
     /// 
@@ -16,7 +11,6 @@ namespace SocketService.Crypto
 
         protected DiffieHellmanProvider()
         {
-            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -53,7 +47,7 @@ namespace SocketService.Crypto
         /// <returns></returns>
         public DiffieHellmanKey CreatePrivateKey(DiffieHellmanKey publicKey)
         {
-            BigInteger yother = new BigInteger(publicKey.ToByteArray());
+            var yother = new BigInteger(publicKey.ToByteArray());
             return new DiffieHellmanKey(_prime, _g, yother.ModPow(_secret, _prime));
         }
 
@@ -64,7 +58,7 @@ namespace SocketService.Crypto
         /// <returns></returns>
         public DiffieHellmanKey CreatePrivateKey(byte[] publicKey)
         {
-            BigInteger yother = new BigInteger(publicKey);
+            var yother = new BigInteger(publicKey);
             return new DiffieHellmanKey(_prime, _g, yother.ModPow(_secret, _prime));
         }
 

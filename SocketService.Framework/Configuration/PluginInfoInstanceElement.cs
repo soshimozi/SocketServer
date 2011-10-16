@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Configuration;
+﻿using System.Configuration;
 
 namespace SocketService.Framework.Configuration
 {
@@ -11,16 +7,15 @@ namespace SocketService.Framework.Configuration
         [ConfigurationProperty("name", IsKey = true, IsRequired = true)]
         public string Name
         {
-            get { return (string)base["name"]; }
+            get { return (string) base["name"]; }
             set { base["name"] = value; }
         }
 
         [ConfigurationProperty("path", IsRequired = true)]
         public string Path
         {
-            get { return (string)base["path"]; }
+            get { return (string) base["path"]; }
             set { base["path"] = value; }
         }
-    
     }
 }

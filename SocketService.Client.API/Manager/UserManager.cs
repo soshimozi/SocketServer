@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using SocketService.Client.API.Data;
 
@@ -19,7 +17,9 @@ namespace SocketService.Client.API.Manager
 
         public User AddUser(User user)
         {
-            User u = FindByName(user.UserName);
+            var u = FindByName(user.UserName);
+
+            // didn't find it, so enter the user
             if (u == null)
             {
                 Monitor.Enter(this);
@@ -34,7 +34,7 @@ namespace SocketService.Client.API.Manager
             }
             else
             {
-                return user = u;
+                return u;
             }
         
             return user;

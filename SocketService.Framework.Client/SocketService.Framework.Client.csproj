@@ -53,7 +53,7 @@
     <Compile Include="Event\RoomUserUpdateEvent.cs" />
     <Compile Include="Event\RoomVariableUpdateEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Request\ClientRequest.cs" />
+    <Compile Include="Request\ClientRequestWrapper.cs" />
     <Compile Include="Request\CreateRoomRequest.cs" />
     <Compile Include="Request\CreateRoomVariableRequest.cs" />
     <Compile Include="Request\DeleteRoomVariableRequest.cs" />

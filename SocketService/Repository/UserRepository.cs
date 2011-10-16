@@ -1,29 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using SocketService.Framework.Data;
 
 namespace SocketService.Repository
 {
     public class UserRepository : IRepository<User>, IDisposable
     {
-        private static UserRepository _instance = null;
+        private static UserRepository _instance;
 
         /// <summary>
         /// Gets the instance.
         /// </summary>
         public static UserRepository Instance
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new UserRepository();
-                }
-
-                return _instance;
-            }
+            get { return _instance ?? (_instance = new UserRepository()); }
         }
 
         private readonly ServerDataEntities _context;
@@ -33,10 +23,12 @@ namespace SocketService.Repository
         {
         }
 
-        public UserRepository(ServerDataEntities Context)
+        public UserRepository(ServerDataEntities context)
         {
-            _context = Context;
+            if (context == null) throw new ArgumentNullException("context");
+            _context = context;
         }
+
         #endregion
         ///// <summary>
         ///// Finds the users by room.

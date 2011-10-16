@@ -1,20 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using SocketService.Actions;
 using SocketService.Framework.Messaging;
 using SocketService.Net.Client;
-using SocketService.Framework.Data;
-using SocketService.Framework.Client.Response;
-using SocketService.Actions;
-using SocketService.Repository;
 
 namespace SocketService.Command
 {
     [Serializable]
-    class LogoutUserCommand : BaseMessageHandler
+    internal class LogoutUserCommand : BaseMessageHandler
     {
         private readonly Guid _clientId;
+
         public LogoutUserCommand(Guid clientId)
         {
             _clientId = clientId;
@@ -45,7 +40,6 @@ namespace SocketService.Command
             //    new BroadcastObjectCommand(query.ToArray(),
             //        new ServerMessage("{0} has logged out.", user.UserName))
             //);
-
         }
     }
 }

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
-using System.Linq;
-using System.ServiceProcess;
-using System.Text;
+﻿using System.ServiceProcess;
 using SocketService.Framework.Messaging;
 using SocketService.Net;
 
@@ -13,8 +6,8 @@ namespace SocketService
 {
     public partial class SocketService : ServiceBase
     {
-        private readonly SocketManager serverManager = new SocketManager();
-        private readonly MessageServer messageServer = new MessageServer();
+        private readonly SocketManager _serverManager = new SocketManager();
+        private readonly MessageServer _messageServer = new MessageServer();
 
         public SocketService()
         {
@@ -25,14 +18,14 @@ namespace SocketService
         protected override void OnStart(string[] args)
         {
             // TODO: Make port configurable
-            serverManager.StartServer();
-            messageServer.Start();
+            _serverManager.StartServer();
+            _messageServer.Start();
         }
 
         protected override void OnStop()
         {
-            serverManager.StopServer();
-            messageServer.Stop();
+            _serverManager.StopServer();
+            _messageServer.Stop();
         }
     }
 }

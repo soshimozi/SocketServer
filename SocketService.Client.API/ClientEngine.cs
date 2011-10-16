@@ -1,16 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SocketService.Crypto;
-using SocketService.Framework.Client.Sockets;
 using SocketService.Framework.Client.Response;
-using System.Net.Sockets;
-using System.Threading;
-using SocketService.Framework.Client.Serialize;
-using System.Collections;
-using SocketService.Framework.Request;
-using SocketService.Framework.SharedObjects;
 using SocketService.Framework.Client.Event;
 using SocketService.Client.API.Event;
 using SocketService.Client.API.Manager;
@@ -34,62 +24,59 @@ namespace SocketService.Client.API
             Managers = new ManagerHelper(this);
         }
 
-        public ManagerHelper Managers
-        {
-            get;
-            private set;
-        }
+        public ManagerHelper Managers { get; private set; }
 
         public void AddServer(Server server)
         {
             lock (_servers)
-            { _servers.Add(server); }
+            {
+                _servers.Add(server);
+            }
 
-            server.ServerEvent += new EventHandler<ServerEventEventArgs>(server_ServerEvent);
-            server.ServerResponse += new EventHandler<ServerResponseEventArgs>(server_ServerResponse);
-
+            server.ServerEvent += ServerServerEvent;
+            server.ServerResponse += ServerServerResponse;
         }
 
         public void StopEngine()
         {
             lock (_servers)
             {
-                foreach (Server server in _servers)
+                foreach (var server in _servers)
                 {
                     server.Disconnect();
                 }
             }
         }
 
-        protected void server_ServerResponse(object sender, ServerResponseEventArgs e)
+        protected void ServerServerResponse(object sender, ServerResponseEventArgs e)
         {
             HandleServerResponse(e.Response);
         }
 
-        protected void server_ServerEvent(object sender, ServerEventEventArgs e)
+        protected void ServerServerEvent(object sender, ServerEventEventArgs e)
         {
             HandleEvent(e.ServerEvent);
         }
 
         private void HandleServerResponse(IResponse response)
         {
-            if( response is GetRoomVariableResponse)
+            if (response is GetRoomVariableResponse)
             {
                 OnGetRoomVariableResponseRecieved(
-                    new GetRoomVariableResponseArgs()
-                    {
-                        Response = response as GetRoomVariableResponse
-                    }
-                );
+                    new GetRoomVariableResponseArgs
+                        {
+                            Response = response as GetRoomVariableResponse
+                        }
+                    );
             }
             else if (response is LoginResponse)
             {
                 OnLoginResponseReceieved(
-                    new LoginResponseEventArgs()
-                    {
-                        LoginResponse = response as LoginResponse
-                    }
-                );
+                    new LoginResponseEventArgs
+                        {
+                            LoginResponse = response as LoginResponse
+                        }
+                    );
             }
         }
 
@@ -98,30 +85,29 @@ namespace SocketService.Client.API
             if (evt is JoinRoomEvent)
             {
                 OnJoinRoomEvent(
-                    new JoinRoomEventArgs()
-                    {
-                        Event = evt as JoinRoomEvent
-                    }
-                );
+                    new JoinRoomEventArgs
+                        {
+                            Event = evt as JoinRoomEvent
+                        }
+                    );
             }
             else if (evt is RoomUserUpdateEvent)
             {
                 OnRoomUserUpdate(
-                    new RoomUserUpdateEventArgs()
-                    {
-                        Event = evt as RoomUserUpdateEvent
-                    }
-               );
+                    new RoomUserUpdateEventArgs
+                        {
+                            Event = evt as RoomUserUpdateEvent
+                        }
+                    );
             }
             else if (evt is RoomVariableUpdateEvent)
             {
                 OnRoomVariableUpdate(
-                    new RoomVariableUpdateArgs()
-                    {
-                        Event = evt as RoomVariableUpdateEvent
-                    }
-                );
-
+                    new RoomVariableUpdateArgs
+                        {
+                            Event = evt as RoomVariableUpdateEvent
+                        }
+                    );
             }
         }
 
@@ -142,7 +128,7 @@ namespace SocketService.Client.API
                 func(this, args);
             }
         }
-    
+
 
         protected virtual void OnRoomUserUpdate(RoomUserUpdateEventArgs args)
         {
@@ -161,7 +147,7 @@ namespace SocketService.Client.API
                 func(this, args);
             }
         }
-    
+
         protected virtual void OnServerMessageReceived(ServerMessageReceivedArgs args)
         {
             var func = ServerMessageRecieved;
@@ -170,7 +156,7 @@ namespace SocketService.Client.API
                 func(this, args);
             }
         }
-    
+
         protected virtual void OnLoginResponseReceieved(LoginResponseEventArgs args)
         {
             var func = LoginResponseReceived;
@@ -187,8 +173,6 @@ namespace SocketService.Client.API
             {
                 func(this, args);
             }
-
         }
-
     }
 }

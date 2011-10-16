@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Messaging;
-using System.Diagnostics;
 using log4net;
 using System.Reflection;
 
@@ -11,7 +7,7 @@ namespace SocketService.Framework.Messaging
 {
     public class MSMQQueueWatcher : IDisposable
     {
-        private static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly MessageQueue _receiveQueue;
 
@@ -22,8 +18,7 @@ namespace SocketService.Framework.Messaging
         public MSMQQueueWatcher(string queueName)
         {
             // open the queue
-            _receiveQueue = new MessageQueue(queueName);
-            _receiveQueue.Formatter = new BinaryMessageFormatter();
+            _receiveQueue = new MessageQueue(queueName) {Formatter = new BinaryMessageFormatter()};
         }
 
         /// <summary>
@@ -42,11 +37,11 @@ namespace SocketService.Framework.Messaging
         /// <returns></returns>
         public T RecieveMessage<T>(int milliseconds) where T : class
         {
-            T t = default(T);
+            var t = default(T);
             try
             {
-                Message myMessage = _receiveQueue.Receive(TimeSpan.FromMilliseconds(milliseconds));
-                t = myMessage.Body as T;
+                var myMessage = _receiveQueue.Receive(TimeSpan.FromMilliseconds(milliseconds));
+                if (myMessage != null) t = myMessage.Body as T;
             }
             catch (MessageQueueException e)
             {

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Reflection;
 using SocketService.Framework.Messaging;
 using SocketService.Framework.Client.Serialize;
-using SocketService.Framework.Client.Sockets;
 using SocketService.Net;
+using log4net;
 
 namespace SocketService.Command
 {
@@ -15,6 +14,8 @@ namespace SocketService.Command
         private readonly Guid [] _clientList;
         private readonly byte[] _data;
 
+        private readonly static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         public BroadcastObjectCommand(Guid [] clientList, object graph)
         {
             _clientList = clientList;
@@ -23,19 +24,15 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            foreach (Guid clientId in _clientList)
+            foreach (var connection in _clientList.Select(clientId => SocketRepository.Instance.FindByClientId(clientId)).Where(connection => connection != null))
             {
-                ZipSocket connection = SocketRepository.Instance.FindByClientId(clientId);
-                if (connection != null)
+                try
                 {
-                    try
-                    {
-                        connection.SendData(_data);
-                    }
-                    catch (Exception)
-                    {
-                        // TODO: Log exception here
-                    }
+                    connection.SendData(_data);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex);
                 }
             }
         }

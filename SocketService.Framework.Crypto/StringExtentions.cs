@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Security.Cryptography;
 using System.IO;
 
@@ -9,7 +6,7 @@ namespace SocketService.Crypto
 {
     public static class StringExtentions
     {
-        private static byte[] salt = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xF1, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xF1 };
+        private static byte[] _salt = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xF1, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xF1 };
 
         /// <summary>
         /// Encrypts the specified secret.
@@ -22,16 +19,16 @@ namespace SocketService.Crypto
         {
             using( TripleDES des = new TripleDESCryptoServiceProvider())
             {
-                Rfc2898DeriveBytes db = new Rfc2898DeriveBytes(key, des.IV, 50);
+                var db = new Rfc2898DeriveBytes(key, des.IV, 50);
                 des.Key = db.GetBytes(des.KeySize / 8);
                 iv = des.IV;
 
                 // Encrypt the message
                 byte[] plaintextMessage = Encoding.UTF8.GetBytes(secret);
 
-                using (MemoryStream ciphertext = new MemoryStream())
+                using (var ciphertext = new MemoryStream())
                 {
-                    using (CryptoStream cs = new CryptoStream(ciphertext, des.CreateEncryptor(), CryptoStreamMode.Write))
+                    using (var cs = new CryptoStream(ciphertext, des.CreateEncryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(plaintextMessage, 0, plaintextMessage.Length);
                     }
@@ -52,14 +49,14 @@ namespace SocketService.Crypto
         {
             using (TripleDES aes = new TripleDESCryptoServiceProvider())
             {
-                Rfc2898DeriveBytes db = new Rfc2898DeriveBytes(key, iv, 50);
+                var db = new Rfc2898DeriveBytes(key, iv, 50);
                 aes.Key = db.GetBytes(aes.KeySize / 8);
                 aes.IV = iv;
 
                 // Encrypt the message
-                using (MemoryStream plainText = new MemoryStream())
+                using (var plainText = new MemoryStream())
                 {
-                    using (CryptoStream cs = new CryptoStream(plainText, aes.CreateDecryptor(), CryptoStreamMode.Write))
+                    using (var cs = new CryptoStream(plainText, aes.CreateDecryptor(), CryptoStreamMode.Write))
                     {
                         cs.Write(cipher, 0, cipher.Length);
                     }

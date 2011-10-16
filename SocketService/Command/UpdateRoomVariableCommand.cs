@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.SharedObjects;
-using SocketService.Actions;
 using SocketService.Framework.Client.Event;
 using SocketService.Framework.Data;
-using SocketService.Framework.Client.Response;
+using SocketService.Framework.Messaging;
+using SocketService.Framework.SharedObjects;
 using SocketService.Repository;
 
 namespace SocketService.Command
@@ -15,18 +11,18 @@ namespace SocketService.Command
     [Serializable]
     public class UpdateRoomVariableCommand : BaseMessageHandler
     {
-        private readonly int _zoneId;
-        private readonly int _roomId;
-        private readonly string _name;
-        private readonly SharedObject _so;
         private readonly Guid _clientId;
+        private readonly string _name;
+        private readonly int _roomId;
+        private readonly SharedObject _so;
+        private readonly int _zoneId;
 
-        public UpdateRoomVariableCommand(Guid clientId, int ZoneId, int RoomId, string Name, SharedObject Value)
+        public UpdateRoomVariableCommand(Guid clientId, int zoneId, int roomId, string name, SharedObject value)
         {
-            _zoneId = ZoneId;
-            _roomId = RoomId;
-            _name = Name;
-            _so = Value;
+            _zoneId = zoneId;
+            _roomId = roomId;
+            _name = name;
+            _so = value;
             _clientId = clientId;
         }
 
@@ -39,16 +35,17 @@ namespace SocketService.Command
 
             MSMQQueueWrapper.QueueCommand(
                 new BroadcastObjectCommand(
-                    room.Users.Select((u) => { return u.ClientKey; }).ToArray(),
-                    new RoomVariableUpdateEvent()
-                    {
-                        RoomId = room.Id,
-                        Name = _name,
-                        Value = _so,
-                        Action = RoomVariableUpdateAction.Update
-                    }
-                )
-            );
+                    room.Users.Select(u => u == null ? new Guid() : u.ClientKey).ToArray(),
+                    new RoomVariableUpdateEvent
+                        {
+                            ZoneId =  _zoneId,
+                            RoomId = room.Id,
+                            Name = _name,
+                            Value = _so,
+                            Action = RoomVariableUpdateAction.Update
+                        }
+                    )
+                );
 
             //MSMQQueueWrapper.QueueCommand(
             //    new SendObjectCommand(
@@ -61,7 +58,6 @@ namespace SocketService.Command
             //        }
             //    )
             //);
-
         }
     }
 }

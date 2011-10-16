@@ -40,7 +40,7 @@
             this.startButton.TabIndex = 0;
             this.startButton.Text = "Start";
             this.startButton.UseVisualStyleBackColor = true;
-            this.startButton.Click += new System.EventHandler(this.startButton_Click);
+            this.startButton.Click += new System.EventHandler(this.StartButtonClick);
             // 
             // stopButton
             // 
@@ -50,7 +50,7 @@
             this.stopButton.TabIndex = 1;
             this.stopButton.Text = "Stop";
             this.stopButton.UseVisualStyleBackColor = true;
-            this.stopButton.Click += new System.EventHandler(this.stopButton_Click);
+            this.stopButton.Click += new System.EventHandler(this.StopButtonClick);
             // 
             // ServerControlForm
             // 
@@ -61,7 +61,7 @@
             this.Controls.Add(this.startButton);
             this.Name = "ServerControlForm";
             this.Text = "ServerControlForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ServerControlForm_FormClosing);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ServerControlFormFormClosing);
             this.ResumeLayout(false);
 
         }

@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.ServiceProcess;
-using System.Text;
 using System.Windows.Forms;
-using System.Reflection;
-using log4net;
 
 namespace SocketService
 {
@@ -18,22 +13,19 @@ namespace SocketService
         {
             log4net.Config.XmlConfigurator.Configure();
 
+            var servicesToRun = new ServiceBase[] { new SocketService() };
+
             if (args.Length > 0)
             {
                 if (args[0].ToLower() == "/gui")
                 {
-                    ServerControlForm form = new ServerControlForm();
+                    var form = new ServerControlForm();
                     Application.Run(form);
                 }
             }
             else
             {
-                ServiceBase[] ServicesToRun;
-                ServicesToRun = new ServiceBase[] 
-			{ 
-				new SocketService() 
-			};
-                ServiceBase.Run(ServicesToRun);
+                ServiceBase.Run(servicesToRun);
             }
         }
     }

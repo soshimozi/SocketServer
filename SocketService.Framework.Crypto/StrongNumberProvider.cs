@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Security.Cryptography;
 
 namespace SocketService.Crypto
@@ -8,7 +6,7 @@ namespace SocketService.Crypto
     [Serializable]
     public class StrongNumberProvider
     {
-        private static RNGCryptoServiceProvider csp = new RNGCryptoServiceProvider();
+        private static readonly RNGCryptoServiceProvider Csp = new RNGCryptoServiceProvider();
 
         /// <summary>
         /// Gets the next U int32.
@@ -16,8 +14,8 @@ namespace SocketService.Crypto
         /// <returns></returns>
         public uint GetNextUInt32()
         {
-            byte[] res = new byte[4];
-            csp.GetBytes(res);
+            var res = new byte[4];
+            Csp.GetBytes(res);
             return BitConverter.ToUInt32(res, 0);
         }
 
@@ -27,8 +25,8 @@ namespace SocketService.Crypto
         /// <returns></returns>
         public int GetNextInt()
         {
-            byte[] res = new byte[4];
-            csp.GetBytes(res);
+            var res = new byte[4];
+            Csp.GetBytes(res);
             return BitConverter.ToInt32(res, 0);
         }
 
@@ -39,7 +37,7 @@ namespace SocketService.Crypto
         public Single GetNextSingle()
         {
             float numerator = GetNextUInt32();
-            float denominator = uint.MaxValue;
+            const float denominator = uint.MaxValue;
             return numerator / denominator;
         }
     }

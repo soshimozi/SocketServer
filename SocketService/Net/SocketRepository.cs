@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Net.Sockets;
 using System.Threading;
 using SocketService.Framework.Client.Sockets;
@@ -10,6 +9,7 @@ namespace SocketService.Net
 {
     public class SocketRepository
     {
+        private static SocketRepository _instance;
         private readonly Dictionary<Guid, ZipSocket> _connectionList = new Dictionary<Guid, ZipSocket>();
         private readonly Mutex _connectionMutex = new Mutex();
 
@@ -17,22 +17,20 @@ namespace SocketService.Net
         {
         }
 
-        private static SocketRepository _instance = null;
-
         /// <summary>
         /// Gets the instance.
         /// </summary>
         public static SocketRepository Instance
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new SocketRepository();
-                }
+            get { return _instance ?? (_instance = new SocketRepository()); }
+        }
 
-                return _instance;
-            }
+        /// <summary>
+        /// Gets the connection list.
+        /// </summary>
+        public List<ZipSocket> ConnectionList
+        {
+            get { return _connectionList.Values.ToList(); }
         }
 
         /// <summary>
@@ -53,7 +51,6 @@ namespace SocketService.Net
                 {
                     return null;
                 }
-
             }
             finally
             {
@@ -95,19 +92,5 @@ namespace SocketService.Net
                 _connectionMutex.ReleaseMutex();
             }
         }
-
-
-        /// <summary>
-        /// Gets the connection list.
-        /// </summary>
-        public List<ZipSocket> ConnectionList
-        {
-            get
-            {
-                return _connectionList.Values.ToList();
-            }
-        }
-
-
     }
 }

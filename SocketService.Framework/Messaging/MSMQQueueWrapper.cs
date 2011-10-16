@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Messaging;
 using System.Configuration;
 using log4net;
@@ -11,12 +8,12 @@ namespace SocketService.Framework.Messaging
 {
     public class MSMQQueueWrapper
     {
-        private static string _queuePath;
-        private static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly string QueuePath;
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         static MSMQQueueWrapper()
         {
-            _queuePath = ConfigurationManager.AppSettings["ServerMessageQueue"];
+            QueuePath = ConfigurationManager.AppSettings["ServerMessageQueue"];
         }
 
         /// <summary>
@@ -28,13 +25,12 @@ namespace SocketService.Framework.Messaging
             try
             {
                 // open the queue
-                MessageQueue mq = new MessageQueue(_queuePath);
+                var mq = new MessageQueue(QueuePath)
+                 {DefaultPropertiesToSend = {Recoverable = true}, Formatter = new BinaryMessageFormatter()};
 
                 // set the message to durable.
-                mq.DefaultPropertiesToSend.Recoverable = true;
 
                 // set the formatter to Binary, default is XML
-                mq.Formatter = new BinaryMessageFormatter();
 
                 // send the command object
                 mq.Send(c, "Command Message");

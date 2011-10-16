@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel.Composition;
 using SocketService.Command;
+using SocketService.Framework.Client.Request;
 using SocketService.Framework.Messaging;
 using SocketService.Framework.ServiceHandlerLib;
-using SocketService.Framework.Request;
 
-namespace SocketService
+namespace SocketService.Handler
 {
-    [Serializable()]
-    [ServiceHandlerType(typeof(CreateRoomRequest))]
-    class ChangeRoomRequestHandler : BaseHandler<CreateRoomRequest, Guid>
+    [Serializable]
+    [ServiceHandlerType(typeof (CreateRoomRequest))]
+    internal class ChangeRoomRequestHandler : BaseHandler<CreateRoomRequest, Guid>
     {
         public override bool HandleRequest(CreateRoomRequest request, Guid state)
         {
@@ -22,10 +18,9 @@ namespace SocketService
 
                 MSMQQueueWrapper.QueueCommand(
                     new CreateRoomCommand(state, request.ZoneName, roomName)
-                );
+                    );
 
                 return true;
-
             }
 
             return false;

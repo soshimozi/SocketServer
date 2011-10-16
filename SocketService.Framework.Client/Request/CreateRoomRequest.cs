@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace SocketService.Framework.Request
+namespace SocketService.Framework.Client.Request
 {
     [Serializable]
-    /// <summary>
-    /// Creates a room if it doesn't exist and switches requestor to that room
-    /// </summary>
     public class CreateRoomRequest
     {
         public string ZoneName

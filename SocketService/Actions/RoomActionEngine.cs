@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Linq;
 using SocketService.Framework.Util;
-using SocketService.Framework.SharedObjects;
 using SocketService.Framework.Data;
 using SocketService.Repository;
 
@@ -15,10 +11,10 @@ namespace SocketService.Actions
 
         public Room CreateRoom(string roomName, Zone zone)
         {
-            Room room = RoomRepository.Instance.Query( r => r.Name.Equals(roomName) ).FirstOrDefault();
+            var room = RoomRepository.Instance.Query( r => r.Name.Equals(roomName) ).FirstOrDefault();
             if (room == null)
             {
-                room = new Room() { Name = roomName, Password = string.Empty, Capacity = -1, IsPersistable = false, IsPrivate = false, Zone = zone };
+                room = new Room { Name = roomName, Password = string.Empty, Capacity = -1, IsPersistable = false, IsPrivate = false, Zone = zone };
 
                 RoomRepository.Instance.Add(room);
                 zone.Rooms.Add(room);
@@ -102,10 +98,10 @@ namespace SocketService.Actions
 
         public void RemoveNonPersistentRooms()
         {
-            List<Room> rooms = RoomRepository.Instance.Query(r => !r.IsPersistable).ToList();
-            foreach (Room room in rooms)
+            var rooms = RoomRepository.Instance.Query(r => !r.IsPersistable).ToList();
+            foreach (var room in rooms)
             {
-                Zone zone = room.Zone;
+                var zone = room.Zone;
                 if (zone != null)
                 {
                     zone.Rooms.Remove(room);

@@ -1,22 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Sockets;
-using SocketService.Framework.Client.Sockets;
-using SocketService.Net.Client;
-using SocketService.Net;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.Request;
 using SocketService.Framework.Client.Response;
+using SocketService.Framework.Messaging;
+using SocketService.Net.Client;
 
 namespace SocketService.Command
 {
-    [Serializable()]
+    [Serializable]
     public class NegotiateKeysCommand : BaseMessageHandler
     {
-        Guid _clientId;
-        byte[] _publicKey;
+        private readonly Guid _clientId;
+        private readonly byte[] _publicKey;
 
         public NegotiateKeysCommand(Guid clientId, byte[] publicKey)
         {
@@ -50,8 +43,7 @@ namespace SocketService.Command
                 connection.RemotePublicKey = connection.Provider.Import(_publicKey);
 
                 // send our public key back
-                NegotiateKeysResponse response = new NegotiateKeysResponse();
-                response.RemotePublicKey = connection.Provider.PublicKey.ToByteArray();
+                var response = new NegotiateKeysResponse {RemotePublicKey = connection.Provider.PublicKey.ToByteArray()};
 
                 // now we send a response back
                 MSMQQueueWrapper.QueueCommand(new SendObjectCommand(_clientId, response));

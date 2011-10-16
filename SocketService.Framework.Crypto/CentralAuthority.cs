@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SocketService.Crypto
 {
@@ -24,7 +21,7 @@ namespace SocketService.Crypto
         {
             _bits = (int)protocol;
             _prime = BigInteger.GenPseudoPrime(_bits, Confidence, _rand);
-            _g = (BigInteger)7;
+            _g = 7;
         }
 
         /// <summary>
@@ -33,7 +30,7 @@ namespace SocketService.Crypto
         public CentralAuthority()
         {
             _prime = BigInteger.GenPseudoPrime(_bits, Confidence, _rand);
-            _g = (BigInteger)7;
+            _g = 7;
         }
 
         /// <summary>

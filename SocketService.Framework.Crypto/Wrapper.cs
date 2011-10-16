@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.IO;
 using System.Security.Cryptography;
@@ -11,11 +9,6 @@ namespace SocketService.Crypto
     {
         private readonly SymmetricAlgorithm _algorithm;
         private readonly ICryptoTransform _transformer;
-
-        private Wrapper()
-        {
-            throw new NotImplementedException();
-        }
 
         private Wrapper(SymmetricAlgorithm algorithm, ICryptoTransform transform)
         {
@@ -61,10 +54,15 @@ namespace SocketService.Crypto
                     break;
             }
 
-            Rfc2898DeriveBytes db = new Rfc2898DeriveBytes(key, algorithm.IV, entropy);
-            algorithm.Key = db.GetBytes(algorithm.KeySize / 8);
+            if (algorithm != null)
+            {
+                var db = new Rfc2898DeriveBytes(key, algorithm.IV, entropy);
+                algorithm.Key = db.GetBytes(algorithm.KeySize / 8);
+            }
 
-            return new Wrapper(algorithm, algorithm.CreateEncryptor());
+            if (algorithm != null) return new Wrapper(algorithm, algorithm.CreateEncryptor());
+
+            return null;
         }
 
         /// <summary>
@@ -93,11 +91,16 @@ namespace SocketService.Crypto
                     break;
             }
 
-            Rfc2898DeriveBytes db = new Rfc2898DeriveBytes(key, iv, entropy);
-            algorithm.Key = db.GetBytes(algorithm.KeySize / 8);
-            algorithm.IV = iv;
+            var db = new Rfc2898DeriveBytes(key, iv, entropy);
+            if (algorithm != null)
+            {
+                algorithm.Key = db.GetBytes(algorithm.KeySize / 8);
+                algorithm.IV = iv;
 
-            return new Wrapper(algorithm, algorithm.CreateDecryptor());
+                return new Wrapper(algorithm, algorithm.CreateDecryptor());
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -119,9 +122,9 @@ namespace SocketService.Crypto
         /// <returns></returns>
         public byte[] EncryptString(string secret)
         {
-            using (MemoryStream cipherText = new MemoryStream())
+            using (var cipherText = new MemoryStream())
             {
-                using (CryptoStream cs = new CryptoStream(cipherText, _transformer, CryptoStreamMode.Write))
+                using (var cs = new CryptoStream(cipherText, _transformer, CryptoStreamMode.Write))
                 {
                      byte[] plainText = Encoding.UTF8.GetBytes(secret);
                      cs.Write(plainText, 0, plainText.Length);
@@ -138,9 +141,9 @@ namespace SocketService.Crypto
         /// <returns></returns>
         public byte[] Encrypt(byte[] sensitive)
         {
-            using (MemoryStream cipherStream = new MemoryStream())
+            using (var cipherStream = new MemoryStream())
             {
-                using (CryptoStream cs = new CryptoStream(cipherStream, _transformer, CryptoStreamMode.Write))
+                using (var cs = new CryptoStream(cipherStream, _transformer, CryptoStreamMode.Write))
                 {
                     cs.Write(sensitive, 0, sensitive.Length);
                 }
@@ -157,9 +160,9 @@ namespace SocketService.Crypto
         public byte[] Decrypt(byte[] cipher)
         {
             // Decrypt the message
-            using (MemoryStream decrypted = new MemoryStream())
+            using (var decrypted = new MemoryStream())
             {
-                using (CryptoStream cs = new CryptoStream(decrypted, _transformer, CryptoStreamMode.Write))
+                using (var cs = new CryptoStream(decrypted, _transformer, CryptoStreamMode.Write))
                 {
                     cs.Write(cipher, 0, cipher.Length);
                 }
@@ -176,12 +179,12 @@ namespace SocketService.Crypto
         /// <returns></returns>
         public string DecryptString(string cipherString)
         {
-            byte[] cipher = System.Text.Encoding.UTF8.GetBytes(cipherString);
+            var cipher = Encoding.UTF8.GetBytes(cipherString);
 
             // Decrypt the message
-            using (MemoryStream plainText = new MemoryStream())
+            using (var plainText = new MemoryStream())
             {
-                using (CryptoStream cs = new CryptoStream(plainText, _transformer, CryptoStreamMode.Write))
+                using (var cs = new CryptoStream(plainText, _transformer, CryptoStreamMode.Write))
                 {
                     cs.Write(cipher, 0, cipher.Length);
                 }
@@ -198,9 +201,9 @@ namespace SocketService.Crypto
         public string DecryptString(byte [] cipher)
         {
             // Decrypt the message
-            using (MemoryStream plainText = new MemoryStream())
+            using (var plainText = new MemoryStream())
             {
-                using (CryptoStream cs = new CryptoStream(plainText, _transformer, CryptoStreamMode.Write))
+                using (var cs = new CryptoStream(plainText, _transformer, CryptoStreamMode.Write))
                 {
                     cs.Write(cipher, 0, cipher.Length);
                 }
@@ -209,7 +212,7 @@ namespace SocketService.Crypto
             }
         }
 
-        private bool disposed = false;
+        private bool _disposed;
 
         // Implement IDisposable.
         // Do not make this method virtual.
@@ -235,20 +238,18 @@ namespace SocketService.Crypto
         protected virtual void Dispose(bool disposing)
         {
             // Check to see if Dispose has already been called.
-            if (!this.disposed)
+            if (_disposed) return;
+
+            // If disposing equals true, dispose all managed
+            // and unmanaged resources.
+            if (disposing)
             {
-                // If disposing equals true, dispose all managed
-                // and unmanaged resources.
-                if (disposing)
-                {
-                    // Dispose managed resources.
-                    _algorithm.Dispose();
-                }
-
-                // Note disposing has been done.
-                disposed = true;
-
+                // Dispose managed resources.
+                _algorithm.Dispose();
             }
+
+            // Note disposing has been done.
+            _disposed = true;
         }
 
     }

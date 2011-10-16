@@ -1,24 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SocketService.Framework.Data
+﻿namespace SocketService.Framework.Data
 {
     public class DatabaseContextFactory
     {
-        private static ServerDataEntities _context = null;
+        private static ServerDataEntities _context;
         public static ServerDataEntities Context
         {
-            get
-            {
-                if (_context == null)
-                {
-                    _context = new ServerDataEntities();
-                }
-
-                return _context;
-            }
+            get { return _context ?? (_context = new ServerDataEntities()); }
         }
     }
 }

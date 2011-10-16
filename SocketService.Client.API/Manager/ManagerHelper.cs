@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SocketService.Framework.Client.Event;
 using SocketService.Framework.SharedObjects;
-using SocketService.Framework.Client.Response;
 using SocketService.Client.API.Event;
 using SocketService.Client.API.Data;
 
@@ -12,27 +8,30 @@ namespace SocketService.Client.API.Manager
 {
     public class ManagerHelper
     {
-        private ClientEngine _engine;
+        private readonly ClientEngine _engine;
         public ManagerHelper(ClientEngine engine)
         {
-            this.RoomManager = new RoomManager();
-            this.UserManager = new UserManager();
+            if (engine == null)
+                throw new ArgumentNullException();
+
+            RoomManager = new RoomManager();
+            UserManager = new UserManager();
 
             _engine = engine;
 
-            _engine.RoomUserUpdate += new EventHandler<RoomUserUpdateEventArgs>(engine_RoomUserUpdate);
-            _engine.JoinRoom += new EventHandler<JoinRoomEventArgs>(engine_JoinRoom);
-            _engine.LoginResponseReceived += new EventHandler<LoginResponseEventArgs>(engine_LoginResponseReceived);
-            _engine.RoomVariableUpdate += new EventHandler<RoomVariableUpdateArgs>(engine_RoomVariableUpdate);
-            _engine.LeaveRoom += new EventHandler<LeaveRoomEventArgs>(engine_LeaveRoom);
+            _engine.RoomUserUpdate += EngineRoomUserUpdate;
+            _engine.JoinRoom += EngineJoinRoom;
+            _engine.LoginResponseReceived += EngineLoginResponseReceived;
+            _engine.RoomVariableUpdate += EngineRoomVariableUpdate;
+            _engine.LeaveRoom += EngineLeaveRoom;
         }
 
-        void engine_LeaveRoom(object sender, LeaveRoomEventArgs e)
+        void EngineLeaveRoom(object sender, LeaveRoomEventArgs e)
         {
-            this.RoomManager.RemoveRoom(e.RoomId);
+            RoomManager.RemoveRoom(e.RoomId);
         }
 
-        void engine_RoomVariableUpdate(object sender, RoomVariableUpdateArgs e)
+        void EngineRoomVariableUpdate(object sender, RoomVariableUpdateArgs e)
         {
             switch (e.Event.Action)
             {
@@ -50,37 +49,35 @@ namespace SocketService.Client.API.Manager
             }
         }
     
-        void engine_LoginResponseReceived(object sender, LoginResponseEventArgs e)
+        void EngineLoginResponseReceived(object sender, LoginResponseEventArgs e)
         {
-            LoginResponse loginResponse = e.LoginResponse;
-            if (loginResponse.Success)
-            {
-                User user = new User();
-                user.IsMe = true;
-                user.UserName = loginResponse.UserName;
+            var loginResponse = e.LoginResponse;
+            if (!loginResponse.Success) return;
 
-                //foreach (string current in loginResponse.UserVariables.Keys)
-                //{
-                //    EsObject value = loginResponse.UserVariables[current] as EsObject;
-                //    user.AddUserVariable(new UserVariable
-                //    {
-                //        Name = current,
-                //        Value = value
-                //    });
-                //}
-                this.UserManager.AddUser(user);
-                this.UserManager.Me = user;
-            }
+            var user = new User {IsMe = true, UserName = loginResponse.UserName};
+
+            //foreach (string current in loginResponse.UserVariables.Keys)
+            //{
+            //    EsObject value = loginResponse.UserVariables[current] as EsObject;
+            //    user.AddUserVariable(new UserVariable
+            //    {
+            //        Name = current,
+            //        Value = value
+            //    });
+            //}
+            UserManager.AddUser(user);
+            UserManager.Me = user;
         }
 
-        void engine_JoinRoom(object sender, JoinRoomEventArgs e)
+        void EngineJoinRoom(object sender, JoinRoomEventArgs e)
         {
-            JoinRoomEvent joinRoomEvent = e.Event;
-            Room room = this.RoomManager.FindById(joinRoomEvent.RoomId);
+            var joinRoomEvent = e.Event;
+            if (RoomManager == null) return;
+
+            var room = RoomManager.FindById(joinRoomEvent.RoomId);
             if (room == null)
             {
-                room = new Room(joinRoomEvent.RoomId);
-                room.Name = joinRoomEvent.RoomName;
+                room = new Room(joinRoomEvent.RoomId) {Name = joinRoomEvent.RoomName};
                 RoomManager.AddRoom(room);
             }
 
@@ -94,13 +91,13 @@ namespace SocketService.Client.API.Manager
             //    room.AddRoomVariable(roomVariable.Name, roomVariable);
             //}
 
-            foreach (UserListEntry userListEntry in joinRoomEvent.Users)
+            foreach (var userListEntry in joinRoomEvent.Users)
             {
-                User u = this.UserManager.AddUser(this.UserListEntryToUser(userListEntry));
+                var u = UserManager.AddUser(UserListEntryToUser(userListEntry));
                 room.AddUser(u);
             }
 
-            this.UserManager.Me.Room = room;
+            if (UserManager != null) UserManager.Me.Room = room;
         }
 
         private User UserListEntryToUser(UserListEntry entry)
@@ -112,16 +109,15 @@ namespace SocketService.Client.API.Manager
             };
         }
 
-        void engine_RoomUserUpdate(object sender, RoomUserUpdateEventArgs e)
+        void EngineRoomUserUpdate(object sender, RoomUserUpdateEventArgs e)
         {
-            RoomUserUpdateEvent roomUserUpdateEvent = e.Event;
+            var roomUserUpdateEvent = e.Event;
 
-            User user = this.UserManager.FindByName(roomUserUpdateEvent.UserName);
-            Room room = this.RoomManager.FindById(roomUserUpdateEvent.RoomId);
+            var user = UserManager.FindByName(roomUserUpdateEvent.UserName);
+            var room = RoomManager.FindById(roomUserUpdateEvent.RoomId);
             if (user == null)
             {
-                user = new User();
-                user.UserName = roomUserUpdateEvent.UserName;
+                user = new User {UserName = roomUserUpdateEvent.UserName};
                 //foreach (UserVariable current in roomUserUpdateEvent.UserVariables)
                 //{
                 //    user.AddUserVariable(current);
@@ -131,11 +127,11 @@ namespace SocketService.Client.API.Manager
             switch (roomUserUpdateEvent.Action)
             {
                 case RoomUserUpdateAction.AddUser:
-                        user = this.UserManager.AddUser(user);
+                        user = UserManager.AddUser(user);
                         room.AddUser(user);
                         break;
                 case RoomUserUpdateAction.DeleteUser:
-                        this.UserManager.RemoveUser(user.UserName);
+                        UserManager.RemoveUser(user.UserName);
                         room.RemoveUser(user);
                         break;
             }

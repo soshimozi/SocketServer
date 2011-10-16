@@ -51,7 +51,7 @@
     <Compile Include="Data\Room.cs" />
     <Compile Include="Manager\RoomManager.cs" />
     <Compile Include="Event\RoomUserUpdateEventArgs.cs" />
-    <Compile Include="RoomVariableUpdateArgs.cs" />
+    <Compile Include="Event\RoomVariableUpdateArgs.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Event\ServerMessageReceivedArgs.cs" />
     <Compile Include="Data\User.cs" />

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Messaging;
 using System.Threading;
 using System.Configuration;
@@ -12,12 +9,11 @@ namespace SocketService.Framework.Messaging
 {
     public class MessageServer : MSMQQueueWatcher
     {
-        private static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         private readonly ManualResetEvent _stopEvent = new ManualResetEvent(false);
-        private readonly ManualResetEvent _pauseEvent = new ManualResetEvent(false);
 
-        private bool _running = false;
+        private bool _running;
 
         private readonly string _queuePath;
         /// <summary>
@@ -37,20 +33,19 @@ namespace SocketService.Framework.Messaging
         /// </summary>
         public void Start()
         {
-            if (!_running)
+            if (_running) return;
+
+            _stopEvent.Reset();
+            _running = true;
+
+            var numProcessors = Environment.ProcessorCount;
+            const double numThreadsPerProcessor = 1.5;
+            var numThreads = (int)(numProcessors * numThreadsPerProcessor) + 1;
+
+            for (int i = 0; i < numThreads; i++)
             {
-                _stopEvent.Reset();
-                _running = true;
-
-                int numProcessors = System.Environment.ProcessorCount;
-                double numThreadsPerProcessor = 1.5;
-                int numThreads = (int)((double)numProcessors * numThreadsPerProcessor) + 1;
-
-                for (int i = 0; i < numThreads; i++)
-                {
-                    Thread serverThread = new Thread(new ThreadStart(Serve));
-                    serverThread.Start();
-                }
+                var serverThread = new Thread(Serve);
+                serverThread.Start();
             }
         }
 
@@ -83,18 +78,16 @@ namespace SocketService.Framework.Messaging
         {
             while (!_stopEvent.WaitOne(50))
             {
-                ICommand command = RecieveMessage<ICommand>(500);
-                if (command != null)
-                {
-                    try
-                    {
-                        command.Execute();
-                    }
-                    catch (Exception e)
-                    {
-                        Log.ErrorFormat("Error: {0}", e.Message);
-                    }
+                var command = RecieveMessage<ICommand>(500);
+                if (command == null) continue;
 
+                try
+                {
+                    command.Execute();
+                }
+                catch (Exception e)
+                {
+                    Log.ErrorFormat("Error: {0}", e.Message);
                 }
             }
         }

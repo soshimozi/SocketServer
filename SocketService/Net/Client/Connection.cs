@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SocketService.Crypto;
 
 namespace SocketService.Net.Client
@@ -23,11 +20,7 @@ namespace SocketService.Net.Client
         /// <value>
         /// The client id.
         /// </value>
-        public Guid ClientId
-        {
-            get;
-            set;
-        }
+        public Guid ClientId { get; set; }
 
         /// <summary>
         /// Gets or sets the remote public key.
@@ -35,11 +28,7 @@ namespace SocketService.Net.Client
         /// <value>
         /// The remote public key.
         /// </value>
-        public DiffieHellmanKey RemotePublicKey
-        {
-            get;
-            set;
-        }
+        public DiffieHellmanKey RemotePublicKey { get; set; }
 
         /// <summary>
         /// Gets or sets the provider.
@@ -47,11 +36,7 @@ namespace SocketService.Net.Client
         /// <value>
         /// The provider.
         /// </value>
-        public DiffieHellmanProvider Provider
-        {
-            get;
-            set;
-        }
+        public DiffieHellmanProvider Provider { get; set; }
 
         /// <summary>
         /// Gets or sets the state of the connection.
@@ -59,11 +44,7 @@ namespace SocketService.Net.Client
         /// <value>
         /// The state of the connection.
         /// </value>
-        public ConnectionState ConnectionState
-        {
-            get;
-            set;
-        }
+        public ConnectionState ConnectionState { get; set; }
     }
 
     public enum ConnectionState

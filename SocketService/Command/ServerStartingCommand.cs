@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
 using SocketService.Actions;
-using SocketService.Net;
+using SocketService.Framework.Messaging;
 
 namespace SocketService.Command
 {
@@ -18,7 +14,6 @@ namespace SocketService.Command
 
             // remove all non-persistent rooms
             RoomActionEngine.Instance.RemoveNonPersistentRooms();
-
         }
     }
 }

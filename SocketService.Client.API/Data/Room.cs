@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using SocketService.Framework.SharedObjects;
 
@@ -12,7 +11,7 @@ namespace SocketService.Client.API.Data
         private readonly List<User> _userList = new List<User>();
         private readonly Dictionary<String, SharedObject> _roomVariableList = new Dictionary<String, SharedObject>();
 
-        private static long _nextId = 0;
+        private static long _nextId;
 
         public Room(long id)
         {
@@ -117,12 +116,15 @@ namespace SocketService.Client.API.Data
 
         //}
 
-        public void AddRoomVariable(String Name, SharedObject Value)
+        public void AddRoomVariable(String name, SharedObject value)
         {
+            if (value == null)
+                throw new ArgumentNullException("value");
+
             Monitor.Enter(this);
             try
             {
-                _roomVariableList.Add(Name, Value);
+                _roomVariableList.Add(name, value);
             }
             finally
             {
@@ -146,13 +148,16 @@ namespace SocketService.Client.API.Data
             }
         }
 
-        public void RemoveVariable(string Name)
+        public void RemoveVariable(string name)
         {
+            if (name == null)
+                throw new ArgumentNullException("name");
+
             Monitor.Enter(this);
             try
             {
-                if( _roomVariableList.ContainsKey(Name))
-                    _roomVariableList.Remove(Name);
+                if( _roomVariableList.ContainsKey(name))
+                    _roomVariableList.Remove(name);
             }
             finally
             {
@@ -160,15 +165,21 @@ namespace SocketService.Client.API.Data
             }
         }
 
-        public void UpdateVariable(string Name, SharedObject Value)
+        public void UpdateVariable(string name, SharedObject value)
         {
+            if (value == null)
+                throw new ArgumentNullException("value");
+
+            if (name == null)
+                throw new ArgumentNullException("name");
+
             Monitor.Enter(this);
             try
             {
-                if (_roomVariableList.ContainsKey(Name))
-                    _roomVariableList.Remove(Name);
+                if (_roomVariableList.ContainsKey(name))
+                    _roomVariableList.Remove(name);
 
-                _roomVariableList.Add(Name, Value);
+                _roomVariableList.Add(name, value);
             }
             finally
             {

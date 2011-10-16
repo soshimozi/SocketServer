@@ -1,30 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace SocketService.Framework.Request
+namespace SocketService.Framework.Client.Request
 {
     [Serializable]
     public class GetRoomVariableRequest
     {
-        public int ZoneId
-        {
-            get;
-            set;
-        }
-    
+        public int ZoneId { get; set; }
+
         /// <summary>
         /// Gets or sets the name of the room.
         /// </summary>
         /// <value>
         /// The name of the room.
         /// </value>
-        public int RoomId
-        {
-            get;
-            set;
-        }
+        public int RoomId { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the variable.
@@ -32,10 +21,6 @@ namespace SocketService.Framework.Request
         /// <value>
         /// The name of the variable.
         /// </value>
-        public string VariableName
-        {
-            get;
-            set;
-        }
+        public string VariableName { get; set; }
     }
 }

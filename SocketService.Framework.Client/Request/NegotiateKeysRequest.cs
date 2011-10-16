@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace SocketService.Framework.Request
+namespace SocketService.Framework.Client.Request
 {
     [Serializable]
     public class NegotiateKeysRequest
@@ -30,11 +27,6 @@ namespace SocketService.Framework.Request
         /// <value>
         /// The public key.
         /// </value>
-        public byte[] PublicKey
-        {
-            get;
-            set;
-        }
-
+        public byte[] PublicKey { get; set; }
     }
 }
