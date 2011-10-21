@@ -188,7 +188,7 @@ namespace SocketService.Net
                 if (socket != null)
                 {
                     Guid clientId = Guid.NewGuid();
-                    var client = new ZipSocket(socket, clientId);
+                    var client = new ZipSocket(socket);
 
                     AddConnection(clientId, client);
                     OnClientConnected(clientId, socket, ((IPEndPoint) socket.RemoteEndPoint).Address.ToString());

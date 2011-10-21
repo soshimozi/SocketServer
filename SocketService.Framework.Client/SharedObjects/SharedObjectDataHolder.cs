@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace SocketService.Framework.SharedObjects
+namespace SocketService.Framework.Client.SharedObjects
 {
     [Serializable]
     public class SharedObjectDataHolder
     {
-        private int dataType;
-        private object value;
+        private int _dataType;
+        private object _value;
 
         /// <summary>
         /// Gets or sets the value.
@@ -19,7 +16,7 @@ namespace SocketService.Framework.SharedObjects
         /// </value>
         public object Value
         {
-            get { return this.value; }
+            get { return _value; }
             set { SetValue(value); }
         }
 
@@ -31,88 +28,93 @@ namespace SocketService.Framework.SharedObjects
         /// </value>
         public  SharedObjectDataType DataType
         {
-            get { return (SharedObjectDataType)dataType; }
-            set { dataType = (int)value; }
+            get { return (SharedObjectDataType)_dataType; }
+            set { _dataType = (int)value; }
         } 
 
         private void SetValue(object value)
         {
-            this.value = value;
+            _value = value;
 
             // default to an object
-            int dataType = (int)SharedObjectDataType.BzObject;
+            var dataType = SharedObjectDataType.BzObject;
 
-            if (value != null)
+            if (value == null) return;
+            if (value is Int32)
             {
-                if (value is Int32)
-                {
-                    dataType = (int)SharedObjectDataType.Integer;
-                }
-                else if (value is Int16)
-                {
-                    dataType = (int)SharedObjectDataType.Short;
-                }
-                else if (value is Int64)
-                {
-                    dataType = (int)SharedObjectDataType.Long;
-                }
-                else if (value is String)
-                {
-                    dataType = (int)SharedObjectDataType.String;
-                }
-                else if (value is float)
-                {
-                    dataType = (int)SharedObjectDataType.Float;
-                }
-                else if (value is Double)
-                {
-                    dataType = (int)SharedObjectDataType.Double;
-                }
-                else if (value is Char)
-                {
-                    dataType = (int)SharedObjectDataType.Character;
-                }
-                else if (value is Byte)
-                {
-                    dataType = (int)SharedObjectDataType.Byte;
-                }
-                else if (value is Array)
-                {
-                    Type valueType = value.GetType();
+                dataType = SharedObjectDataType.Integer;
+            }
+            else if (value is Int16)
+            {
+                dataType = SharedObjectDataType.Short;
+            }
+            else if (value is Int64)
+            {
+                dataType = SharedObjectDataType.Long;
+            }
+            else if (value is String)
+            {
+                dataType = SharedObjectDataType.String;
+            }
+            else if (value is float)
+            {
+                dataType = SharedObjectDataType.Float;
+            }
+            else if (value is Double)
+            {
+                dataType = SharedObjectDataType.Double;
+            }
+            else if (value is Char)
+            {
+                dataType = SharedObjectDataType.Character;
+            }
+            else if (value is Byte)
+            {
+                dataType = SharedObjectDataType.Byte;
+            }
+            else if (value is Array)
+            {
+                var valueType = value.GetType();
 
-                    if (valueType.GetElementType() == typeof(int))
-                    {
-                        dataType = (int)SharedObjectDataType.IntegerArray;
-                    }
-                    else if (value is Int16)
-                    {
-                        dataType = (int)SharedObjectDataType.ShortArray;
-                    }
-                    else if (value is Int64)
-                    {
-                        dataType = (int)SharedObjectDataType.LongArray;
-                    }
-                    else if (value is String)
-                    {
-                        dataType = (int)SharedObjectDataType.StringArray;
-                    }
-                    else if (value is float)
-                    {
-                        dataType = (int)SharedObjectDataType.FloatArray;
-                    }
-                    else if (value is Double)
-                    {
-                        dataType = (int)SharedObjectDataType.DoubleArray;
-                    }
-                    else if (value is Char)
-                    {
-                        dataType = (int)SharedObjectDataType.CharacterArray;
-                    }
-                    else if (value is Byte)
-                    {
-                        dataType = (int)SharedObjectDataType.ByteArray;
-                    }
+                if (valueType.GetElementType() == typeof(int))
+                {
+                    dataType = SharedObjectDataType.IntegerArray;
                 }
+                else if (valueType.GetElementType() == typeof(Int16))
+                {
+                    dataType = SharedObjectDataType.ShortArray;
+                }
+                else if (valueType.GetElementType() == typeof(Int64))
+                {
+                    dataType = SharedObjectDataType.LongArray;
+                }
+                else if (valueType.GetElementType() == typeof(string))
+                {
+                    dataType = SharedObjectDataType.StringArray;
+                }
+                else if (valueType.GetElementType() == typeof(float))
+                {
+                    dataType = SharedObjectDataType.FloatArray;
+                }
+                else if (valueType.GetElementType() == typeof(double))
+                {
+                    dataType = SharedObjectDataType.DoubleArray;
+                }
+                else if (valueType.GetElementType() == typeof(char))
+                {
+                    dataType = SharedObjectDataType.CharacterArray;
+                }
+                else if (valueType.GetElementType() == typeof(Byte))
+                {
+                    dataType = SharedObjectDataType.ByteArray;
+                }
+
+            }
+        
+            switch (dataType)
+            {
+                case SharedObjectDataType.Integer:
+                    break;
             }
         }
     }

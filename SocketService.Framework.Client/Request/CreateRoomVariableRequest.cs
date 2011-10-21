@@ -1,5 +1,5 @@
 ﻿using System;
-using SocketService.Framework.SharedObjects;
+using SocketService.Framework.Client.SharedObjects;
 
 namespace SocketService.Framework.Client.Request
 {

@@ -2,7 +2,7 @@
 using System.Threading;
 using SocketService.Client.API;
 using SocketService.Framework.Client.Request;
-using SocketService.Framework.SharedObjects;
+using SocketService.Framework.Client.SharedObjects;
 using SocketService.Client.API.Event;
 
 namespace ConsoleApplication1

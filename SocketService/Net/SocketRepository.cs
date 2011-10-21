@@ -85,7 +85,7 @@ namespace SocketService.Net
             _connectionMutex.WaitOne();
             try
             {
-                _connectionList.Add(clientId, new ZipSocket(connection, clientId));
+                _connectionList.Add(clientId, new ZipSocket(connection));
             }
             finally
             {

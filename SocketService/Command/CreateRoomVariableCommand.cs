@@ -1,6 +1,6 @@
 ﻿using System;
+using SocketService.Framework.Client.SharedObjects;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.SharedObjects;
 
 namespace SocketService.Command
 {

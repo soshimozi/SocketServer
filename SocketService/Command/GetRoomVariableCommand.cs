@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
+using SocketService.Framework.Client.SharedObjects;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.SharedObjects;
 using SocketService.Framework.Client.Response;
 using SocketService.Framework.Data;
 using SocketService.Framework.Client.Serialize;

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SocketService.Framework.SharedObjects
+﻿namespace SocketService.Framework.Client.SharedObjects
 {
-    public enum SharedObjectDataType : int
+    public enum SharedObjectDataType
     {
         Integer,
         Double,
@@ -26,6 +21,7 @@ namespace SocketService.Framework.SharedObjects
         CharacterArray,
         LongArray,
         ShortArray,
-        BzObjectArray
+        BzObjectArray,
+        None
     }
 }

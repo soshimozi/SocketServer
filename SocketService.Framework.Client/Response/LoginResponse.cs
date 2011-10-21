@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SocketService.Framework.Client.Response
 {
@@ -14,17 +11,8 @@ namespace SocketService.Framework.Client.Response
         /// <value>
         ///   <c>true</c> if success; otherwise, <c>false</c>.
         /// </value>
-        public bool Success
-        {
-            get;
-            set;
-        }
+        public bool Success { get; set; }
 
-        public string UserName
-        {
-            get;
-            set;
-        }
-    
+        public string UserName { get; set; }
     }
 }

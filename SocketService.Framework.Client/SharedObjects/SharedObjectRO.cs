@@ -1,17 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Collections;
 
-namespace SocketService.Framework.SharedObjects
+namespace SocketService.Framework.Client.SharedObjects
 {
  
     [Serializable]
     public class SharedObjectRO
     {
-        SharedObject innerObject;
-        private Hashtable data;
+        readonly SharedObject _innerObject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharedObjectRO"/> class.
@@ -21,17 +16,15 @@ namespace SocketService.Framework.SharedObjects
         /// <param name="dataType">Type of the data.</param>
         public SharedObjectRO(string name, object value, SharedObjectDataType dataType)
         {
-            innerObject = new SharedObject();
-            innerObject.SetElementValue(name, value, dataType);
+            _innerObject = new SharedObject();
+            _innerObject.SetElementValue(name, value, dataType);
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SharedObjectRO"/> class.
         /// </summary>
-        /// <param name="data">The data.</param>
-        public SharedObjectRO(Hashtable data)
+        public SharedObjectRO()
         {
-            this.data = data;
         }
 
         /// <summary>
@@ -41,7 +34,7 @@ namespace SocketService.Framework.SharedObjects
         /// <returns></returns>
         public object GetValueForElement(string name)
         {
-            return innerObject.GetValueForElement(name);
+            return _innerObject.GetValueForElement(name);
         }
     }
 }

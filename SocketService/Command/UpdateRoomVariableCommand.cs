@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using SocketService.Framework.Client.Event;
+using SocketService.Framework.Client.SharedObjects;
 using SocketService.Framework.Data;
 using SocketService.Framework.Messaging;
-using SocketService.Framework.SharedObjects;
 using SocketService.Repository;
 
 namespace SocketService.Command

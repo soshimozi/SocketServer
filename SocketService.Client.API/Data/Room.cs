@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using SocketService.Framework.SharedObjects;
+using SocketService.Framework.Client.SharedObjects;
 
 namespace SocketService.Client.API.Data
 {

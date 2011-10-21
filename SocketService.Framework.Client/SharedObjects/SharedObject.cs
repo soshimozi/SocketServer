@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections;
 
-namespace SocketService.Framework.SharedObjects
+namespace SocketService.Framework.Client.SharedObjects
 {
     [Serializable]
     public class SharedObject
     {
-        private Hashtable data = new Hashtable();
+        private readonly Hashtable _data = new Hashtable();
 
         public SharedObject()
         {
@@ -17,51 +14,54 @@ namespace SocketService.Framework.SharedObjects
 
         public SharedObject(object value)
         {
-            SharedObjectDataType dt = DataTypeFromType(value.GetType());
+            var dt = DataTypeFromType(value.GetType());
             SetElementValue("", value, dt);
         }
 
-        private SharedObjectDataType DataTypeFromType(Type t)
+        private static SharedObjectDataType DataTypeFromType(Type t)
         {
             if (t.IsAssignableFrom(typeof(string)))
             {
                 return SharedObjectDataType.String;
             }
-            else if (t.IsAssignableFrom(typeof(int)))
+            
+            if (t.IsAssignableFrom(typeof(int)))
             {
                 return SharedObjectDataType.Integer;
             }
-            else if(t.IsAssignableFrom(typeof(long)))
+            
+            if(t.IsAssignableFrom(typeof(long)))
             {
                 return SharedObjectDataType.Long;
             }
-            else if (t.IsAssignableFrom(typeof(double)))
+
+            if (t.IsAssignableFrom(typeof(double)))
             {
                 return SharedObjectDataType.Double;
             }
-            else if(t.IsAssignableFrom(typeof(byte)))
+
+            if(t.IsAssignableFrom(typeof(byte)))
             {
                 return SharedObjectDataType.Byte;
             }
-            else if (t.IsAssignableFrom(typeof(char)))
+
+            if (t.IsAssignableFrom(typeof(char)))
             {
                 return SharedObjectDataType.Character;
             }
-            else if (t.IsClass)
+
+            if (t.IsClass)
             {
                 return SharedObjectDataType.BzObject;
             }
-            else if( t.IsArray)
+
+            if( t.IsArray)
             {
                 // check array type
                 return DataTypeFromType(t.GetElementType());
             }
-            else
-            {
-                return SharedObjectDataType.BzObject;
-            }
 
-
+            return SharedObjectDataType.BzObject;
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace SocketService.Framework.SharedObjects
         /// <returns></returns>
         public SharedObjectRO GetReadOnlyCopy()
         {
-            return new SharedObjectRO(data);
+            return new SharedObjectRO();
         }
 
         /// <summary>
@@ -81,15 +81,18 @@ namespace SocketService.Framework.SharedObjects
         /// <param name="dataType">Type of the data.</param>
         public void SetElementValue(string elementName, object value, SharedObjectDataType dataType)
         {
-            if (!data.ContainsKey(elementName))
+            if (!_data.ContainsKey(elementName))
             {
-                data.Add(elementName, new SharedObjectDataHolder());
+                _data.Add(elementName, new SharedObjectDataHolder());
             }
 
-            (data[elementName] as SharedObjectDataHolder).Value = value;
+            var sharedObjectDataHolder = _data[elementName] as SharedObjectDataHolder;
+            if (sharedObjectDataHolder != null)
+                sharedObjectDataHolder.Value = value;
 
-            (data[elementName] as SharedObjectDataHolder).DataType = dataType;
-
+            var objectDataHolder = _data[elementName] as SharedObjectDataHolder;
+            if (objectDataHolder != null)
+                objectDataHolder.DataType = dataType;
         }
 
 
@@ -101,9 +104,11 @@ namespace SocketService.Framework.SharedObjects
         public object GetValueForElement(string elementName)
         {
             object value = null;
-            if (data.ContainsKey(elementName))
+            if (_data.ContainsKey(elementName))
             {
-                value = (data[elementName] as SharedObjectDataHolder).Value;
+                var sharedObjectDataHolder = _data[elementName] as SharedObjectDataHolder;
+                if (sharedObjectDataHolder != null)
+                    value = sharedObjectDataHolder.Value;
             }
 
             return value;
@@ -116,12 +121,18 @@ namespace SocketService.Framework.SharedObjects
         /// <returns></returns>
         public SharedObjectDataType GetDataTypeForElement(string elementName)
         {
-            if( !data.ContainsKey(elementName) )
+            if( !_data.ContainsKey(elementName) )
             {
                 throw new ArgumentException();
             }
 
-            return (data[elementName] as SharedObjectDataHolder).DataType;
+            var sharedObjectDataHolder = _data[elementName] as SharedObjectDataHolder;
+            if (sharedObjectDataHolder != null)
+                return sharedObjectDataHolder.DataType;
+            
+            
+            return SharedObjectDataType.None;
+            
         }
     }
 }

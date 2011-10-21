@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace SocketService.Framework.Client.Response
 {
@@ -14,11 +11,6 @@ namespace SocketService.Framework.Client.Response
         /// <value>
         /// The remote public key.
         /// </value>
-        public byte[] RemotePublicKey
-        {
-            get;
-            set;
-        }
-
+        public byte[] RemotePublicKey { get; set; }
     }
 }

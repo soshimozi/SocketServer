@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using SocketService.Framework.Client.SharedObjects;
 using SocketService.Framework.Messaging;
 using SocketService.Actions;
 using SocketService.Framework.Client.Response;
-using SocketService.Framework.SharedObjects;
 using SocketService.Framework.Client.Event;
 using SocketService.Repository;
 using SocketService.Framework.Client.Serialize;
