@@ -62,7 +62,7 @@ namespace SocketService.Client.API
                 }
 
                 // wrap the socket
-                _socket = new ZipSocket(rawSocket, Guid.NewGuid());
+                _socket = new ZipSocket(rawSocket);
                 NegotiateKeys();
 
                 OnConnectionResponse(new ConnectionEventArgs { IsSuccessful = true });

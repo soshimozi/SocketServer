@@ -29,7 +29,7 @@ namespace SocketService.Net
 
         protected void SocketServerDataRecieved(object sender, DataRecievedArgs e)
         {
-            Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(e.ClientId);
+            ClientConnection connection = ConnectionRepository.Instance.FindConnectionByClientId(e.ClientId);
             if (connection != null)
             {
                 ParseRequest(connection.ClientId, e.Data);
@@ -40,7 +40,7 @@ namespace SocketService.Net
         {
             SocketRepository.Instance.AddSocket(e.ClientId, e.RawSocket);
 
-            var connection = new Connection(e.ClientId);
+            var connection = new ClientConnection(e.ClientId);
             ConnectionRepository.Instance.AddConnection(connection);
         }
 

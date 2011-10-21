@@ -19,7 +19,7 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
+            ClientConnection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
             if (connection != null)
             {
                 //connection.RemotePublicKey = connection.Provider.Import(_data);

@@ -85,6 +85,7 @@
     <Compile Include="Handler\PublicMessageRequestHandler.cs" />
     <Compile Include="Handler\UpdateRoomVariableRequestHandler.cs" />
     <Compile Include="Net\Client\ConnectArgs.cs" />
+    <Compile Include="Net\Client\ClientConnection.cs" />
     <Compile Include="Net\Client\Connection.cs" />
     <Compile Include="Net\Client\ConnectionRepository.cs" />
     <Compile Include="Net\Client\DisconnectedArgs.cs" />

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Text;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
@@ -12,15 +9,13 @@ namespace SocketService.Framework.Client.Sockets
 {
     public class ZipSocket
     {
-        private Mutex _sendMutex = new Mutex();
+        private readonly Mutex _sendMutex = new Mutex();
         /// <summary>
         /// Initializes a new instance of the <see cref="ZipSocket"/> class.
         /// </summary>
         /// <param name="socket">The socket.</param>
-        /// <param name="clientId">The client id.</param>
-        public ZipSocket(Socket socket, Guid clientId)
+        public ZipSocket(Socket socket)
         {
-            ClientId = clientId;
             RawSocket = socket;
             RemoteAddress = ((IPEndPoint)socket.RemoteEndPoint).Address.ToString();
         }
@@ -83,14 +78,14 @@ namespace SocketService.Framework.Client.Sockets
             return socket == RawSocket;
         }
 
-        /// <summary>
-        /// Gets the client id.
-        /// </summary>
-        public Guid ClientId
-        {
-            get;
-            private set;
-        }
+        ///// <summary>
+        ///// Gets the client id.
+        ///// </summary>
+        //public Guid ClientId
+        //{
+        //    get;
+        //    private set;
+        //}
 
         /// <summary>
         /// Gets the remote address.
@@ -107,7 +102,7 @@ namespace SocketService.Framework.Client.Sockets
         /// <returns></returns>
         public byte[] ReceiveData()
         {
-            byte[] zippedData = new byte[RawSocket.Available];
+            var zippedData = new byte[RawSocket.Available];
             RawSocket.Receive(zippedData);
             return Decompress(zippedData);
         }
@@ -117,15 +112,15 @@ namespace SocketService.Framework.Client.Sockets
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns></returns>
-        private byte[] Compress(byte[] data)
+        private static byte[] Compress(byte[] data)
         {
-            using (MemoryStream msData = new MemoryStream())
+            using (var msData = new MemoryStream())
             {
-                using (MemoryStream ms = new MemoryStream(data))
+                using (var ms = new MemoryStream(data))
                 {
-                    using (GZipStream gz = new GZipStream(msData, CompressionMode.Compress))
+                    using (var gz = new GZipStream(msData, CompressionMode.Compress))
                     {
-                        byte[] bytes = new byte[4096];
+                        var bytes = new byte[4096];
                         int n;
                         while ((n = ms.Read(bytes, 0, bytes.Length)) != 0)
                         {
@@ -144,15 +139,15 @@ namespace SocketService.Framework.Client.Sockets
         /// </summary>
         /// <param name="data">The data.</param>
         /// <returns></returns>
-        private byte[] Decompress(byte[] data)
+        private static byte[] Decompress(byte[] data)
         {
-            using (MemoryStream ms = new MemoryStream(data))
+            using (var ms = new MemoryStream(data))
             {
-                using (GZipStream gs = new GZipStream(ms, CompressionMode.Decompress))
+                using (var gs = new GZipStream(ms, CompressionMode.Decompress))
                 {
-                    using (MemoryStream msOut = new MemoryStream())
+                    using (var msOut = new MemoryStream())
                     {
-                        byte[] bytes = new byte[4096];
+                        var bytes = new byte[4096];
                         int n;
 
                         while ((n = gs.Read(bytes, 0, bytes.Length)) != 0)

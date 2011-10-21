@@ -8,7 +8,7 @@ namespace SocketService.Net.Client
     public class ConnectionRepository
     {
         private static ConnectionRepository _instance;
-        private readonly List<Connection> _connectionList = new List<Connection>();
+        private readonly List<ClientConnection> _connectionList = new List<ClientConnection>();
         private readonly Mutex _connectionMutex = new Mutex();
 
         protected ConnectionRepository()
@@ -26,7 +26,7 @@ namespace SocketService.Net.Client
         /// <summary>
         /// Gets the connection list.
         /// </summary>
-        public List<Connection> ConnectionList
+        public List<ClientConnection> ConnectionList
         {
             get
             {
@@ -48,12 +48,12 @@ namespace SocketService.Net.Client
         /// </summary>
         /// <param name="clientId">The client id.</param>
         /// <returns></returns>
-        public Connection FindConnectionByClientId(Guid clientId)
+        public ClientConnection FindConnectionByClientId(Guid clientId)
         {
             _connectionMutex.WaitOne();
             try
             {
-                IEnumerable<Connection> q = from c in _connectionList
+                IEnumerable<ClientConnection> q = from c in _connectionList
                                             where c.ClientId == clientId
                                             select c;
 
@@ -69,7 +69,7 @@ namespace SocketService.Net.Client
         /// Removes the connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public void RemoveConnection(Connection connection)
+        public void RemoveConnection(ClientConnection connection)
         {
             _connectionMutex.WaitOne();
             try
@@ -86,7 +86,7 @@ namespace SocketService.Net.Client
         /// Adds the connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public void AddConnection(Connection connection)
+        public void AddConnection(ClientConnection connection)
         {
             _connectionMutex.WaitOne();
             try

@@ -18,7 +18,7 @@ namespace SocketService.Command
         {
             var ca = new CentralAuthority(CAKeyProtocol.DH64);
 
-            Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
+            ClientConnection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
             if (connection != null)
             {
                 connection.Provider = ca.GetProvider();
