@@ -90,7 +90,7 @@ namespace SocketService.Repository
         //}
 
         #region IRepository<User> Members
-        public User Find(int id)
+        public User Find(long id)
         {
             return _context.Users.
                 Where(u => u.Id == id).

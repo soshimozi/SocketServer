@@ -18,7 +18,7 @@ namespace SocketService.Framework.Client.Request
         /// <value>
         /// The room.
         /// </value>
-        public int RoomId
+        public long RoomId
         {
             get;
             set;

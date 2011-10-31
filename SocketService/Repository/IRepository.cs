@@ -6,7 +6,7 @@ namespace SocketService.Repository
 {
     public interface IRepository<T>
     {
-        T Find(int id);
+        T Find(long id);
         T[] GetAll();
         IQueryable<T> Query(Expression<Func<T, bool>> filter);
 

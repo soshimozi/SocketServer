@@ -6,8 +6,6 @@ namespace SocketService.Crypto
 {
     public static class StringExtentions
     {
-        private static byte[] _salt = new byte[] { 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xF1, 0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0xF1 };
-
         /// <summary>
         /// Encrypts the specified secret.
         /// </summary>

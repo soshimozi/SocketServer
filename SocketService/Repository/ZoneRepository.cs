@@ -26,7 +26,7 @@ namespace SocketService.Repository
         }
         #endregion
 
-        public Zone Find(int id)
+        public Zone Find(long id)
         {
             return _context.Zones.
                 Where(z => z.Id == id).

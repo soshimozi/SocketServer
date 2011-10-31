@@ -58,7 +58,7 @@ namespace SocketService.Repository
         }
 
 
-        public Room Find(int id)
+        public Room Find(long id)
         {
             return _context.Rooms.
                 Where(r => r.Id == id).

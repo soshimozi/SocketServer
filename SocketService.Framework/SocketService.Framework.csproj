@@ -72,6 +72,7 @@
     <Compile Include="Data\AutoIdElement.cs" />
     <Compile Include="Data\DatabaseContextFactory.cs" />
     <Compile Include="Data\Room.cs" />
+    <Compile Include="Data\RoomVariable.cs" />
     <Compile Include="Data\User.cs" />
     <Compile Include="Data\Zone.cs" />
     <Compile Include="Messaging\BaseMessageHandler.cs" />

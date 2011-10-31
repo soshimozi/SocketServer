@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using SocketService.Framework.Client.Serialize;
 using SocketService.Framework.Util;
 using SocketService.Framework.Data;
 using SocketService.Repository;
@@ -95,6 +96,16 @@ namespace SocketService.Actions
         //{
         //    throw new NotImplementedException();
         //}
+        
+        public void CreateRoomVariable(Room room, string variableName, byte [] value)
+        {
+            var variable = new RoomVariable();
+            variable.Name = variableName;
+            variable.Value = value;
+
+            room.RoomVariables.Add(variable);
+            RoomRepository.Instance.Update(room);            
+        }
 
         public void RemoveNonPersistentRooms()
         {

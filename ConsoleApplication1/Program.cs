@@ -207,7 +207,8 @@ namespace ConsoleApplication1
 
             value.SetElementValue("arrayTest", valueArray, SharedObjectDataType.BzObjectArray);
 
-            var crvr = new CreateRoomVariableRequest {Name = name, Value = value};
+            long roomId = _engine.Managers.UserManager.Me.Room.RoomId;
+            var crvr = new CreateRoomVariableRequest {Name = name, Value = value, RoomId = roomId };
             //crvr.RoomId = room;  get my room id
 
             _server.SendRequestEncrypted(crvr);
