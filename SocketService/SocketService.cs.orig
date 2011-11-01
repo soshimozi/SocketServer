@@ -1,7 +1,13 @@
+<<<<<<< Updated upstream
+﻿using System.ServiceProcess;
+using SocketService.Core.Messaging;
+=======
 ﻿using System;
 using System.Diagnostics;
 using System.ServiceProcess;
-using SocketService.Core.Messaging;
+using SocketService.Framework;
+using SocketService.Framework.Messaging;
+>>>>>>> Stashed changes
 using SocketService.Net;
 
 namespace SocketService
@@ -24,7 +30,7 @@ namespace SocketService
             _messageServer.Start();
         }
 
-        private static void InitializeCounters()
+        private void InitializeCounters()
         {
             try
             {
@@ -37,12 +43,12 @@ namespace SocketService
                 var cdCounter2 =
                     new CounterCreationData();
 
-                cdCounter1.CounterName = "Total Requests Handled";
-                cdCounter1.CounterHelp = "Total number of requests handled";
+                cdCounter1.CounterName = "Total Bytes Received";
+                cdCounter1.CounterHelp = "Total number of bytes recieved";
                 cdCounter1.CounterType = PerformanceCounterType.NumberOfItems64;
-                cdCounter2.CounterName = "Requests Per Secpmd";
-                cdCounter2.CounterHelp = "Average number of requests per second.";
-                cdCounter2.CounterType = PerformanceCounterType.RateOfCountsPerSecond64;
+                cdCounter2.CounterName = "Total Bytes Sent";
+                cdCounter2.CounterHelp = "Total number of bytes transmitted.";
+                cdCounter2.CounterType = PerformanceCounterType.NumberOfItems64;
 
                 // Add both counters to the collection.
                 counterDatas.Add(cdCounter1);

@@ -114,6 +114,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocketServiceBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SocketServiceInstaller.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -1,8 +1,15 @@
 ﻿using System;
-using System.Linq;
+<<<<<<< Updated upstream
 using SocketService.Client.Core.Request;
 using SocketService.Core.Crypto;
 using SocketService.Core.Messaging;
+=======
+using System.Linq;
+using SocketService.Framework.Client.Request;
+using SocketService.Framework.Messaging;
+using SocketService.Framework.Client.Serialize;
+using SocketService.Crypto;
+>>>>>>> Stashed changes
 using SocketService.Net.Client;
 using SocketService.Repository;
 using SocketService.Shared;

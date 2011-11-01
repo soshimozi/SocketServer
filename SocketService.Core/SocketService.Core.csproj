@@ -88,9 +88,6 @@
       <DependentUpon>ServerDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SocketServiceBase.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ServiceHandlerLib\BaseHandler.cs" />
     <Compile Include="ServiceHandlerLib\IServiceHandler.cs" />
     <Compile Include="ServiceHandlerLib\IServiceHandlerMetaData.cs" />
@@ -98,7 +95,7 @@
     <Compile Include="Util\SingletonBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Framework.Client\SocketService.Client.Core.csproj">
+    <ProjectReference Include="..\SocketService.Client.Core\SocketService.Client.Core.csproj">
       <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
       <Name>SocketService.Client.Core</Name>
     </ProjectReference>

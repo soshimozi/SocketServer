@@ -65,12 +65,25 @@
         <conversionPattern value="%date [%thread] %-5level %logger [%property{NDC}] - %message%newline" />
       </layout>
     </appender>
+    <appender name="ConsoleAppender" type="log4net.Appender.ConsoleAppender">
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%date [%thread] %-5level %logger [%property{NDC}] - %message%newline" />
+      </layout>
+    </appender>
     <root>
-        <level value="INFO" />
+<<<<<<< Updated upstream
+      <priority value="DEBUG" />
+      <appender-ref ref="EventLogAppender" />
+      <appender-ref ref="ConsoleAppender" />
+    </root>
+=======
+        <level value="DEBUG" />
         <appender-ref ref="ConsoleAppender" />
         <appender-ref ref="DebugAppender" />
         <appender-ref ref="EventLogAppender" />
+        <appender-ref ref="RollingLogFileAppender" />
       </root>
+>>>>>>> Stashed changes
   </log4net>
 
   <SocketServerConfiguration ListenPort="4000">

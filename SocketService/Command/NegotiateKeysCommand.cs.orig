@@ -1,6 +1,11 @@
 ﻿using System;
-using System.Linq;
+<<<<<<< Updated upstream
 using SocketService.Core.Messaging;
+=======
+using System.Linq;
+using SocketService.Framework.Client.Response;
+using SocketService.Framework.Messaging;
+>>>>>>> Stashed changes
 using SocketService.Net.Client;
 using SocketService.Shared.Response;
 

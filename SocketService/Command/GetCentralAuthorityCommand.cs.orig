@@ -1,7 +1,12 @@
 ﻿using System;
-using System.Linq;
+<<<<<<< Updated upstream
 using SocketService.Core.Crypto;
 using SocketService.Core.Messaging;
+=======
+using System.Linq;
+using SocketService.Framework.Messaging;
+using SocketService.Crypto;
+>>>>>>> Stashed changes
 using SocketService.Net.Client;
 
 namespace SocketService.Command
