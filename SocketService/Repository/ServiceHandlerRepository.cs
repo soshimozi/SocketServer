@@ -5,7 +5,7 @@ using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using SocketService.Framework.ServiceHandlerLib;
+using SocketService.Core.ServiceHandlerLib;
 
 namespace SocketService.Repository
 {

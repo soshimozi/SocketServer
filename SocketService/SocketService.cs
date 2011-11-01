@@ -1,5 +1,5 @@
 ﻿using System.ServiceProcess;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Messaging;
 using SocketService.Net;
 
 namespace SocketService

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Framework.Data;
+using SocketService.Core.Data;
+using Zone = SocketService.Core.Data.Zone;
 
 namespace SocketService.Repository
 {

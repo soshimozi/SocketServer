@@ -1,8 +1,9 @@
 ﻿using System.Linq;
-using SocketService.Framework.Client.Serialize;
-using SocketService.Framework.Util;
-using SocketService.Framework.Data;
+using SocketService.Core.Data;
+using SocketService.Core.Util;
 using SocketService.Repository;
+using RoomVariable = SocketService.Core.Data.RoomVariable;
+using Zone = SocketService.Core.Data.Zone;
 
 namespace SocketService.Actions
 {

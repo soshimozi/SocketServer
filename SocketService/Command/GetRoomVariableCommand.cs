@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Framework.Client.SharedObjects;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.Client.Response;
-using SocketService.Framework.Data;
-using SocketService.Framework.Client.Serialize;
+using SocketService.Core.Data;
+using SocketService.Core.Messaging;
 using SocketService.Repository;
+using SocketService.Shared;
+using SocketService.Shared.Response;
 
 namespace SocketService.Command
 {
@@ -33,9 +32,9 @@ namespace SocketService.Command
                 var var = room.RoomVariables.FirstOrDefault( 
                     target => target.Id == _roomId);
 
-                var so = new SharedObject();
-                if (var != null)
-                    so.SetElementValue("", ObjectSerialize.Deserialize(var.Value), SharedObjectDataType.BzObject);
+                object so = null;
+                if( var != null)
+                    so = var.Value;
 
                 MSMQQueueWrapper.QueueCommand(
                     new SendObjectCommand(_clientId,

@@ -1,5 +1,5 @@
 ﻿using System;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Messaging;
 
 namespace SocketService.Command
 {

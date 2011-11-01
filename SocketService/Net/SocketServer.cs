@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
-using SocketService.Framework.Client.Sockets;
+using SocketService.Client.Core.Sockets;
 using SocketService.Net.Client;
 using log4net;
 

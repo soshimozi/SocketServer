@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Framework.Client.Event;
-using SocketService.Framework.Client.SharedObjects;
-using SocketService.Framework.Data;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Data;
+using SocketService.Core.Messaging;
+using SocketService.Event;
 using SocketService.Repository;
 
 namespace SocketService.Command
@@ -14,10 +13,10 @@ namespace SocketService.Command
         private readonly Guid _clientId;
         private readonly string _name;
         private readonly int _roomId;
-        private readonly SharedObject _so;
+        private readonly object _so;
         private readonly int _zoneId;
 
-        public UpdateRoomVariableCommand(Guid clientId, int zoneId, int roomId, string name, SharedObject value)
+        public UpdateRoomVariableCommand(Guid clientId, int zoneId, int roomId, string name, object value)
         {
             _zoneId = zoneId;
             _roomId = roomId;

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
 using SocketService.Actions;
-using SocketService.Framework.Client.Event;
-using SocketService.Framework.Client.Response;
-using SocketService.Framework.Client.Serialize;
-using SocketService.Framework.Client.SharedObjects;
-using SocketService.Framework.Data;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Data;
+using SocketService.Core.Messaging;
+using SocketService.Event;
 using SocketService.Repository;
+using SocketService.Shared;
+using SocketService.Shared.Response;
 
 namespace SocketService.Command
 {
@@ -26,10 +25,10 @@ namespace SocketService.Command
         public override void Execute()
         {
             // get/create default zone
-            Zone zone = ZoneActionEngine.Instance.CreateZone(ZoneActionEngine.DefaultZone);
+            var zone = ZoneActionEngine.Instance.CreateZone(ZoneActionEngine.DefaultZone);
 
             // get/create default room
-            Room room = RoomActionEngine.Instance.CreateRoom(RoomActionEngine.DefaultRoom, zone);
+            var room = RoomActionEngine.Instance.CreateRoom(RoomActionEngine.DefaultRoom, zone);
 
             // authenticate
             if (!UserActionEngine.Instance.LoginUser(_clientId, _username, room))
@@ -90,12 +89,11 @@ namespace SocketService.Command
                                                   RoomDescription = "",
                                                   RoomVariables = room.RoomVariables.Select(
                                                       rv =>
-                                                      ObjectSerialize.Deserialize<SharedObject>(rv.Value)).
+                                                      ObjectSerialize.Deserialize(rv.Value)).
                                                       ToArray(),
                                                   Users = room.Users.Select(
-                                                      u =>
-                                                      new UserListEntry {UserName = u.Name}).
-                                                      ToArray()
+                                                      u => u.Name
+                                                      ).ToArray()
                                               }
                         )
                     );

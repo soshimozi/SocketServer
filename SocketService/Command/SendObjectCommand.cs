@@ -1,8 +1,8 @@
 ﻿using System;
-using SocketService.Framework.Client.Serialize;
-using SocketService.Framework.Client.Sockets;
-using SocketService.Framework.Messaging;
+using SocketService.Client.Core.Sockets;
+using SocketService.Core.Messaging;
 using SocketService.Net;
+using SocketService.Shared;
 
 namespace SocketService.Command
 {

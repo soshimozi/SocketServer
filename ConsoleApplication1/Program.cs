@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
-using SocketService.Client.API;
-using SocketService.Framework.Client.Request;
-using SocketService.Framework.Client.SharedObjects;
-using SocketService.Client.API.Event;
+using SocketService.Client.Core;
+using SocketService.Client.Core.Request;
+using SocketService.Event;
+using SocketService.Shared.Response;
 
 namespace ConsoleApplication1
 {
@@ -146,7 +146,7 @@ namespace ConsoleApplication1
         {
             var request = new LoginRequest {LoginName = userName};
 
-            _server.SendRequestEncrypted(request);
+            _server.SendRequest(request);
         }
 
 
@@ -168,7 +168,7 @@ namespace ConsoleApplication1
         {
             var crr = new CreateRoomRequest {RoomName = roomName};
 
-            _server.SendRequestEncrypted(crr);
+            _server.SendRequest(crr);
         }
 
         void EngineJoinRoom(JoinRoomEventArgs e = null)
@@ -186,32 +186,32 @@ namespace ConsoleApplication1
 
         private void CreateRoomVariable()
         {
-            //Console.Write("Room: ");
-            //string room = Console.ReadLine();
+            ////Console.Write("Room: ");
+            ////string room = Console.ReadLine();
 
-            Console.WriteLine();
-            Console.Write("Name: ");
-            string name = Console.ReadLine();
+            //Console.WriteLine();
+            //Console.Write("Name: ");
+            //string name = Console.ReadLine();
 
-            Console.WriteLine();
-            Console.Write("Value: ");
-            string stringValue = Console.ReadLine();
+            //Console.WriteLine();
+            //Console.Write("Value: ");
+            //string stringValue = Console.ReadLine();
 
-            var value = new SharedObject();
-            value.SetElementValue("__default__", stringValue, SharedObjectDataType.String);
+            //var value = new SharedObject();
+            //value.SetElementValue("__default__", stringValue, SharedObjectDataType.String);
 
-            var valueArray = new SharedObject[1];
-            var arrayObject = new SharedObject();
-            arrayObject.SetElementValue("value", 123, SharedObjectDataType.Integer);
-            valueArray[0] = arrayObject;
+            //var valueArray = new SharedObject[1];
+            //var arrayObject = new SharedObject();
+            //arrayObject.SetElementValue("value", 123, SharedObjectDataType.Integer);
+            //valueArray[0] = arrayObject;
 
-            value.SetElementValue("arrayTest", valueArray, SharedObjectDataType.BzObjectArray);
+            //value.SetElementValue("arrayTest", valueArray, SharedObjectDataType.BzObjectArray);
 
-            long roomId = _engine.Managers.UserManager.Me.Room.RoomId;
-            var crvr = new CreateRoomVariableRequest {Name = name, Value = value, RoomId = roomId };
+            //long roomId = _engine.Managers.UserManager.Me.Room.RoomId;
+            //var crvr = new CreateRoomVariableRequest {Name = name, Value = value, RoomId = roomId };
             //crvr.RoomId = room;  get my room id
 
-            _server.SendRequestEncrypted(crvr);
+            //_server.SendRequestEncrypted(crvr);
         }
 
         void engine_GetRoomVariableResponseRecieved(GetRoomVariableResponseArgs e)
@@ -222,7 +222,7 @@ namespace ConsoleApplication1
         void EngineLoginResponseReceived(LoginResponseEventArgs e = null)
         {
             if (e == null) throw new ArgumentNullException("e");
-            var state = e.LoginResponse.Success ? 1 : 0;
+            var state = e.Response.Success ? 1 : 0;
             Interlocked.Exchange(ref _loginState, state);
 
             _loginReceievedEvent.Set();

@@ -1,6 +1,6 @@
 ﻿using System;
-using SocketService.Framework.Messaging;
-using SocketService.Crypto;
+using SocketService.Core.Crypto;
+using SocketService.Core.Messaging;
 using SocketService.Net.Client;
 
 namespace SocketService.Command

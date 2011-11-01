@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Framework.Data;
+using System.Reflection;
+using SocketService.Core.Data;
+using log4net;
+using User = SocketService.Core.Data.User;
 
 namespace SocketService.Repository
 {
@@ -8,6 +11,7 @@ namespace SocketService.Repository
     {
         private static UserRepository _instance;
 
+        private static ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         /// <summary>
         /// Gets the instance.
         /// </summary>
@@ -125,19 +129,41 @@ namespace SocketService.Repository
 
         public void Add(User value)
         {
-            _context.AddToUsers(value);
-            _context.SaveChanges();
+            try
+            {
+                _context.AddToUsers(value);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
+            }
+
         }
 
         public void Delete(User value)
         {
-            _context.DeleteObject(value);
-            _context.SaveChanges();
+            try
+            {
+                _context.DeleteObject(value);
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
+            }
         }
 
         public void Update(User value)
         {
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                Logger.Error(ex.ToString());
+            }
         }
     }
 }

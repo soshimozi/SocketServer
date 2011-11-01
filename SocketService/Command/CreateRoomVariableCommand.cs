@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Framework.Client.SharedObjects;
-using SocketService.Framework.Data;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Messaging;
+using SocketService.Event;
 using SocketService.Actions;
 using SocketService.Repository;
-using SocketService.Framework.Client.Serialize;
-using SocketService.Framework.Client.Event;
+using SocketService.Shared;
 
 namespace SocketService.Command
 {
@@ -16,10 +14,10 @@ namespace SocketService.Command
         private readonly Guid _clientId;
         private readonly string _name;
         private readonly long _roomId;
-        private readonly SharedObject _so;
+        private readonly object _so;
         private readonly int _zoneId;
 
-        public CreateRoomVariableCommand(Guid clientId, int zoneId, long roomId, string name, SharedObject so)
+        public CreateRoomVariableCommand(Guid clientId, int zoneId, long roomId, string name, object so)
         {
             _clientId = clientId;
             _zoneId = zoneId;

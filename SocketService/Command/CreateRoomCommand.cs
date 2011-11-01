@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Messaging;
 using SocketService.Actions;
 using SocketService.Repository;
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.Client.Serialize;
+using SocketService.Core.Messaging;
 using SocketService.Net;
+using SocketService.Shared;
 using log4net;
 
 namespace SocketService.Command

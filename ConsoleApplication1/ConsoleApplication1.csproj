@@ -56,13 +56,17 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Client.API\SocketService.Client.API.csproj">
-      <Project>{5C1838A8-CD45-450F-9065-1ED7CF6557C5}</Project>
-      <Name>SocketService.Client.API</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework.Client\SocketService.Framework.Client.csproj">
+    <ProjectReference Include="..\SocketService.Client.Core\SocketService.Client.Core.csproj">
       <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
-      <Name>SocketService.Framework.Client</Name>
+      <Name>SocketService.Client.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Event\SocketService.Event.csproj">
+      <Project>{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}</Project>
+      <Name>SocketService.Event</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Shared\SocketService.Shared.csproj">
+      <Project>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</Project>
+      <Name>SocketService.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

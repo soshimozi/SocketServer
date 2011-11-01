@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Framework.Data;
+using SocketService.Core.Data;
 using System.Linq.Expressions;
+using Room = SocketService.Core.Data.Room;
 
 namespace SocketService.Repository
 {

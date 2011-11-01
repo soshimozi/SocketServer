@@ -2,8 +2,8 @@
 using System.Configuration;
 using System.Reflection;
 using SocketService.Command;
-using SocketService.Framework.Configuration;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Configuration;
+using SocketService.Core.Messaging;
 using SocketService.Net.Client;
 using log4net;
 
@@ -81,7 +81,7 @@ namespace SocketService.Net
             _socketServer.StopServer();
         }
 
-        private void ParseRequest(Guid clientId, byte[] requestData)
+        private static void ParseRequest(Guid clientId, byte[] requestData)
         {
             MSMQQueueWrapper.QueueCommand(new ParseRequestCommand(clientId, requestData));
         }

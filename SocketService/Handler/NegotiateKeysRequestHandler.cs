@@ -1,8 +1,8 @@
 ﻿using System;
+using SocketService.Client.Core.Request;
 using SocketService.Command;
-using SocketService.Framework.Client.Request;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.ServiceHandlerLib;
+using SocketService.Core.Messaging;
+using SocketService.Core.ServiceHandlerLib;
 
 namespace SocketService.Handler
 {

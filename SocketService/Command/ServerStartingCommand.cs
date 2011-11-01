@@ -1,6 +1,6 @@
 ﻿using System;
 using SocketService.Actions;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Messaging;
 
 namespace SocketService.Command
 {

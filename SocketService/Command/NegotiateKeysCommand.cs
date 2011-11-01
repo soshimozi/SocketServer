@@ -1,7 +1,7 @@
 ﻿using System;
-using SocketService.Framework.Client.Response;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Messaging;
 using SocketService.Net.Client;
+using SocketService.Shared.Response;
 
 namespace SocketService.Command
 {

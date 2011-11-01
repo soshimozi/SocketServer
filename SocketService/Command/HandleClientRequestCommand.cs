@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.ServiceHandlerLib;
+using SocketService.Core.Messaging;
+using SocketService.Core.ServiceHandlerLib;
 
 namespace SocketService.Command
 {

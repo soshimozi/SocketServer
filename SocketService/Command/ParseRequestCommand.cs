@@ -1,10 +1,10 @@
 ﻿using System;
-using SocketService.Framework.Client.Request;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.Client.Serialize;
-using SocketService.Crypto;
+using SocketService.Client.Core.Request;
+using SocketService.Core.Crypto;
+using SocketService.Core.Messaging;
 using SocketService.Net.Client;
 using SocketService.Repository;
+using SocketService.Shared;
 
 namespace SocketService.Command
 {
@@ -22,7 +22,7 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            var requestWrapper = (ClientRequestWrapper)ObjectSerialize.Deserialize(_serialized);
+            var requestWrapper = ObjectSerialize.Deserialize<ClientRequestWrapper>(_serialized);
             var payload = DecryptRequest(requestWrapper);
         
             var handlerType = payload.GetType();

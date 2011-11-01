@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using SocketService.Client.Core.Request;
 using SocketService.Command;
-using SocketService.Framework.Client.Request;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.ServiceHandlerLib;
+using SocketService.Core.Messaging;
+using SocketService.Core.ServiceHandlerLib;
 using SocketService.Repository;
 
 namespace SocketService.Handler

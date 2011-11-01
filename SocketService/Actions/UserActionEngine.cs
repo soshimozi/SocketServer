@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Framework.Util;
-using SocketService.Framework.Data;
+using SocketService.Core.Data;
+using SocketService.Core.Util;
 using SocketService.Repository;
+using User = SocketService.Core.Data.User;
 
 namespace SocketService.Actions
 {
