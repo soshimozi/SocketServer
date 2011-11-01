@@ -3,15 +3,16 @@ using SocketService.Core.Crypto;
 
 namespace SocketService.Net.Client
 {
-    public class ClientConnection : Connection
+    public class ClientConnection //: Connection
     {
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientConnection"/> class.
+        /// Gets or sets the client id.
         /// </summary>
-        /// <param name="clientId">The client id.</param>
-        public ClientConnection(Guid clientId) : base(clientId)
-        {
-        }
+        /// <value>
+        /// The client id.
+        /// </value>
+        public Guid ClientId { get; set; }
 
         /// <summary>
         /// Gets or sets the remote public key.
@@ -27,7 +28,7 @@ namespace SocketService.Net.Client
         /// <value>
         /// The provider.
         /// </value>
-        public DiffieHellmanProvider Provider { get; set; }
+        public DiffieHellmanProvider SecureKeyProvider { get; set; }
 
         /// <summary>
         /// Gets or sets the state of the connection.

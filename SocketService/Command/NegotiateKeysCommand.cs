@@ -19,8 +19,9 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            ClientConnection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
-            if (connection != null)
+            var connection =
+                ConnectionRepository.Instance.Query(c => c.ClientId == _clientId).FirstOrDefault();
+
             {
                 //connection.RemotePublicKey = connection.Provider.Import(_data);
 
@@ -40,10 +41,10 @@ namespace SocketService.Command
                 //if (connection != null)
                 //{
                 // import clients public key
-                connection.RemotePublicKey = connection.Provider.Import(_publicKey);
+                connection.RemotePublicKey = connection.SecureKeyProvider.Import(_publicKey);
 
                 // send our public key back
-                var response = new NegotiateKeysResponse {RemotePublicKey = connection.Provider.PublicKey.ToByteArray()};
+                var response = new NegotiateKeysResponse {RemotePublicKey = connection.SecureKeyProvider.PublicKey.ToByteArray()};
 
                 // now we send a response back
                 MSMQQueueWrapper.QueueCommand(new SendObjectCommand(_clientId, response));

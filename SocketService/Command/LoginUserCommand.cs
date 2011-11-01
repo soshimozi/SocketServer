@@ -24,6 +24,8 @@ namespace SocketService.Command
 
         public override void Execute()
         {
+            Logger.InfoFormat("Client {0} logging in.", _clientId);
+
             // get/create default zone
             var zone = ZoneActionEngine.Instance.CreateZone(ZoneActionEngine.DefaultZone);
 

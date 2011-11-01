@@ -60,13 +60,13 @@ namespace SocketService.Command
                 return ObjectSerialize.Deserialize(requestWrapper.RequestData);
             }
             
-            var connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
+            var connection = ConnectionRepository.Instance.Query( c => c.ClientId == _clientId).FirstOrDefault();
             if (connection == null)
             {
                 return null;
             }
             
-            var privateKey = connection.Provider.CreatePrivateKey(connection.RemotePublicKey);
+            var privateKey = connection.SecureKeyProvider.CreatePrivateKey(connection.RemotePublicKey);
             using (var cryptoWrapper = Wrapper.CreateDecryptor(algorithm,
                                                                    privateKey.ToByteArray(),
                                                                    requestWrapper.EncryptionPublicKey))

@@ -18,12 +18,12 @@ namespace SocketService.Command
         {
             var ca = new CentralAuthority(CAKeyProtocol.DH64);
 
-            ClientConnection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
-            if (connection != null)
-            {
-                connection.Provider = ca.GetProvider();
-                MSMQQueueWrapper.QueueCommand(new SendObjectCommand(_clientId, ca));
-            }
+            ClientConnection connection =
+                ConnectionRepository.Instance.Query(c => c.ClientId == _clientId).FirstOrDefault();
+            if (connection == null) return;
+
+            connection.SecureKeyProvider = ca.GetProvider();
+            MSMQQueueWrapper.QueueCommand(new SendObjectCommand(_clientId, ca));
         }
     }
 }

@@ -33,14 +33,20 @@ namespace SocketService.Net.Client
                 _connectionMutex.WaitOne();
                 try
                 {
+                    return _connectionList.ToList();
                 }
                 finally
                 {
                     _connectionMutex.ReleaseMutex();
                 }
 
-                return _connectionList.ToList();
             }
+        }
+
+        public IEnumerable<ClientConnection> Query(Func<ClientConnection, bool> filter)
+        {
+            return _connectionList.Where(filter);
+
         }
 
         /// <summary>
@@ -48,22 +54,22 @@ namespace SocketService.Net.Client
         /// </summary>
         /// <param name="clientId">The client id.</param>
         /// <returns></returns>
-        public ClientConnection FindConnectionByClientId(Guid clientId)
-        {
-            _connectionMutex.WaitOne();
-            try
-            {
-                IEnumerable<ClientConnection> q = from c in _connectionList
-                                            where c.ClientId == clientId
-                                            select c;
+        //public ClientConnection FindConnectionByClientId(Guid clientId)
+        //{
+        //    _connectionMutex.WaitOne();
+        //    try
+        //    {
+        //        IEnumerable<ClientConnection> q = from c in _connectionList
+        //                                    where c.ClientId == clientId
+        //                                    select c;
 
-                return q.FirstOrDefault();
-            }
-            finally
-            {
-                _connectionMutex.ReleaseMutex();
-            }
-        }
+        //        return q.FirstOrDefault();
+        //    }
+        //    finally
+        //    {
+        //        _connectionMutex.ReleaseMutex();
+        //    }
+        //}
 
         /// <summary>
         /// Removes the connection.
@@ -86,8 +92,10 @@ namespace SocketService.Net.Client
         /// Adds the connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public void AddConnection(ClientConnection connection)
+        public ClientConnection NewConnection()
         {
+            var connection = new ClientConnection();
+
             _connectionMutex.WaitOne();
             try
             {
@@ -97,6 +105,8 @@ namespace SocketService.Net.Client
             {
                 _connectionMutex.ReleaseMutex();
             }
+
+            return connection;
         }
     }
 }

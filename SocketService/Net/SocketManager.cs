@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Configuration;
 using System.Reflection;
 using SocketService.Command;
@@ -29,7 +30,7 @@ namespace SocketService.Net
 
         protected void SocketServerDataRecieved(object sender, DataRecievedArgs e)
         {
-            ClientConnection connection = ConnectionRepository.Instance.FindConnectionByClientId(e.ClientId);
+            var connection = ConnectionRepository.Instance.Query( c => c.ClientId == e.ClientId).FirstOrDefault();
             if (connection != null)
             {
                 ParseRequest(connection.ClientId, e.Data);
@@ -38,10 +39,11 @@ namespace SocketService.Net
 
         protected void SocketServerClientConnecting(object sender, ConnectArgs e)
         {
+            Logger.InfoFormat("Client {0} connecting from {1}", e.ClientId, e.RemoteAddress);
             SocketRepository.Instance.AddSocket(e.ClientId, e.RawSocket);
 
-            var connection = new ClientConnection(e.ClientId);
-            ConnectionRepository.Instance.AddConnection(connection);
+            var connection = ConnectionRepository.Instance.NewConnection();
+            connection.ClientId = e.ClientId;
         }
 
         protected void SocketServerClientDisconnecting(object sender, DisconnectedArgs e)
@@ -70,6 +72,8 @@ namespace SocketService.Net
                 MSMQQueueWrapper.QueueCommand(new ServerStartingCommand());
 
                 _socketServer.StartServer(configuration.ListenPort);
+
+                Logger.InfoFormat("Server started and listening on {0}", configuration.ListenPort);
             }
         }
 
