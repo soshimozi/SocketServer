@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Configuration.Install;
-using System.ComponentModel;
-using System.ServiceProcess;
 using System.Diagnostics;
+using System.ServiceProcess;
 
 namespace SocketService
 {
@@ -16,15 +12,14 @@ namespace SocketService
         {
             var processInstaller = new ServiceProcessInstaller();
             var serviceInstaller = new ServiceInstaller();
-            
+
             ////Create Instance of EventLogInstaller
-            var myEventLogInstaller = new EventLogInstaller();
+            var myEventLogInstaller = new EventLogInstaller
+                                          {Source = "Blazing Sockets Messaging Server", Log = "Application"};
 
             //// Set the Source of Event Log, to be created.
-            myEventLogInstaller.Source = "Blazing Sockets Messaging Server";
 
             //// Set the Log that source is created in
-            myEventLogInstaller.Log = "Application";
 
             //set the process privileges
             processInstaller.Account = ServiceAccount.User;
@@ -36,9 +31,9 @@ namespace SocketService
             serviceInstaller.ServiceName = "Blazing Sockets Messaging Server";
 
 
-            this.Installers.Add(processInstaller);
-            this.Installers.Add(serviceInstaller);
-            this.Installers.Add(myEventLogInstaller);
+            Installers.Add(processInstaller);
+            Installers.Add(serviceInstaller);
+            Installers.Add(myEventLogInstaller);
         }
     }
 }

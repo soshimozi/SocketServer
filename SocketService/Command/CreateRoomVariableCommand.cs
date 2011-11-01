@@ -1,22 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
-using SocketService.Framework;
-using SocketService.Framework.SharedObjects;
+using SocketService.Core.Messaging;
+using SocketService.Event;
+using SocketService.Actions;
+using SocketService.Repository;
+using SocketService.Shared;
 
 namespace SocketService.Command
 {
     [Serializable]
-    class CreateRoomVariableCommand : BaseMessageHandler
+    internal class CreateRoomVariableCommand : BaseMessageHandler
     {
         private readonly Guid _clientId;
-        private readonly int _zoneId;
-        private readonly int _roomId;
         private readonly string _name;
-        private readonly SharedObject _so;
-        public CreateRoomVariableCommand(Guid clientId, int zoneId, int roomId, string name, SharedObject so)
+        private readonly long _roomId;
+        private readonly object _so;
+        private readonly int _zoneId;
+
+        public CreateRoomVariableCommand(Guid clientId, int zoneId, long roomId, string name, object so)
         {
             _clientId = clientId;
             _zoneId = zoneId;
@@ -27,9 +28,18 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            //RoomActionEngine.Instance.CreateRoomVariable(_room, _name, _so);
+            var room = RoomRepository.Instance.Find(_roomId);
+            if (room == null) return;
 
-            // TODO: Send RoomVariableUpdateEvent to all users in room
+            RoomActionEngine.Instance.CreateRoomVariable(room, _name, ObjectSerialize.Serialize(_so));
+
+            MSMQQueueWrapper.QueueCommand(
+                new BroadcastObjectCommand(
+                    room.Users.Select( u => u.ClientKey ).ToArray(),
+                    new RoomVariableUpdateEvent() { Action = RoomVariableUpdateAction.Add, Name = _name, RoomId = _roomId, Value = _so, ZoneId = _zoneId }
+                    )
+                );
+
         }
     }
 }

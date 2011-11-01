@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SocketService.Framework.Data;
+using SocketService.Core.Data;
+using Zone = SocketService.Core.Data.Zone;
 
 namespace SocketService.Repository
 {
@@ -10,19 +9,11 @@ namespace SocketService.Repository
     {
         private readonly ServerDataEntities _context;
 
-        private static ZoneRepository _instance = null;
+        private static ZoneRepository _instance;
 
         public static ZoneRepository Instance
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new ZoneRepository();
-                }
-
-                return _instance;
-            }
+            get { return _instance ?? (_instance = new ZoneRepository()); }
         }
 
         #region ctor
@@ -30,13 +21,13 @@ namespace SocketService.Repository
         {
         }
 
-        public ZoneRepository(ServerDataEntities Context)
+        public ZoneRepository(ServerDataEntities context)
         {
-            _context = Context;
+            _context = context;
         }
         #endregion
 
-        public Zone Find(int id)
+        public Zone Find(long id)
         {
             return _context.Zones.
                 Where(z => z.Id == id).

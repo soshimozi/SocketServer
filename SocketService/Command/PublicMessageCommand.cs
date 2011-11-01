@@ -1,27 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.Client.Event;
-using SocketService.Framework.Data;
-using SocketService.Framework.Client.API;
+using SocketService.Core.Messaging;
 
 namespace SocketService.Command
 {
     [Serializable]
     public class PublicMessageCommand : BaseMessageHandler
     {
-        private readonly int _zoneId;
+        private readonly string _message;
         private readonly int _roomId;
         private readonly string _user;
-        private readonly string _message;
-        public PublicMessageCommand(int ZoneId, int RoomId, string User, string Message)
+        private readonly int _zoneId;
+
+        public PublicMessageCommand(int zoneId, int roomId, string user, string message)
         {
-            _zoneId = ZoneId;
-            _roomId = RoomId;
-            _user = User;
-            _message = Message;
+            _zoneId = zoneId;
+            _roomId = roomId;
+            _user = user;
+            _message = message;
         }
 
         public override void Execute()
@@ -54,7 +49,6 @@ namespace SocketService.Command
             //        // we had a fail action, handle it somehow?
             //    }
             //}
-
         }
     }
 }

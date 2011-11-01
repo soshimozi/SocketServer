@@ -1,47 +1,36 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Security.Cryptography;
-using System.IO;
-using System.Threading;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.IO.Compression;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Messaging;
 using SocketService.Net;
 
 namespace SocketService
 {
     public partial class ServerControlForm : Form
     {
-        private readonly SocketManager serverManager = new SocketManager();
-        private readonly MessageServer messageServer = new MessageServer();
+        private readonly SocketManager _serverManager = new SocketManager();
+        private readonly MessageServer _messageServer = new MessageServer();
 
         public ServerControlForm()
         {
             InitializeComponent();
         }
 
-        private void startButton_Click(object sender, EventArgs e)
+        private void StartButtonClick(object sender, EventArgs e)
         {
-            messageServer.Start();
-            serverManager.StartServer();
+            _messageServer.Start();
+            _serverManager.StartServer();
         }
 
-        private void stopButton_Click(object sender, EventArgs e)
+        private void StopButtonClick(object sender, EventArgs e)
         {
-            serverManager.StopServer();
-            messageServer.Stop();
+            _serverManager.StopServer();
+            _messageServer.Stop();
         }
 
-        private void ServerControlForm_FormClosing(object sender, FormClosingEventArgs e)
+        private void ServerControlFormFormClosing(object sender, FormClosingEventArgs e)
         {
-            serverManager.StopServer();
-            messageServer.Stop();
+            _serverManager.StopServer();
+            _messageServer.Stop();
         }
 
     }

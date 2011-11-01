@@ -1,20 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
-using SocketService.Net.Client;
-using SocketService.Framework.Data;
-using SocketService.Framework.Client.Response;
 using SocketService.Actions;
+using SocketService.Core.Messaging;
+using SocketService.Event;
+using SocketService.Net;
+using SocketService.Net.Client;
 using SocketService.Repository;
 
 namespace SocketService.Command
 {
     [Serializable]
-    class LogoutUserCommand : BaseMessageHandler
+    internal class LogoutUserCommand : BaseMessageHandler
     {
         private readonly Guid _clientId;
+
         public LogoutUserCommand(Guid clientId)
         {
             _clientId = clientId;
@@ -22,30 +21,42 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
+            Logger.InfoFormat("Client {0} logging out.", _clientId);
+
+            var connection = ConnectionRepository.Instance.Query( c => c.ClientId == _clientId).FirstOrDefault();
             if (connection != null)
                 ConnectionRepository.Instance.RemoveConnection(connection);
 
-            //User user = UserRepository.Instance.Query(u => u.ClientKey.Equals(_clientId)).FirstOrDefault();
+            var clientSocket = SocketRepository.Instance.FindByClientId(_clientId);
+            if (clientSocket != null)
+            {
+                try
+                {
+                    clientSocket.Close();
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error(ex.ToString());
+                }
+            }
+
+            var user = UserRepository.Instance.Query(u => u.ClientKey == _clientId).FirstOrDefault();
+            if (user != null && user.Room != null)
+            {
+                var userList = user.Room.Users.Select(u => u.ClientKey);
+                MSMQQueueWrapper.QueueCommand(
+                    new BroadcastObjectCommand(userList.ToArray(),
+                                               new PublicMessageEvent
+                                                   {
+                                                       RoomId = (int) user.RoomId,
+                                                       UserName = string.Empty,
+                                                       Message = string.Format("{0} has logged out.", user.Name),
+                                                       ZoneId = (int) user.Room.ZoneId
+                                                   })
+                    );
+            }
 
             UserActionEngine.Instance.LogoutUser(_clientId);
-
-            //if( user.Room != null )
-            //{
-            //    List<User> userList = user.Room.Users.ToList();
-            //}
-
-            //// broadcast to all but this user
-            //var query = from u in userList
-            //            where u.ClientId != _clientId
-            //            select u.ClientId;
-
-            // TODO: Replace with PublicMessageEvent
-            //MSMQQueueWrapper.QueueCommand(
-            //    new BroadcastObjectCommand(query.ToArray(),
-            //        new ServerMessage("{0} has logged out.", user.UserName))
-            //);
-
         }
     }
 }

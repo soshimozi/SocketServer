@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
+using SocketService.Core.Messaging;
 using SocketService.Actions;
-using SocketService.Framework.Data;
-using SocketService.Framework.Client.Response;
-using SocketService.Framework.Client.Event;
-using SocketService.Framework.SharedObjects;
+using SocketService.Repository;
 
 namespace SocketService.Command
 {
@@ -21,13 +16,25 @@ namespace SocketService.Command
         {
             _clientId = clientId;
             _roomName = roomName;
+            _zoneName = zoneName;
         }
 
         public override void Execute()
         {
+            var newZone = ZoneActionEngine.Instance.CreateZone(_zoneName);
+
+            if( newZone != null)
+            {
+                var newRoom = RoomActionEngine.Instance.CreateRoom(_roomName, newZone);
+                var user = UserRepository.Instance.Query(u => u.ClientKey.Equals(_clientId)).FirstOrDefault();
+
+                if( user != null && newRoom != null)
+                {
+                    
+                }
+            }
+
             //Zone newZone = ZoneActionEngine.Instance.CreateZone(_zoneName);
-            //Room newRoom = RoomActionEngine.Instance.CreateRoom(_roomName);
-            //User user = UserRepository.Instance.FindUserByClientKey(_clientId);
 
             //if (user != null && user.Room.Name != _roomName)
             //{

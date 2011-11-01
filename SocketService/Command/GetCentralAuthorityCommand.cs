@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
-using SocketService.Crypto;
+using SocketService.Core.Crypto;
+using SocketService.Core.Messaging;
 using SocketService.Net.Client;
 
 namespace SocketService.Command
@@ -19,14 +17,14 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            CentralAuthority ca = new CentralAuthority(CAKeyProtocol.DH64);
+            var ca = new CentralAuthority(CAKeyProtocol.DH64);
 
-            Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
-            if (connection != null)
-            {
-                connection.Provider = ca.GetProvider();
-                MSMQQueueWrapper.QueueCommand(new SendObjectCommand(_clientId, ca));
-            }
+            ClientConnection connection =
+                ConnectionRepository.Instance.Query(c => c.ClientId == _clientId).FirstOrDefault();
+            if (connection == null) return;
+
+            connection.SecureKeyProvider = ca.GetProvider();
+            MSMQQueueWrapper.QueueCommand(new SendObjectCommand(_clientId, ca));
         }
     }
 }

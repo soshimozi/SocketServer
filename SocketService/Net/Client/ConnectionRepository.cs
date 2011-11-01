@@ -1,36 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace SocketService.Net.Client
 {
     public class ConnectionRepository
     {
-        private readonly List<Connection> _connectionList = new List<Connection>();
+        private static ConnectionRepository _instance;
+        private readonly List<ClientConnection> _connectionList = new List<ClientConnection>();
         private readonly Mutex _connectionMutex = new Mutex();
 
         protected ConnectionRepository()
         {
         }
 
-        private static ConnectionRepository _instance = null;
-
         /// <summary>
         /// Gets the instance.
         /// </summary>
         public static ConnectionRepository Instance
         {
+            get { return _instance ?? (_instance = new ConnectionRepository()); }
+        }
+
+        /// <summary>
+        /// Gets the connection list.
+        /// </summary>
+        public List<ClientConnection> ConnectionList
+        {
             get
             {
-                if (_instance == null)
+                _connectionMutex.WaitOne();
+                try
                 {
-                    _instance = new ConnectionRepository();
+                    return _connectionList.ToList();
+                }
+                finally
+                {
+                    _connectionMutex.ReleaseMutex();
                 }
 
-                return _instance;
             }
+        }
+
+        public IEnumerable<ClientConnection> Query(Func<ClientConnection, bool> filter)
+        {
+            return _connectionList.Where(filter);
+
         }
 
         /// <summary>
@@ -38,29 +54,28 @@ namespace SocketService.Net.Client
         /// </summary>
         /// <param name="clientId">The client id.</param>
         /// <returns></returns>
-        public Connection FindConnectionByClientId(Guid clientId)
-        {
-            _connectionMutex.WaitOne();
-            try
-            {
+        //public ClientConnection FindConnectionByClientId(Guid clientId)
+        //{
+        //    _connectionMutex.WaitOne();
+        //    try
+        //    {
+        //        IEnumerable<ClientConnection> q = from c in _connectionList
+        //                                    where c.ClientId == clientId
+        //                                    select c;
 
-                var q = from c in _connectionList
-                        where c.ClientId == clientId
-                        select c;
-
-                return q.FirstOrDefault();
-            }
-            finally
-            {
-                _connectionMutex.ReleaseMutex();
-            }
-        }
+        //        return q.FirstOrDefault();
+        //    }
+        //    finally
+        //    {
+        //        _connectionMutex.ReleaseMutex();
+        //    }
+        //}
 
         /// <summary>
         /// Removes the connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public void RemoveConnection(Connection connection)
+        public void RemoveConnection(ClientConnection connection)
         {
             _connectionMutex.WaitOne();
             try
@@ -77,8 +92,10 @@ namespace SocketService.Net.Client
         /// Adds the connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public void AddConnection(Connection connection)
+        public ClientConnection NewConnection()
         {
+            var connection = new ClientConnection();
+
             _connectionMutex.WaitOne();
             try
             {
@@ -88,28 +105,8 @@ namespace SocketService.Net.Client
             {
                 _connectionMutex.ReleaseMutex();
             }
+
+            return connection;
         }
-
-
-        /// <summary>
-        /// Gets the connection list.
-        /// </summary>
-        public List<Connection> ConnectionList
-        {
-            get
-            {
-                _connectionMutex.WaitOne();
-                try
-                {
-                }
-                finally
-                {
-                    _connectionMutex.ReleaseMutex();
-                }
-
-                return _connectionList.ToList();
-            }
-        }
-
     }
 }

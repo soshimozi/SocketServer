@@ -1,22 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Net.Sockets;
-using SocketService.Framework.Client.Sockets;
+using SocketService.Core.Messaging;
 using SocketService.Net.Client;
-using SocketService.Net;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.Request;
-using SocketService.Framework.Client.Response;
+using SocketService.Shared.Response;
 
 namespace SocketService.Command
 {
-    [Serializable()]
+    [Serializable]
     public class NegotiateKeysCommand : BaseMessageHandler
     {
-        Guid _clientId;
-        byte[] _publicKey;
+        private readonly Guid _clientId;
+        private readonly byte[] _publicKey;
 
         public NegotiateKeysCommand(Guid clientId, byte[] publicKey)
         {
@@ -26,8 +20,9 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
-            if (connection != null)
+            var connection =
+                ConnectionRepository.Instance.Query(c => c.ClientId == _clientId).FirstOrDefault();
+
             {
                 //connection.RemotePublicKey = connection.Provider.Import(_data);
 
@@ -47,11 +42,10 @@ namespace SocketService.Command
                 //if (connection != null)
                 //{
                 // import clients public key
-                connection.RemotePublicKey = connection.Provider.Import(_publicKey);
+                connection.RemotePublicKey = connection.SecureKeyProvider.Import(_publicKey);
 
                 // send our public key back
-                NegotiateKeysResponse response = new NegotiateKeysResponse();
-                response.RemotePublicKey = connection.Provider.PublicKey.ToByteArray();
+                var response = new NegotiateKeysResponse {RemotePublicKey = connection.SecureKeyProvider.PublicKey.ToByteArray()};
 
                 // now we send a response back
                 MSMQQueueWrapper.QueueCommand(new SendObjectCommand(_clientId, response));

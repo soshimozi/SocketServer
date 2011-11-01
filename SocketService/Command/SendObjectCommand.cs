@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Net.Sockets;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.Client.Sockets;
+using SocketService.Client.Core.Sockets;
+using SocketService.Core.Messaging;
 using SocketService.Net;
-using SocketService.Framework.Client.Serialize;
+using SocketService.Shared;
 
 namespace SocketService.Command
 {
     [Serializable]
-    class SendObjectCommand : BaseMessageHandler
+    internal class SendObjectCommand : BaseMessageHandler
     {
         private readonly Guid _clientId;
         private readonly byte[] _data;
@@ -27,7 +23,6 @@ namespace SocketService.Command
             ZipSocket connection = SocketRepository.Instance.FindByClientId(_clientId);
             if (connection != null)
             {
-
                 connection.SendData(_data);
             }
         }

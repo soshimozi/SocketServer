@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.Data;
-using SocketService.Actions;
-using SocketService.Framework.Client.Event;
-using SocketService.Framework.Client.Response;
+using SocketService.Core.Messaging;
 
 namespace SocketService.Command
 {
@@ -17,12 +10,12 @@ namespace SocketService.Command
         private readonly int _zoneId;
         private readonly int _roomId;
         private readonly string _name;
-        public DeleteRoomVariableCommand(Guid ClientId, int ZoneId, int RoomId, string Name)
+        public DeleteRoomVariableCommand(Guid clientId, int zoneId, int roomId, string name)
         {
-            _zoneId = ZoneId;
-            _clientId = ClientId;
-            _roomId = RoomId;
-            _name = Name;
+            _zoneId = zoneId;
+            _clientId = clientId;
+            _roomId = roomId;
+            _name = name;
         }
 
         public override void Execute()

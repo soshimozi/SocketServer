@@ -6,7 +6,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{3B89D58C-5E4E-4F7A-B256-2DE189684322}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SocketService</RootNamespace>
     <AssemblyName>SocketService</AssemblyName>
@@ -33,6 +33,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
@@ -85,6 +88,7 @@
     <Compile Include="Handler\PublicMessageRequestHandler.cs" />
     <Compile Include="Handler\UpdateRoomVariableRequestHandler.cs" />
     <Compile Include="Net\Client\ConnectArgs.cs" />
+    <Compile Include="Net\Client\ClientConnection.cs" />
     <Compile Include="Net\Client\Connection.cs" />
     <Compile Include="Net\Client\ConnectionRepository.cs" />
     <Compile Include="Net\Client\DisconnectedArgs.cs" />
@@ -110,23 +114,34 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SocketServiceBase.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="SocketServiceInstaller.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Framework.Client\SocketService.Framework.Client.csproj">
+    <ProjectReference Include="..\SocketService.Client.Core\SocketService.Client.Core.csproj">
       <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
-      <Name>SocketService.Framework.Client</Name>
+      <Name>SocketService.Client.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework.Crypto\SocketService.Crypto.csproj">
+    <ProjectReference Include="..\SocketService.Core.Crypto\SocketService.Core.Crypto.csproj">
       <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
-      <Name>SocketService.Crypto</Name>
+      <Name>SocketService.Core.Crypto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Framework\SocketService.Framework.csproj">
+    <ProjectReference Include="..\SocketService.Core\SocketService.Core.csproj">
       <Project>{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}</Project>
-      <Name>SocketService.Framework</Name>
+      <Name>SocketService.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Event\SocketService.Event.csproj">
+      <Project>{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}</Project>
+      <Name>SocketService.Event</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Shared\SocketService.Shared.csproj">
+      <Project>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</Project>
+      <Name>SocketService.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

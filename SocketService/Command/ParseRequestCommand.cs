@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.Request;
-using SocketService.Framework.Client.Serialize;
-using SocketService.Framework.ServiceHandlerLib;
-using SocketService.Crypto;
+using SocketService.Client.Core.Request;
+using SocketService.Core.Crypto;
+using SocketService.Core.Messaging;
 using SocketService.Net.Client;
+using SocketService.Repository;
+using SocketService.Shared;
 
 namespace SocketService.Command
 {
@@ -25,10 +23,10 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            ClientRequest request = (ClientRequest)ObjectSerialize.Deserialize(_serialized);
-            object payload = DecryptRequest(request);
+            var requestWrapper = ObjectSerialize.Deserialize<ClientRequestWrapper>(_serialized);
+            var payload = DecryptRequest(requestWrapper);
         
-            Type handlerType = payload.GetType();
+            var handlerType = payload.GetType();
             var handlerList = ServiceHandlerLookup.Instance.GetHandlerListByType(handlerType);
 
             MSMQQueueWrapper.QueueCommand(
@@ -36,13 +34,13 @@ namespace SocketService.Command
             );
         }
 
-        private object DecryptRequest(ClientRequest request)
+        private object DecryptRequest(ClientRequestWrapper requestWrapper)
         {
             // switch on encryption type, and create a decryptor for that type
             // with the remote private key and iv as salt
-            AlgorithmType algorithm = AlgorithmType.AES;
+            var algorithm = AlgorithmType.AES;
 
-            switch (request.Encryption)
+            switch (requestWrapper.Encryption)
             {
                 case EncryptionType.DES:
                     algorithm = AlgorithmType.DES;
@@ -58,27 +56,23 @@ namespace SocketService.Command
             }
 
 
-            if (algorithm != AlgorithmType.None)
+            if (algorithm == AlgorithmType.None)
             {
-                Connection connection = ConnectionRepository.Instance.FindConnectionByClientId(_clientId);
-                if (connection != null)
-                {
-                    DiffieHellmanKey privateKey = connection.Provider.CreatePrivateKey(connection.RemotePublicKey);
-                    using (Wrapper cryptoWrapper = Wrapper.CreateDecryptor(algorithm,
-                                                                        privateKey.ToByteArray(),
-                                                                        request.EncryptionPublicKey))
-                    {
-                        return ObjectSerialize.Deserialize(cryptoWrapper.Decrypt(request.RequestData));
-                    }
-                }
-                else
-                {
-                    return null;
-                }
+                return ObjectSerialize.Deserialize(requestWrapper.RequestData);
             }
-            else
+            
+            var connection = ConnectionRepository.Instance.Query( c => c.ClientId == _clientId).FirstOrDefault();
+            if (connection == null)
             {
-                return ObjectSerialize.Deserialize(request.RequestData);
+                return null;
+            }
+            
+            var privateKey = connection.SecureKeyProvider.CreatePrivateKey(connection.RemotePublicKey);
+            using (var cryptoWrapper = Wrapper.CreateDecryptor(algorithm,
+                                                                   privateKey.ToByteArray(),
+                                                                   requestWrapper.EncryptionPublicKey))
+            {
+                return ObjectSerialize.Deserialize(cryptoWrapper.Decrypt(requestWrapper.RequestData));
             }
         }
     }

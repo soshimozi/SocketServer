@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SocketService.Framework.Util;
-using SocketService.Framework.SharedObjects;
-using SocketService.Framework.Data;
+﻿using System.Linq;
+using SocketService.Core.Data;
+using SocketService.Core.Util;
 using SocketService.Repository;
+using RoomVariable = SocketService.Core.Data.RoomVariable;
+using Zone = SocketService.Core.Data.Zone;
 
 namespace SocketService.Actions
 {
@@ -15,10 +13,10 @@ namespace SocketService.Actions
 
         public Room CreateRoom(string roomName, Zone zone)
         {
-            Room room = RoomRepository.Instance.Query( r => r.Name.Equals(roomName) ).FirstOrDefault();
+            var room = RoomRepository.Instance.Query( r => r.Name.Equals(roomName) ).FirstOrDefault();
             if (room == null)
             {
-                room = new Room() { Name = roomName, Password = string.Empty, Capacity = -1, IsPersistable = false, IsPrivate = false, Zone = zone };
+                room = new Room { Name = roomName, Password = string.Empty, Capacity = -1, IsPersistable = false, IsPrivate = false, Zone = zone };
 
                 RoomRepository.Instance.Add(room);
                 zone.Rooms.Add(room);
@@ -99,13 +97,23 @@ namespace SocketService.Actions
         //{
         //    throw new NotImplementedException();
         //}
+        
+        public void CreateRoomVariable(Room room, string variableName, byte [] value)
+        {
+            var variable = new RoomVariable();
+            variable.Name = variableName;
+            variable.Value = value;
+
+            room.RoomVariables.Add(variable);
+            RoomRepository.Instance.Update(room);            
+        }
 
         public void RemoveNonPersistentRooms()
         {
-            List<Room> rooms = RoomRepository.Instance.Query(r => !r.IsPersistable).ToList();
-            foreach (Room room in rooms)
+            var rooms = RoomRepository.Instance.Query(r => !r.IsPersistable).ToList();
+            foreach (var room in rooms)
             {
-                Zone zone = room.Zone;
+                var zone = room.Zone;
                 if (zone != null)
                 {
                     zone.Rooms.Remove(room);

@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SocketService.Framework.Messaging;
-using SocketService.Framework.ServiceHandlerLib;
+using SocketService.Core.Messaging;
+using SocketService.Core.ServiceHandlerLib;
 
 namespace SocketService.Command
 {
-    [Serializable()]
+    [Serializable]
     public class HandleClientRequestCommand : BaseMessageHandler
     {
         private readonly List<IServiceHandler> _handlerList;

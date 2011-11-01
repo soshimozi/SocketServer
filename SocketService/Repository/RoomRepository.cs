@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using SocketService.Framework.Data;
+using SocketService.Core.Data;
 using System.Linq.Expressions;
+using Room = SocketService.Core.Data.Room;
 
 namespace SocketService.Repository
 {
@@ -16,15 +15,7 @@ namespace SocketService.Repository
         /// </summary>
         public static RoomRepository Instance
         {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new RoomRepository();
-                }
-
-                return _instance;
-            }
+            get { return _instance ?? (_instance = new RoomRepository()); }
         }
 
         private readonly ServerDataEntities _context;
@@ -32,9 +23,9 @@ namespace SocketService.Repository
         {
         }
 
-        public RoomRepository(ServerDataEntities Context)
+        public RoomRepository(ServerDataEntities context)
         {
-            _context = Context;
+            _context = context;
         }
 
         ///// <summary>
@@ -68,7 +59,7 @@ namespace SocketService.Repository
         }
 
 
-        public Room Find(int id)
+        public Room Find(long id)
         {
             return _context.Rooms.
                 Where(r => r.Id == id).
