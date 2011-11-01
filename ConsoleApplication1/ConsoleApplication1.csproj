@@ -56,9 +56,9 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Client.Core\SocketService.Client.Core.csproj">
+    <ProjectReference Include="..\SocketService.Client\SocketService.Client.csproj">
       <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
-      <Name>SocketService.Client.Core</Name>
+      <Name>SocketService.Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\SocketService.Event\SocketService.Event.csproj">
       <Project>{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}</Project>

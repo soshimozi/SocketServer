@@ -6,8 +6,8 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
-using SocketService.Client.Core.Sockets;
 using SocketService.Net.Client;
+using SocketService.Shared.Sockets;
 using log4net;
 
 namespace SocketService.Net

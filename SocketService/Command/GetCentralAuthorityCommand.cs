@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Crypto;
 using SocketService.Core.Messaging;
+using SocketService.Crypto;
 using SocketService.Net.Client;
 
 namespace SocketService.Command

@@ -123,17 +123,13 @@
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Client.Core\SocketService.Client.Core.csproj">
-      <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
-      <Name>SocketService.Client.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Core.Crypto\SocketService.Core.Crypto.csproj">
-      <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
-      <Name>SocketService.Core.Crypto</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SocketService.Core\SocketService.Core.csproj">
       <Project>{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}</Project>
       <Name>SocketService.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketService.Crypto\SocketService.Crypto.csproj">
+      <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
+      <Name>SocketService.Crypto</Name>
     </ProjectReference>
     <ProjectReference Include="..\SocketService.Event\SocketService.Event.csproj">
       <Project>{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}</Project>

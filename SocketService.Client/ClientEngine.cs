@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using SocketService.Client.Core.Manager;
+using SocketService.Client.Manager;
 using SocketService.Event;
 using SocketService.Shared.Response;
 
-namespace SocketService.Client.Core
+namespace SocketService.Client
 {
     public class ClientEngine
     {

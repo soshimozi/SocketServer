@@ -95,12 +95,6 @@
     <Compile Include="Util\SingletonBase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Client.Core\SocketService.Client.Core.csproj">
-      <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
-      <Name>SocketService.Client.Core</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>

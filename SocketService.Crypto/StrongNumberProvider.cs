@@ -1,7 +1,7 @@
 using System;
 using System.Security.Cryptography;
 
-namespace SocketService.Core.Crypto
+namespace SocketService.Crypto
 {
     [Serializable]
     public class StrongNumberProvider

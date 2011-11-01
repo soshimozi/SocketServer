@@ -23,9 +23,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Core", "Socke
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Shared", "SocketService.Shared\SocketService.Shared.csproj", "{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Client.Core", "SocketService.Client.Core\SocketService.Client.Core.csproj", "{93FD4F32-5214-40E3-8E36-5B4E354F10C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Client", "SocketService.Client\SocketService.Client.csproj", "{93FD4F32-5214-40E3-8E36-5B4E354F10C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Core.Crypto", "SocketService.Core.Crypto\SocketService.Core.Crypto.csproj", "{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketService.Crypto", "SocketService.Crypto\SocketService.Crypto.csproj", "{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution

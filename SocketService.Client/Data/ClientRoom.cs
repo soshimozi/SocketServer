@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace SocketService.Client.Core.Data
+namespace SocketService.Client.Data
 {
     public class ClientRoom
     {

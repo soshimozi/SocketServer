@@ -3,20 +3,20 @@ using System.Text;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace SocketService.Core.Crypto
+namespace SocketService.Crypto
 {
-    public class Wrapper : IDisposable
+    public class CryptoManager : IDisposable
     {
         private readonly SymmetricAlgorithm _algorithm;
         private readonly ICryptoTransform _transformer;
 
-        private Wrapper(SymmetricAlgorithm algorithm, ICryptoTransform transform)
+        private CryptoManager(SymmetricAlgorithm algorithm, ICryptoTransform transform)
         {
             _algorithm = algorithm;
             _transformer = transform;
         }
 
-        ~Wrapper()
+        ~CryptoManager()
         {
             Dispose(false);
         }
@@ -36,7 +36,7 @@ namespace SocketService.Core.Crypto
         /// <param name="key">The key.</param>
         /// <param name="entropy">The entropy.</param>
         /// <returns></returns>
-        public static Wrapper CreateEncryptor(AlgorithmType algType, byte [] key, int entropy = 50)
+        public static CryptoManager CreateEncryptor(AlgorithmType algType, byte [] key, int entropy = 50)
         {
             SymmetricAlgorithm algorithm = null;
             switch (algType)
@@ -60,9 +60,7 @@ namespace SocketService.Core.Crypto
                 algorithm.Key = db.GetBytes(algorithm.KeySize / 8);
             }
 
-            if (algorithm != null) return new Wrapper(algorithm, algorithm.CreateEncryptor());
-
-            return null;
+            return algorithm != null ? new CryptoManager(algorithm, algorithm.CreateEncryptor()) : null;
         }
 
         /// <summary>
@@ -73,7 +71,7 @@ namespace SocketService.Core.Crypto
         /// <param name="iv">The iv.</param>
         /// <param name="entropy">The entropy.</param>
         /// <returns></returns>
-        public static Wrapper CreateDecryptor(AlgorithmType algType, byte[] key, byte[] iv, int entropy = 50)
+        public static CryptoManager CreateDecryptor(AlgorithmType algType, byte[] key, byte[] iv, int entropy = 50)
         {
             SymmetricAlgorithm algorithm = null;
             switch (algType)
@@ -94,10 +92,10 @@ namespace SocketService.Core.Crypto
             var db = new Rfc2898DeriveBytes(key, iv, entropy);
             if (algorithm != null)
             {
-                algorithm.Key = db.GetBytes(algorithm.KeySize / 8);
+                algorithm.Key = db.GetBytes(algorithm.KeySize/8);
                 algorithm.IV = iv;
 
-                return new Wrapper(algorithm, algorithm.CreateDecryptor());
+                return new CryptoManager(algorithm, algorithm.CreateDecryptor());
             }
 
             return null;

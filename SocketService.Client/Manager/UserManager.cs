@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using SocketService.Client.Core.Data;
+using SocketService.Client.Data;
 
-namespace SocketService.Client.Core.Manager
+namespace SocketService.Client.Manager
 {
     public class UserManager
     {

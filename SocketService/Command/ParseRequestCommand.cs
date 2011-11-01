@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Client.Core.Request;
-using SocketService.Core.Crypto;
 using SocketService.Core.Messaging;
+using SocketService.Crypto;
 using SocketService.Net.Client;
 using SocketService.Repository;
 using SocketService.Shared;
+using SocketService.Shared.Request;
 
 namespace SocketService.Command
 {
@@ -68,7 +68,7 @@ namespace SocketService.Command
             }
             
             var privateKey = connection.SecureKeyProvider.CreatePrivateKey(connection.RemotePublicKey);
-            using (var cryptoWrapper = Wrapper.CreateDecryptor(algorithm,
+            using (var cryptoWrapper = CryptoManager.CreateDecryptor(algorithm,
                                                                    privateKey.ToByteArray(),
                                                                    requestWrapper.EncryptionPublicKey))
             {

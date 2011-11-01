@@ -135,7 +135,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace SocketService.Core.Crypto
+namespace SocketService.Crypto
 {
     [Serializable]
     public class BigInteger //: IDisposable

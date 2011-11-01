@@ -1,4 +1,4 @@
-﻿namespace SocketService.Core.Crypto
+﻿namespace SocketService.Crypto
 {
     /// <summary>
     /// 

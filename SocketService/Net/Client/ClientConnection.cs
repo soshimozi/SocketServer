@@ -1,5 +1,5 @@
 ﻿using System;
-using SocketService.Core.Crypto;
+using SocketService.Crypto;
 
 namespace SocketService.Net.Client
 {

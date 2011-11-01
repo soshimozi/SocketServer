@@ -1,6 +1,6 @@
 ﻿using System;
-using SocketService.Client.Core.Request;
 using SocketService.Core.ServiceHandlerLib;
+using SocketService.Shared.Request;
 
 namespace SocketService.Handler
 {

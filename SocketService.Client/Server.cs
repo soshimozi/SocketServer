@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Collections;
 using System.Net.Sockets;
-using SocketService.Client.Core.Request;
-using SocketService.Client.Core.Sockets;
-using SocketService.Core.Crypto;
+using SocketService.Crypto;
 using SocketService.Event;
 using SocketService.Shared;
+using SocketService.Shared.Request;
 using SocketService.Shared.Response;
+using SocketService.Shared.Sockets;
 
-namespace SocketService.Client.Core
+namespace SocketService.Client
 {
     public class Server
     {
@@ -222,8 +222,8 @@ namespace SocketService.Client.Core
         {
             if (encrypt)
             {
-                using (Wrapper cryptoWrapper =
-                    Wrapper.CreateEncryptor(AlgorithmType.TripleDES,
+                using (CryptoManager cryptoWrapper =
+                    CryptoManager.CreateEncryptor(AlgorithmType.TripleDES,
                             _provider.CreatePrivateKey(_remotePublicKey).ToByteArray()))
                 {
                     return ObjectSerialize.Serialize(

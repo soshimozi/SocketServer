@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading;
-using SocketService.Client.Core;
-using SocketService.Client.Core.Request;
+using SocketService.Client;
 using SocketService.Event;
+using SocketService.Shared.Request;
 using SocketService.Shared.Response;
 
 namespace ConsoleApplication1

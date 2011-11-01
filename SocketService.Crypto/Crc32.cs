@@ -21,7 +21,7 @@
 
 using System.Security.Cryptography;
 
-namespace SocketService.Core.Crypto
+namespace SocketService.Crypto
 {
     public class Crc32 : HashAlgorithm
     {

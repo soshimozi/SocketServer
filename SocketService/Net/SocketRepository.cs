@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
-using SocketService.Client.Core.Sockets;
+using SocketService.Shared.Sockets;
 
 namespace SocketService.Net
 {
