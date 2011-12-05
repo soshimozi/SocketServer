@@ -17,7 +17,7 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            var ca = new CentralAuthority(CAKeyProtocol.DH64);
+            var ca = new CentralAuthority(CAKeyProtocol.DH256);
 
             ClientConnection connection =
                 ConnectionRepository.Instance.Query(c => c.ClientId == _clientId).FirstOrDefault();
