@@ -1,11 +1,11 @@
 ﻿using System.Linq;
-using SocketService.Core.Data;
-using SocketService.Core.Util;
-using SocketService.Repository;
-using RoomVariable = SocketService.Core.Data.RoomVariable;
-using Zone = SocketService.Core.Data.Zone;
+using SocketServer.Core.Data;
+using SocketServer.Core.Util;
+using SocketServer.Repository;
+using RoomVariable = SocketServer.Core.Data.RoomVariable;
+using Zone = SocketServer.Core.Data.Zone;
 
-namespace SocketService.Actions
+namespace SocketServer.Actions
 {
     class RoomActionEngine : SingletonBase<RoomActionEngine>
     {

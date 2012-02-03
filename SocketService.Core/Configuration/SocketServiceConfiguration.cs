@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace SocketService.Core.Configuration
+namespace SocketServer.Core.Configuration
 {
     public class SocketServiceConfiguration : ConfigurationSection
     {

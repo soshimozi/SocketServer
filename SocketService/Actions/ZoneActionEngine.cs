@@ -1,10 +1,9 @@
 ﻿using System.Linq;
-using SocketService.Core.Data;
-using SocketService.Core.Util;
-using SocketService.Framework.Data;
-using SocketService.Repository;
+using SocketServer.Core.Data;
+using SocketServer.Core.Util;
+using SocketServer.Repository;
 
-namespace SocketService.Actions
+namespace SocketServer.Actions
 {
     class ZoneActionEngine : SingletonBase<ZoneActionEngine>
     {

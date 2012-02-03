@@ -1,4 +1,4 @@
-﻿namespace SocketService
+﻿namespace SocketServer
 {
     partial class SocketService
     {

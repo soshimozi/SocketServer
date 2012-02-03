@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Data;
-using Zone = SocketService.Core.Data.Zone;
+using SocketServer.Core.Data;
+using Zone = SocketServer.Core.Data.Zone;
 
-namespace SocketService.Repository
+namespace SocketServer.Repository
 {
     public class ZoneRepository : IRepository<Zone>, IDisposable
     {

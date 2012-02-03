@@ -1,4 +1,4 @@
-﻿namespace SocketService.Client.Data
+﻿namespace SocketServer.Client.Data
 {
     public class ClientUser
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SocketService.Shared.Response
+namespace SocketServer.Shared.Response
 {
     [Serializable]
     public class LoginResponse : IServerResponse

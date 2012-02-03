@@ -1,4 +1,4 @@
-﻿namespace SocketService.Shared.Plugin
+﻿namespace SocketServer.Shared.Plugin
 {
     public interface IPlugin
     {

@@ -5,9 +5,9 @@ using System.ComponentModel.Composition.Hosting;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using SocketService.Core.ServiceHandlerLib;
+using SocketServer.Core.ServiceHandlerLib;
 
-namespace SocketService.Repository
+namespace SocketServer.Repository
 {
     public class ServiceHandlerLookup // : IServiceHandlerRepository
     {

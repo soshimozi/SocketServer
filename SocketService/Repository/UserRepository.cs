@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SocketService.Core.Data;
+using SocketServer.Core.Data;
 using log4net;
-using User = SocketService.Core.Data.User;
+using User = SocketServer.Core.Data.User;
 
-namespace SocketService.Repository
+namespace SocketServer.Repository
 {
     public class UserRepository : IRepository<User>, IDisposable
     {

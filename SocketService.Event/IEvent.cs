@@ -1,4 +1,4 @@
-﻿namespace SocketService.Event
+﻿namespace SocketServer.Event
 {
     public interface IEvent
     {

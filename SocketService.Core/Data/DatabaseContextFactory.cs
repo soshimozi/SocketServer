@@ -1,4 +1,4 @@
-﻿namespace SocketService.Core.Data
+﻿namespace SocketServer.Core.Data
 {
     public class DatabaseContextFactory
     {

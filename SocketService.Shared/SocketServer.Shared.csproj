@@ -2,18 +2,21 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</ProjectGuid>
+    <ProjectGuid>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SocketService.Client</RootNamespace>
-    <AssemblyName>SocketService.Client</AssemblyName>
+    <RootNamespace>SocketServer.Shared</RootNamespace>
+    <AssemblyName>SocketService.Shared</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,13 +25,17 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -41,27 +48,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClientEngine.cs" />
-    <Compile Include="Data\ClientRoom.cs" />
-    <Compile Include="Data\ClientUser.cs" />
-    <Compile Include="Manager\ManagerHelper.cs" />
-    <Compile Include="Manager\RoomManager.cs" />
-    <Compile Include="Manager\UserManager.cs" />
+    <Compile Include="Plugin\IPluginMetaData.cs" />
+    <Compile Include="Plugin\PluginMetaDataAttribute.cs" />
+    <Compile Include="ObjectSerialize.cs" />
+    <Compile Include="Plugin\IPlugin.cs" />
+    <Compile Include="Plugin\PluginBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Server.cs" />
+    <Compile Include="Request\ClientRequest.cs" />
+    <Compile Include="Request\CreateRoomRequest.cs" />
+    <Compile Include="Request\CreateRoomVariableRequest.cs" />
+    <Compile Include="Request\DeleteRoomVariableRequest.cs" />
+    <Compile Include="Request\GetKeyParametersRequest.cs" />
+    <Compile Include="Request\NegotiateKeyRequest.cs" />
+    <Compile Include="Request\GetRoomVariableRequest.cs" />
+    <Compile Include="Request\LoginRequest.cs" />
+    <Compile Include="Request\PublicMessageRequest.cs" />
+    <Compile Include="Request\UpdateRoomVariableRequest.cs" />
+    <Compile Include="Response\GetKeyParametersResponse.cs" />
+    <Compile Include="Response\GetRoomVariableResponse.cs" />
+    <Compile Include="Response\GetRoomVariableResponseArgs.cs" />
+    <Compile Include="Response\IServerResponse.cs" />
+    <Compile Include="Response\LoginResponse.cs" />
+    <Compile Include="Response\NegotiateKeyResponse.cs" />
+    <Compile Include="Sockets\ZipSocket.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Crypto\SocketService.Crypto.csproj">
+    <ProjectReference Include="..\SocketService.Crypto\SocketServer.Crypto.csproj">
       <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
-      <Name>SocketService.Crypto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Shared\SocketService.Shared.csproj">
-      <Project>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</Project>
-      <Name>SocketService.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SocketService.Event\SocketService.Event.csproj">
-      <Project>{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}</Project>
-      <Name>SocketService.Event</Name>
+      <Name>SocketServer.Crypto</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

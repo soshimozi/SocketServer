@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SocketService.Shared.Request
+namespace SocketServer.Shared.Request
 {
     [Serializable]
     public class CreateRoomVariableRequest

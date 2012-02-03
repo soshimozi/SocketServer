@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 
-namespace SocketService.Shared.Plugin
+namespace SocketServer.Shared.Plugin
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]

@@ -6,11 +6,11 @@ using System.Net;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Threading;
-using SocketService.Net.Client;
-using SocketService.Shared.Sockets;
+using SocketServer.Net.Client;
+using SocketServer.Shared.Sockets;
 using log4net;
 
-namespace SocketService.Net
+namespace SocketServer.Net
 {
     public class SocketServer
     {

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
 using System.ServiceProcess;
-using SocketService.Core.Messaging;
-using SocketService.Net;
+using SocketServer.Core.Messaging;
+using SocketServer.Net;
 
-namespace SocketService
+namespace SocketServer
 {
     public partial class SocketService : SocketServiceBase
     {
@@ -18,7 +18,7 @@ namespace SocketService
 
         public override void StartService()
         {
-            InitializeCounters();
+            //InitializeCounters();
 
             _serverManager.StartServer();
             _messageServer.Start();

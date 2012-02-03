@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using SocketService.Client.Manager;
-using SocketService.Event;
-using SocketService.Shared.Response;
+using SocketServer.Client.Manager;
+using SocketServer.Event;
+using SocketServer.Shared.Response;
 
-namespace SocketService.Client
+namespace SocketServer.Client
 {
     public class ClientEngine
     {
@@ -32,8 +32,8 @@ namespace SocketService.Client
                 _servers.Add(server);
             }
 
-            server.ServerEvent += ServerServerEvent;
-            server.ServerResponse += ServerServerResponse;
+            server.ServerEvent += ServerEvent;
+            server.ServerResponse += ServerResponse;
         }
 
         public void StopEngine()
@@ -47,65 +47,56 @@ namespace SocketService.Client
             }
         }
 
-        protected void ServerServerResponse(object sender, ServerResponseEventArgs e)
+        protected void ServerResponse(object sender, ServerResponseEventArgs e)
         {
-            HandleServerResponse(e.Response);
-        }
-
-        protected void ServerServerEvent(object sender, ServerEventEventArgs e)
-        {
-            HandleEvent(e.ServerEvent);
-        }
-
-        private void HandleServerResponse(IServerResponse response)
-        {
-            if (response is GetRoomVariableResponse)
+            if (e.Response is GetRoomVariableResponse)
             {
                 OnGetRoomVariableResponseRecieved(
                     new GetRoomVariableResponseArgs
-                        {
-                            Response = response as GetRoomVariableResponse
-                        }
+                    {
+                        Response = e.Response as GetRoomVariableResponse
+                    }
                     );
             }
-            else if (response is LoginResponse)
+            else if (e.Response is LoginResponse)
             {
                 OnLoginResponseReceieved(
                     new LoginResponseEventArgs
-                        {
-                            Response = response as LoginResponse
-                        }
+                    {
+                        Response = e.Response as LoginResponse
+                    }
                     );
             }
+
         }
 
-        private void HandleEvent(IEvent evt)
+        protected void ServerEvent(object sender, ServerEventEventArgs e)
         {
-            if (evt is JoinRoomEvent)
+            if (e.ServerEvent is JoinRoomEvent)
             {
                 OnJoinRoomEvent(
                     new JoinRoomEventArgs
-                        {
-                            Event = evt as JoinRoomEvent
-                        }
+                    {
+                        Event = e.ServerEvent as JoinRoomEvent
+                    }
                     );
             }
-            else if (evt is RoomUserUpdateEvent)
+            else if (e.ServerEvent is RoomUserUpdateEvent)
             {
                 OnRoomUserUpdate(
                     new RoomUserUpdateEventArgs
-                        {
-                            Event = evt as RoomUserUpdateEvent
-                        }
+                    {
+                        Event = e.ServerEvent as RoomUserUpdateEvent
+                    }
                     );
             }
-            else if (evt is RoomVariableUpdateEvent)
+            else if (e.ServerEvent is RoomVariableUpdateEvent)
             {
                 OnRoomVariableUpdate(
                     new RoomVariableUpdateArgs
-                        {
-                            Event = evt as RoomVariableUpdateEvent
-                        }
+                    {
+                        Event = e.ServerEvent as RoomVariableUpdateEvent
+                    }
                     );
             }
         }
@@ -127,7 +118,6 @@ namespace SocketService.Client
                 func(this, args);
             }
         }
-
 
         protected virtual void OnRoomUserUpdate(RoomUserUpdateEventArgs args)
         {

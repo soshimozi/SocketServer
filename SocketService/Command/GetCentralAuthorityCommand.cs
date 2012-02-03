@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Messaging;
-using SocketService.Crypto;
-using SocketService.Net.Client;
+using SocketServer.Core.Messaging;
+using SocketServer.Crypto;
+using SocketServer.Net.Client;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     public class GetCentralAuthorityCommand : BaseMessageHandler

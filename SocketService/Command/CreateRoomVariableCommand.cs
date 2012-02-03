@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Messaging;
-using SocketService.Event;
-using SocketService.Actions;
-using SocketService.Repository;
-using SocketService.Shared;
+using SocketServer.Core.Messaging;
+using SocketServer.Event;
+using SocketServer.Actions;
+using SocketServer.Repository;
+using SocketServer.Shared;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     internal class CreateRoomVariableCommand : BaseMessageHandler

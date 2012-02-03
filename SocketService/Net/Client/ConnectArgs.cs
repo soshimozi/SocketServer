@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 
-namespace SocketService.Net.Client
+namespace SocketServer.Net.Client
 {
     public class ConnectArgs : EventArgs
     {

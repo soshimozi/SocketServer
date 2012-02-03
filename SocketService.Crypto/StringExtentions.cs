@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.IO;
 
-namespace SocketService.Crypto
+namespace SocketServer.Crypto
 {
     public static class StringExtentions
     {

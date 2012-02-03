@@ -1,6 +1,6 @@
 using System;
 
-namespace SocketService.Net.Client
+namespace SocketServer.Net.Client
 {
     public class Connection
     {

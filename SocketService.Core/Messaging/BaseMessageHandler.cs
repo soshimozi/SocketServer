@@ -2,7 +2,7 @@
 using log4net;
 using System.Reflection;
 
-namespace SocketService.Core.Messaging
+namespace SocketServer.Core.Messaging
 {
     [Serializable]
     public abstract class BaseMessageHandler : ICommand

@@ -1,8 +1,8 @@
 ﻿using System;
-using SocketService.Client.Data;
-using SocketService.Event;
+using SocketServer.Client.Data;
+using SocketServer.Event;
 
-namespace SocketService.Client.Manager
+namespace SocketServer.Client.Manager
 {
     public class ManagerHelper
     {

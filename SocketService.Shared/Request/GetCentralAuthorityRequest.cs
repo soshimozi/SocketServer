@@ -1,7 +1,7 @@
 ﻿using System;
-using SocketService.Crypto;
+using SocketServer.Crypto;
 
-namespace SocketService.Shared.Request
+namespace SocketServer.Shared.Request
 {
     [Serializable]
     public class GetCentralAuthorityRequest

@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Configuration;
 using System.Reflection;
-using SocketService.Command;
-using SocketService.Core.Configuration;
-using SocketService.Core.Messaging;
-using SocketService.Net.Client;
+using SocketServer.Command;
+using SocketServer.Core.Configuration;
+using SocketServer.Core.Messaging;
+using SocketServer.Net.Client;
 using log4net;
+using SocketServer.Crypto;
 
-namespace SocketService.Net
+namespace SocketServer.Net
 {
     public class SocketManager //: IServerContext
     {

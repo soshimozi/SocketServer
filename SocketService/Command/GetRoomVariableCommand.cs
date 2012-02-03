@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Data;
-using SocketService.Core.Messaging;
-using SocketService.Repository;
-using SocketService.Shared;
-using SocketService.Shared.Response;
+using SocketServer.Core.Data;
+using SocketServer.Core.Messaging;
+using SocketServer.Repository;
+using SocketServer.Shared;
+using SocketServer.Shared.Response;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     public class GetRoomVariableCommand : BaseMessageHandler

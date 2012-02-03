@@ -1,6 +1,7 @@
 ﻿using System;
+using Org.BouncyCastle.Math;
 
-namespace SocketService.Crypto
+namespace SocketServer.Crypto
 {
     /// <summary>
     /// 

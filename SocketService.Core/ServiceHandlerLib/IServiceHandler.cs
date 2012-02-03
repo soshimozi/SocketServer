@@ -1,4 +1,4 @@
-﻿namespace SocketService.Core.ServiceHandlerLib
+﻿namespace SocketServer.Core.ServiceHandlerLib
 { 
     public interface IServiceHandler
     {

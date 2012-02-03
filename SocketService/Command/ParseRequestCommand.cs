@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Messaging;
-using SocketService.Crypto;
-using SocketService.Net.Client;
-using SocketService.Repository;
-using SocketService.Shared;
-using SocketService.Shared.Request;
+using SocketServer.Core.Messaging;
+using SocketServer.Crypto;
+using SocketServer.Net.Client;
+using SocketServer.Repository;
+using SocketServer.Shared;
+using SocketServer.Shared.Request;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     class ParseRequestCommand : BaseMessageHandler
@@ -23,7 +23,7 @@ namespace SocketService.Command
 
         public override void Execute()
         {
-            var requestWrapper = ObjectSerialize.Deserialize<ClientRequestWrapper>(_serialized);
+            var requestWrapper = ObjectSerialize.Deserialize<ClientRequest>(_serialized);
             var payload = DecryptRequest(requestWrapper);
         
             var handlerType = payload.GetType();
@@ -34,7 +34,7 @@ namespace SocketService.Command
             );
         }
 
-        private object DecryptRequest(ClientRequestWrapper requestWrapper)
+        private object DecryptRequest(ClientRequest requestWrapper)
         {
             // switch on encryption type, and create a decryptor for that type
             // with the remote private key and iv as salt
@@ -66,14 +66,22 @@ namespace SocketService.Command
             {
                 return null;
             }
-            
-            var privateKey = connection.SecureKeyProvider.CreatePrivateKey(connection.RemotePublicKey);
-            using (var cryptoWrapper = CryptoManager.CreateDecryptor(algorithm,
-                                                                   privateKey.ToByteArray(),
-                                                                   requestWrapper.EncryptionPublicKey))
+
+            var privateKey = connection.Provider.Agree();
+            using (var cryptoWrapper = CryptoManager.CreateDecryptor(algorithm, privateKey, requestWrapper.EncryptionPublicKey))
             {
                 return ObjectSerialize.Deserialize(cryptoWrapper.Decrypt(requestWrapper.RequestData));
             }
+
+            //var privateKey = connection.SecureKeyProvider.CreatePrivateKey(connection.RemotePublicKey);
+            //using (var cryptoWrapper = CryptoManager.CreateDecryptor(algorithm,
+            //                                                       privateKey.ToByteArray(),
+            //                                                       requestWrapper.EncryptionPublicKey))
+            //{
+            //    return ObjectSerialize.Deserialize(cryptoWrapper.Decrypt(requestWrapper.RequestData));
+            //}
+
+            return null;
         }
     }
 }

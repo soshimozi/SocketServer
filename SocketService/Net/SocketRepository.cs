@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Threading;
-using SocketService.Shared.Sockets;
+using SocketServer.Shared.Sockets;
 
-namespace SocketService.Net
+namespace SocketServer.Net
 {
     public class SocketRepository
     {

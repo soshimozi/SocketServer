@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
-using SocketService.Client.Data;
+using SocketServer.Client.Data;
 
-namespace SocketService.Client.Manager
+namespace SocketServer.Client.Manager
 {
     public class RoomManager
     {

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Actions;
-using SocketService.Core.Messaging;
-using SocketService.Event;
-using SocketService.Net;
-using SocketService.Net.Client;
-using SocketService.Repository;
+using SocketServer.Actions;
+using SocketServer.Core.Messaging;
+using SocketServer.Event;
+using SocketServer.Net;
+using SocketServer.Net.Client;
+using SocketServer.Repository;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     internal class LogoutUserCommand : BaseMessageHandler

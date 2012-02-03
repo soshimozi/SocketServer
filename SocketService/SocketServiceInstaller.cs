@@ -3,7 +3,7 @@ using System.Configuration.Install;
 using System.Diagnostics;
 using System.ServiceProcess;
 
-namespace SocketService
+namespace SocketServer
 {
     [RunInstaller(true)]
     public class SocketServiceInstaller : Installer

@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Data;
+using SocketServer.Core.Data;
 using System.Linq.Expressions;
-using Room = SocketService.Core.Data.Room;
+using Room = SocketServer.Core.Data.Room;
 
-namespace SocketService.Repository
+namespace SocketServer.Repository
 {
     public class RoomRepository : IRepository<Room>, IDisposable
     {

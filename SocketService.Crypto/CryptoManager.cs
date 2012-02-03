@@ -3,7 +3,7 @@ using System.Text;
 using System.IO;
 using System.Security.Cryptography;
 
-namespace SocketService.Crypto
+namespace SocketServer.Crypto
 {
     public class CryptoManager : IDisposable
     {

@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Command;
-using SocketService.Core.Messaging;
-using SocketService.Core.ServiceHandlerLib;
-using SocketService.Repository;
-using SocketService.Shared.Request;
+using SocketServer.Command;
+using SocketServer.Core.Messaging;
+using SocketServer.Core.ServiceHandlerLib;
+using SocketServer.Repository;
+using SocketServer.Shared.Request;
 
-namespace SocketService.Handler
+namespace SocketServer.Handler
 {
     [ServiceHandlerType(typeof (PublicMessageRequest))]
     public class PublicMessageRequestHandler : BaseHandler<PublicMessageRequest, Guid>

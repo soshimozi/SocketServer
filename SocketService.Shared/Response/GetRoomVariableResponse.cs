@@ -1,4 +1,4 @@
-﻿namespace SocketService.Shared.Response
+﻿namespace SocketServer.Shared.Response
 {
     public class GetRoomVariableResponse : IServerResponse
     {

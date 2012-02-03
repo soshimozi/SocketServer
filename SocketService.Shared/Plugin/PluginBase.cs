@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.Composition;
 
-namespace SocketService.Shared.Plugin
+namespace SocketServer.Shared.Plugin
 {
     [InheritedExport(typeof(IPlugin))]
     public class PluginBase : IPlugin

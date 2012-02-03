@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace SocketService.Shared
+namespace SocketServer.Shared
 {
     public static class ObjectSerialize
     {

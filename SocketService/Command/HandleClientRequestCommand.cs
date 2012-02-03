@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using SocketService.Core.Messaging;
-using SocketService.Core.ServiceHandlerLib;
+using SocketServer.Core.Messaging;
+using SocketServer.Core.ServiceHandlerLib;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     public class HandleClientRequestCommand : BaseMessageHandler

@@ -1,4 +1,5 @@
-﻿namespace SocketService.Crypto
+﻿using Org.BouncyCastle.Math;
+namespace SocketServer.Crypto
 {
     /// <summary>
     /// 

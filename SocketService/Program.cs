@@ -5,7 +5,7 @@ using System.ServiceProcess;
 using System.Windows.Forms;
 using log4net;
 
-namespace SocketService
+namespace SocketServer
 {
     static class Program
     {

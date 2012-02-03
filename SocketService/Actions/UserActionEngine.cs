@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Data;
-using SocketService.Core.Util;
-using SocketService.Repository;
-using User = SocketService.Core.Data.User;
+using SocketServer.Core.Data;
+using SocketServer.Core.Util;
+using SocketServer.Repository;
+using User = SocketServer.Core.Data.User;
 
-namespace SocketService.Actions
+namespace SocketServer.Actions
 {
     class UserActionEngine : SingletonBase<UserActionEngine>
     {

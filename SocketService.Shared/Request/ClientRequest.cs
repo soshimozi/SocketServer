@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace SocketService.Shared.Request
+namespace SocketServer.Shared.Request
 {
     [Serializable]
-    public class ClientRequestWrapper //: IRequest
+    public class ClientRequest //: IRequest
     {
         private readonly byte[] _publicKey;
         private readonly EncryptionType _encryption;
@@ -12,13 +12,13 @@ namespace SocketService.Shared.Request
         private readonly byte [] _request;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientRequestWrapper"/> class.
+        /// Initializes a new instance of the <see cref="ClientRequest"/> class.
         /// </summary>
         /// <param name="encryptionPublicKey">The encryption public key.</param>
         /// <param name="encryption">The encryption.</param>
         /// <param name="timeStamp">The time stamp.</param>
         /// <param name="request">The request.</param>
-        public ClientRequestWrapper(byte[] encryptionPublicKey,
+        public ClientRequest(byte[] encryptionPublicKey,
                                     EncryptionType encryption, 
                                     DateTime timeStamp, 
                                     byte [] request) 
@@ -27,14 +27,14 @@ namespace SocketService.Shared.Request
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ClientRequestWrapper"/> class.
+        /// Initializes a new instance of the <see cref="ClientRequest"/> class.
         /// </summary>
         /// <param name="encryptionPublicKey">The encryption public key.</param>
         /// <param name="encryption">The encryption.</param>
         /// <param name="timeStamp">The time stamp.</param>
         /// <param name="crc32">The CR C32.</param>
         /// <param name="request">The request.</param>
-        public ClientRequestWrapper(byte[] encryptionPublicKey,
+        public ClientRequest(byte[] encryptionPublicKey,
                 EncryptionType encryption, DateTime timeStamp,
                 uint crc32, byte [] request)
         {

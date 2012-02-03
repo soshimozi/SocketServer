@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Data;
-using SocketService.Core.Messaging;
-using SocketService.Event;
-using SocketService.Repository;
+using SocketServer.Core.Data;
+using SocketServer.Core.Messaging;
+using SocketServer.Event;
+using SocketServer.Repository;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     public class UpdateRoomVariableCommand : BaseMessageHandler

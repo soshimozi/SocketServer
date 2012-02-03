@@ -5,7 +5,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading;
 
-namespace SocketService.Shared.Sockets
+namespace SocketServer.Shared.Sockets
 {
     public class ZipSocket
     {
@@ -47,7 +47,6 @@ namespace SocketService.Shared.Sockets
             _sendMutex.WaitOne();
             try
             {
-
                 RawSocket.Send(Compress(buffer));
             }
             finally
@@ -77,15 +76,6 @@ namespace SocketService.Shared.Sockets
         {
             return socket == RawSocket;
         }
-
-        ///// <summary>
-        ///// Gets the client id.
-        ///// </summary>
-        //public Guid ClientId
-        //{
-        //    get;
-        //    private set;
-        //}
 
         /// <summary>
         /// Gets the remote address.

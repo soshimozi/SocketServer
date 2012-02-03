@@ -1,6 +1,4 @@
-﻿using SocketService.Framework.Data;
-
-namespace SocketService.Core.Data
+﻿namespace SocketServer.Core.Data
 {
     public partial class Room
     {

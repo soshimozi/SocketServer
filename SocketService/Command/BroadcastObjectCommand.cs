@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SocketService.Core.Messaging;
-using SocketService.Net;
-using SocketService.Shared;
+using SocketServer.Core.Messaging;
+using SocketServer.Net;
+using SocketServer.Shared;
 using log4net;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     class BroadcastObjectCommand : BaseMessageHandler

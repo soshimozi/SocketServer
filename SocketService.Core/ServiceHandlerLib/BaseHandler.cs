@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SocketService.Core.ServiceHandlerLib
+namespace SocketServer.Core.ServiceHandlerLib
 {
     [Serializable]
     public abstract class BaseHandler<T, TState> : IServiceHandler where T : class

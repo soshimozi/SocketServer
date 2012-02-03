@@ -1,4 +1,4 @@
-﻿namespace SocketService.Core.Util
+﻿namespace SocketServer.Core.Util
 {
     public class SingletonBase<T> where T : class, new()
     {

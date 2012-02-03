@@ -5,7 +5,7 @@ using System.Configuration;
 using System.Reflection;
 using log4net;
 
-namespace SocketService.Core.Messaging
+namespace SocketServer.Core.Messaging
 {
     public class MessageServer : MSMQQueueWatcher
     {

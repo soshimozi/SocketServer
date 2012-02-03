@@ -3,21 +3,26 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Collections;
 using System.Net.Sockets;
-using SocketService.Crypto;
-using SocketService.Event;
-using SocketService.Shared;
-using SocketService.Shared.Request;
-using SocketService.Shared.Response;
-using SocketService.Shared.Sockets;
+using SocketServer.Crypto;
+using SocketServer.Event;
+using SocketServer.Shared;
+using SocketServer.Shared.Request;
+using SocketServer.Shared.Response;
+using SocketServer.Shared.Sockets;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Security;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math;
 
-namespace SocketService.Client
+namespace SocketServer.Client
 {
     public class Server
     {
         private readonly ManualResetEvent _serverDisconnectedEvent = new ManualResetEvent(false);
-        private DiffieHellmanKey _remotePublicKey;
-        private DiffieHellmanProvider _provider;
-        private ZipSocket _socket;
+
+        private ZipSocket _socket = null;
+        private DHProvider _provider = new DHProvider(SocketServer.Crypto.Constants.DefaultDiffieHellmanKeyLength, SocketServer.Crypto.Constants.DefaultPrimeProbability);
+
         private bool _connected;
 
         public event EventHandler<ConnectionEventArgs> ConnectionResponse;
@@ -53,7 +58,7 @@ namespace SocketService.Client
                         rawSocket.Connect(address, port);
                         connected = true;
                     }
-                    catch (SocketException)
+                    catch (SocketException se)
                     {
                         OnConnectionResponse(new ConnectionEventArgs { IsSuccessful = false });
                         return;
@@ -145,58 +150,43 @@ namespace SocketService.Client
             }
         }
 
-        private void NegotiateKeys()
+        private T ReadObject<T>(int timeout) where T : class
         {
-            SendRequestRaw(new GetCentralAuthorityRequest());
-
-            bool doneHandshaking = false;
-            int step = 0;
-
             // wait for central authority
             IList readList = new List<Socket> { _socket.RawSocket };
-            while (!doneHandshaking)
+
+            Socket.Select(readList, null, null, timeout);
+
+            T response = default(T);
+            if (readList.Count > 0)
             {
-                Socket.Select(readList, null, null, -1);
-
-                // there is only one socket in the poll list
-                // so if the count is greater than 0 then
-                // the only one available should be the client socket
-                if (readList.Count > 0)
+                var availableBytes = _socket.RawSocket.Available;
+                if (availableBytes > 0)
                 {
-                    var availableBytes = _socket.RawSocket.Available;
-                    if (availableBytes > 0)
-                    {
-                        var objectData = _socket.ReceiveData();
-                        switch (step)
-                        {
-                            case 0:
-                                var ca = ObjectSerialize.Deserialize<CentralAuthority>(objectData);
-                                if (ca != null)
-                                {
-                                    _provider = ca.GetProvider();
-
-                                    // Send Negotiate Key Command
-                                    // Read Response when it comes back
-                                    SendRequestRaw(new NegotiateKeysRequest(_provider.PublicKey.ToByteArray()));
-
-                                    step++;
-                                }
-                                break;
-
-                            case 1:
-                                // record server key
-                                var response = ObjectSerialize.Deserialize<NegotiateKeysResponse>(objectData);
-                                if (response != null)
-                                {
-                                    _remotePublicKey = _provider.Import(response.RemotePublicKey);
-                                    doneHandshaking = true;
-                                }
-                                break;
-
-                        }
-                    }
+                    var objectData = _socket.ReceiveData();
+                    response = ObjectSerialize.Deserialize<T>(objectData);
                 }
             }
+
+            return response;
+        }
+
+        private void NegotiateKeys()
+        {
+            SendRequestRaw(new GetKeyParametersRequest());
+            var parametersResponse = ReadObject<GetKeyParametersResponse>(-1);
+
+            // generate some parameters from the response (P/G values)
+            DHParameters parameters = DHParameterHelper.GenerateParameters(parametersResponse.P, parametersResponse.G);
+            _provider = new DHProvider(parameters);
+
+            SendRequestRaw(new NegotiateKeyRequest() { RemotePublicKey = _provider.GetEncryptedPublicKey() } );
+            var negotiateKeyResponse = ReadObject<NegotiateKeyResponse>(-1);
+
+            _provider.RemotePublicKey = new DHPublicKeyParameters(
+                ((DHPublicKeyParameters)PublicKeyFactory.CreateKey(negotiateKeyResponse.RemotePublicKey)).Y, _provider.Parameters);
+
+            byte [] agree = _provider.Agree();
         }
 
         /// <summary>
@@ -224,10 +214,10 @@ namespace SocketService.Client
             {
                 using (CryptoManager cryptoWrapper =
                     CryptoManager.CreateEncryptor(AlgorithmType.TripleDES,
-                            _provider.CreatePrivateKey(_remotePublicKey).ToByteArray()))
+                            _provider.Agree()))
                 {
                     return ObjectSerialize.Serialize(
-                        new ClientRequestWrapper(cryptoWrapper.IV,
+                        new ClientRequest(cryptoWrapper.IV,
                            EncryptionType.TripleDES,
                            DateTime.Now, 0,
                            cryptoWrapper.Encrypt(ObjectSerialize.Serialize(requestData))
@@ -237,7 +227,7 @@ namespace SocketService.Client
             }
             
             return ObjectSerialize.Serialize(
-                new ClientRequestWrapper(new byte[] { },
+                new ClientRequest(new byte[] { },
                                          EncryptionType.None,
                                          DateTime.Now, 0,
                                          ObjectSerialize.Serialize(requestData)

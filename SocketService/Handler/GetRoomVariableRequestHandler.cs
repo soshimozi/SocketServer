@@ -1,8 +1,8 @@
 ﻿using System;
-using SocketService.Core.ServiceHandlerLib;
-using SocketService.Shared.Request;
+using SocketServer.Core.ServiceHandlerLib;
+using SocketServer.Shared.Request;
 
-namespace SocketService.Handler
+namespace SocketServer.Handler
 {
     [Serializable]
     [ServiceHandlerType(typeof (GetRoomVariableRequest))]

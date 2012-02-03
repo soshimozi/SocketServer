@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace SocketService.Repository
+namespace SocketServer.Repository
 {
     public interface IRepository<T>
     {

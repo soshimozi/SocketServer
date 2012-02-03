@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SocketService.Framework.Data
+namespace SocketServer.Core.Data
 {
     public class AutoIdElement
     {

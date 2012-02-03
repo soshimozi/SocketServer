@@ -1,7 +1,7 @@
 ﻿using System;
-using SocketService.Shared.Response;
+using SocketServer.Shared.Response;
 
-namespace SocketService.Event
+namespace SocketServer.Event
 {
     public class ServerResponseEventArgs : EventArgs
     {

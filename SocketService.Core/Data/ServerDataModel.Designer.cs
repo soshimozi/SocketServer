@@ -18,16 +18,16 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("ServerDataModel", "ZoneRoom", "Zone", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketService.Core.Data.Zone), "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketService.Core.Data.Room), true)]
-[assembly: EdmRelationshipAttribute("ServerDataModel", "RoomUser", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketService.Core.Data.Room), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketService.Core.Data.User), true)]
-[assembly: EdmRelationshipAttribute("ServerDataModel", "RoomRoomVariable", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketService.Core.Data.Room), "RoomVariable", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketService.Core.Data.RoomVariable), true)]
-[assembly: EdmRelationshipAttribute("ServerDataModel", "UserUserVariable", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketService.Core.Data.User), "UserVariable", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketService.Core.Data.UserVariable), true)]
-[assembly: EdmRelationshipAttribute("ServerDataModel", "ExtensionPlugin", "Extension", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketService.Core.Data.Extension), "Plugin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketService.Core.Data.Plugin), true)]
-[assembly: EdmRelationshipAttribute("ServerDataModel", "RoomPlugin", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketService.Core.Data.Room), "Plugin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketService.Core.Data.Plugin), true)]
+[assembly: EdmRelationshipAttribute("ServerDataModel", "ZoneRoom", "Zone", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketServer.Core.Data.Zone), "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketServer.Core.Data.Room), true)]
+[assembly: EdmRelationshipAttribute("ServerDataModel", "RoomUser", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketServer.Core.Data.Room), "User", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketServer.Core.Data.User), true)]
+[assembly: EdmRelationshipAttribute("ServerDataModel", "RoomRoomVariable", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketServer.Core.Data.Room), "RoomVariable", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketServer.Core.Data.RoomVariable), true)]
+[assembly: EdmRelationshipAttribute("ServerDataModel", "UserUserVariable", "User", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketServer.Core.Data.User), "UserVariable", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketServer.Core.Data.UserVariable), true)]
+[assembly: EdmRelationshipAttribute("ServerDataModel", "ExtensionPlugin", "Extension", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketServer.Core.Data.Extension), "Plugin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketServer.Core.Data.Plugin), true)]
+[assembly: EdmRelationshipAttribute("ServerDataModel", "RoomPlugin", "Room", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SocketServer.Core.Data.Room), "Plugin", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SocketServer.Core.Data.Plugin), true)]
 
 #endregion
 
-namespace SocketService.Core.Data
+namespace SocketServer.Core.Data
 {
     #region Contexts
     

@@ -1,10 +1,15 @@
 ﻿using System;
-using SocketService.Crypto;
+using SocketServer.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Crypto;
 
-namespace SocketService.Net.Client
+namespace SocketServer.Net.Client
 {
     public class ClientConnection //: Connection
     {
+        public ClientConnection()
+        {
+        }
 
         /// <summary>
         /// Gets or sets the client id.
@@ -20,28 +25,14 @@ namespace SocketService.Net.Client
         /// <value>
         /// The remote public key.
         /// </value>
-        public DiffieHellmanKey RemotePublicKey { get; set; }
+        //public AsymmetricKeyParameter RemotePublicKey { get; set; }
 
-        /// <summary>
-        /// Gets or sets the provider.
-        /// </summary>
-        /// <value>
-        /// The provider.
-        /// </value>
-        public DiffieHellmanProvider SecureKeyProvider { get; set; }
+        //public DHParameters Parameters { get; set; }
 
-        /// <summary>
-        /// Gets or sets the state of the connection.
-        /// </summary>
-        /// <value>
-        /// The state of the connection.
-        /// </value>
-        public ConnectionState ConnectionState { get; set; }
+        public DHProvider Provider
+        { 
+            get; set; 
+        }
     }
 
-    public enum ConnectionState
-    {
-        NegotiateKeyPair,
-        Connected
-    }
 }

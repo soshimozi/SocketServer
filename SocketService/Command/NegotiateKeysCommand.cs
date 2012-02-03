@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Core.Messaging;
-using SocketService.Net.Client;
-using SocketService.Shared.Response;
+using SocketServer.Core.Messaging;
+using SocketServer.Net.Client;
+using SocketServer.Shared.Response;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     public class NegotiateKeysCommand : BaseMessageHandler

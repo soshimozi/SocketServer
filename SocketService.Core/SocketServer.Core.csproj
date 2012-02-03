@@ -8,7 +8,7 @@
     <ProjectGuid>{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SocketService.Core</RootNamespace>
+    <RootNamespace>SocketServer.Core</RootNamespace>
     <AssemblyName>SocketService.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

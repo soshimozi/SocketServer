@@ -8,7 +8,7 @@
     <ProjectGuid>{3B89D58C-5E4E-4F7A-B256-2DE189684322}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SocketService</RootNamespace>
+    <RootNamespace>SocketServer</RootNamespace>
     <AssemblyName>SocketService</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -38,6 +38,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\References\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
     <Reference Include="log4net">
       <HintPath>..\References\log4net.dll</HintPath>
     </Reference>
@@ -67,12 +70,12 @@
     <Compile Include="Command\CreateRoomCommand.cs" />
     <Compile Include="Command\CreateRoomVariableCommand.cs" />
     <Compile Include="Command\DeleteRoomVariableCommand.cs" />
-    <Compile Include="Command\GetCentralAuthorityCommand.cs" />
+    <Compile Include="Command\GetKeyParametersCommand.cs" />
+    <Compile Include="Command\NegotiateKeyCommand.cs" />
     <Compile Include="Command\GetRoomVariableCommand.cs" />
     <Compile Include="Command\HandleClientRequestCommand.cs" />
     <Compile Include="Command\LoginUserCommand.cs" />
     <Compile Include="Command\LogoutUserCommand.cs" />
-    <Compile Include="Command\NegotiateKeysCommand.cs" />
     <Compile Include="Command\ParseRequestCommand.cs" />
     <Compile Include="Command\PublicMessageCommand.cs" />
     <Compile Include="Command\SendObjectCommand.cs" />
@@ -81,10 +84,10 @@
     <Compile Include="Handler\ChangeRoomRequestHandler.cs" />
     <Compile Include="Handler\CreateRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\DeleteRoomVariableRequestHandler.cs" />
-    <Compile Include="Handler\GetCARequestHandler.cs" />
+    <Compile Include="Handler\GetKeyParametersRequestHandler.cs" />
+    <Compile Include="Handler\NegotiateKeyRequestHandler.cs" />
     <Compile Include="Handler\GetRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\LoginRequestHandler.cs" />
-    <Compile Include="Handler\NegotiateKeysRequestHandler.cs" />
     <Compile Include="Handler\PublicMessageRequestHandler.cs" />
     <Compile Include="Handler\UpdateRoomVariableRequestHandler.cs" />
     <Compile Include="Net\Client\ConnectArgs.cs" />
@@ -123,21 +126,21 @@
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Core\SocketService.Core.csproj">
+    <ProjectReference Include="..\SocketService.Core\SocketServer.Core.csproj">
       <Project>{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}</Project>
-      <Name>SocketService.Core</Name>
+      <Name>SocketServer.Core</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Crypto\SocketService.Crypto.csproj">
+    <ProjectReference Include="..\SocketService.Crypto\SocketServer.Crypto.csproj">
       <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
-      <Name>SocketService.Crypto</Name>
+      <Name>SocketServer.Crypto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Event\SocketService.Event.csproj">
+    <ProjectReference Include="..\SocketService.Event\SocketServer.Event.csproj">
       <Project>{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}</Project>
-      <Name>SocketService.Event</Name>
+      <Name>SocketServer.Event</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Shared\SocketService.Shared.csproj">
+    <ProjectReference Include="..\SocketService.Shared\SocketServer.Shared.csproj">
       <Project>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</Project>
-      <Name>SocketService.Shared</Name>
+      <Name>SocketServer.Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

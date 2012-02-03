@@ -1,10 +1,10 @@
 ﻿using System;
-using SocketService.Core.Messaging;
-using SocketService.Net;
-using SocketService.Shared;
-using SocketService.Shared.Sockets;
+using SocketServer.Core.Messaging;
+using SocketServer.Net;
+using SocketServer.Shared;
+using SocketServer.Shared.Sockets;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     internal class SendObjectCommand : BaseMessageHandler

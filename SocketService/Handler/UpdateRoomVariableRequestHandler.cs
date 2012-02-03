@@ -1,10 +1,10 @@
 ﻿using System;
-using SocketService.Command;
-using SocketService.Core.Messaging;
-using SocketService.Core.ServiceHandlerLib;
-using SocketService.Shared.Request;
+using SocketServer.Command;
+using SocketServer.Core.Messaging;
+using SocketServer.Core.ServiceHandlerLib;
+using SocketServer.Shared.Request;
 
-namespace SocketService.Handler
+namespace SocketServer.Handler
 {
     [Serializable]
     [ServiceHandlerType(typeof (UpdateRoomVariableRequest))]

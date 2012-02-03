@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SocketService.Event
+namespace SocketServer.Event
 {
     [Serializable]
     public class JoinRoomEvent : IEvent

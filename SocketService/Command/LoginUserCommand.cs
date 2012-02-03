@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Linq;
-using SocketService.Actions;
-using SocketService.Core.Data;
-using SocketService.Core.Messaging;
-using SocketService.Event;
-using SocketService.Repository;
-using SocketService.Shared;
-using SocketService.Shared.Response;
+using SocketServer.Actions;
+using SocketServer.Core.Data;
+using SocketServer.Core.Messaging;
+using SocketServer.Event;
+using SocketServer.Repository;
+using SocketServer.Shared;
+using SocketServer.Shared.Response;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     public class LoginUserCommand : BaseMessageHandler

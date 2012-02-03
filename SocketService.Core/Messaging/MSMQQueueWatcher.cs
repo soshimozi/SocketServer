@@ -3,7 +3,7 @@ using System.Messaging;
 using log4net;
 using System.Reflection;
 
-namespace SocketService.Core.Messaging
+namespace SocketServer.Core.Messaging
 {
     public class MSMQQueueWatcher : IDisposable
     {

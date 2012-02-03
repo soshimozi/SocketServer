@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.Composition;
 
-namespace SocketService.Core.ServiceHandlerLib
+namespace SocketServer.Core.ServiceHandlerLib
 {
     [MetadataAttribute]
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]

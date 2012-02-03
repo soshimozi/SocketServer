@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace SocketService.Net.Client
+namespace SocketServer.Net.Client
 {
     public class ConnectionRepository
     {

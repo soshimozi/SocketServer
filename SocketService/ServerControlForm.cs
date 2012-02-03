@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Windows.Forms;
-using SocketService.Core.Messaging;
-using SocketService.Net;
+using SocketServer.Core.Messaging;
+using SocketServer.Net;
 
-namespace SocketService
+namespace SocketServer
 {
     public partial class ServerControlForm : Form
     {

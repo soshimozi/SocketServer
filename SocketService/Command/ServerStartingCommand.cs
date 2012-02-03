@@ -1,8 +1,8 @@
 ﻿using System;
-using SocketService.Actions;
-using SocketService.Core.Messaging;
+using SocketServer.Actions;
+using SocketServer.Core.Messaging;
 
-namespace SocketService.Command
+namespace SocketServer.Command
 {
     [Serializable]
     public class ServerStartingCommand : BaseMessageHandler

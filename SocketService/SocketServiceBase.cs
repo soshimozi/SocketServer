@@ -4,7 +4,7 @@ using System.ServiceProcess;
 using System.Threading;
 using log4net;
 
-namespace SocketService
+namespace SocketServer
 {
     public class SocketServiceBase : ServiceBase
     {
