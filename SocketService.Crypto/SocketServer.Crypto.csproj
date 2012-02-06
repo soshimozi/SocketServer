@@ -45,11 +45,15 @@
   <ItemGroup>
     <Compile Include="Constants.cs" />
     <Compile Include="Crc32.cs" />
+    <Compile Include="CryptoManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DHParameterHelper.cs" />
     <Compile Include="DHProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RijndaelCrypto.cs" />
     <Compile Include="StringExtentions.cs" />
-    <Compile Include="CryptoManager.cs" />
+    <Compile Include="SymmetricAlgorithmFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
