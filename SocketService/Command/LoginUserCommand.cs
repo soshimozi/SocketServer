@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using SocketServer.Actions;
-using SocketServer.Core.Data;
-using SocketServer.Core.Messaging;
+using SocketServer.Data;
+using SocketServer.Messaging;
 using SocketServer.Event;
 using SocketServer.Repository;
 using SocketServer.Shared;

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
-using SocketServer.Core.Data;
-using SocketServer.Core.Util;
+using SocketServer.Data;
 using SocketServer.Repository;
-using User = SocketServer.Core.Data.User;
+using User = SocketServer.Data.User;
 
 namespace SocketServer.Actions
 {

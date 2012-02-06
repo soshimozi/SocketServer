@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
-using SocketServer.Core.Data;
-using Zone = SocketServer.Core.Data.Zone;
+using SocketServer.Data;
+using Zone = SocketServer.Data.Zone;
 
 namespace SocketServer.Repository
 {

@@ -8,24 +8,24 @@ namespace SocketServer.Core.Messaging
 {
     public class MSMQQueueWrapper
     {
-        private static readonly string QueuePath;
+       // private static readonly string QueuePath;
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         static MSMQQueueWrapper()
         {
-            QueuePath = ConfigurationManager.AppSettings["ServerMessageQueue"];
+           // QueuePath = ConfigurationManager.AppSettings["ServerMessageQueue"];
         }
 
         /// <summary>
         /// Queues the command.
         /// </summary>
         /// <param name="c">The c.</param>
-        public static void QueueCommand(ICommand c)
+        public static void QueueCommand(string queuePath, ICommand c)
         {
             try
             {
                 // open the queue
-                var mq = new MessageQueue(QueuePath)
+                var mq = new MessageQueue(queuePath)
                  {DefaultPropertiesToSend = {Recoverable = true}, Formatter = new BinaryMessageFormatter()};
 
                 // set the message to durable.

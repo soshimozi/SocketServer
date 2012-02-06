@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using SocketServer.Core.Configuration;
+using SocketServer.Configuration;
 using System.Configuration;
 using SocketServer.Reflection;
 using log4net;
@@ -22,9 +22,9 @@ namespace SocketServer.Repository
         /// </summary>
         static ServiceHandlerLookup()
         {
-            RequestHandlerConfigurationSection config =
-                (RequestHandlerConfigurationSection)ConfigurationManager.
-                GetSection("HandlersSection");
+            SocketServerConfiguration config =
+                (SocketServerConfiguration)ConfigurationManager.
+                GetSection("SocketServerConfiguration");
 
             Instance.LoadHandlers(config);
         }
@@ -92,11 +92,11 @@ namespace SocketServer.Repository
             //container.ComposeParts(this);
         //}
 
-        private void LoadHandlers(RequestHandlerConfigurationSection config)
+        private void LoadHandlers(SocketServerConfiguration config)
         {
             foreach (RequestHandlerConfigurationElement element in config.Handlers)
             {
-                string key = element.RequestTypeTag;
+                string key = element.Key;
 
                 Type requestType = ReflectionHelper.FindType(element.RequestType);
                 Type handlerType = ReflectionHelper.FindType(element.HandlerType);
@@ -126,7 +126,7 @@ namespace SocketServer.Repository
                             }
                         }
 
-                        Logger.InfoFormat("Adding handler for request tag {0} - handler type ({1}), request type ({2})", element.RequestTypeTag, element.HandlerType, element.RequestType);
+                        Logger.InfoFormat("Adding handler for request tag {0} - handler type ({1}), request type ({2})", element.Key, element.HandlerType, element.RequestType);
                     }
                 }
             }

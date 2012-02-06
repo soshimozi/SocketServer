@@ -1,5 +1,5 @@
 ﻿using System;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 using SocketServer.Net;
 using SocketServer.Shared;
 using SocketServer.Shared.Sockets;

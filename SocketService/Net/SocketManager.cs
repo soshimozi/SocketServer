@@ -5,8 +5,8 @@ using System.Configuration;
 using System.Reflection;
 using log4net;
 using SocketServer.Command;
-using SocketServer.Core.Configuration;
-using SocketServer.Core.Messaging;
+using SocketServer.Configuration;
+using SocketServer.Messaging;
 using SocketServer.Net.Client;
 using SocketServer.Crypto;
 using SocketServer.Shared.Interop.Java;
@@ -31,7 +31,7 @@ namespace SocketServer.Net
         /// <summary>
         /// Initializes a new instance of the <see cref="SocketManager"/> class.
         /// </summary>
-        public SocketManager(RequestHandlerConfigurationSection config)
+        public SocketManager(SocketServerConfiguration config)
         {
             LoadHandlers(config);
 
@@ -88,14 +88,16 @@ namespace SocketServer.Net
                                 {
                                     if (_configuration.ContainsKey(connection.RequestHeader.RequestType.ToString()))
                                     {
-                                        string requestHandlerType = _configuration[connection.RequestHeader.RequestType.ToString()].HandlerType;
-                                        string requestType = _configuration[connection.RequestHeader.RequestType.ToString()].RequestType;
+                                        string key = connection.RequestHeader.RequestType.ToString();
+
+                                        string requestHandlerType = _configuration[key].HandlerType;
+                                        string requestType = _configuration[key].RequestType;
                                         string requestString = ProcessRawRequest(connection.RequestHeader, rawRequestString);
 
                                         MSMQQueueWrapper.QueueCommand(
                                             new HandleClientRequestCommand(
-                                                connection.ClientId, 
-                                                requestHandlerType,
+                                                connection.ClientId,
+                                                key,
                                                 requestType, 
                                                 requestString));
                                     }
@@ -166,11 +168,11 @@ namespace SocketServer.Net
         /// </summary>
         public void StartServer()
         {
-            SocketServiceConfiguration configuration = null;
+            SocketServerConfiguration configuration = null;
             try
             {
                 configuration =
-                    (SocketServiceConfiguration) ConfigurationManager.GetSection("SocketServerConfiguration");
+                    (SocketServerConfiguration) ConfigurationManager.GetSection("SocketServerConfiguration");
             }
             catch (Exception exception)
             {
@@ -201,12 +203,12 @@ namespace SocketServer.Net
         //}
 
 
-        private void LoadHandlers(RequestHandlerConfigurationSection config)
+        private void LoadHandlers(SocketServerConfiguration config)
         {
             foreach (RequestHandlerConfigurationElement element in config.Handlers)
             {
                 // try to find enum type first
-                _configuration.Add(element.RequestTypeTag, element);
+                _configuration.Add(element.Key, element);
             }
         }
     }

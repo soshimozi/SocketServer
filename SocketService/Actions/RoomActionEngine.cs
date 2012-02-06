@@ -1,9 +1,8 @@
 ﻿using System.Linq;
-using SocketServer.Core.Data;
-using SocketServer.Core.Util;
+using SocketServer.Data;
 using SocketServer.Repository;
-using RoomVariable = SocketServer.Core.Data.RoomVariable;
-using Zone = SocketServer.Core.Data.Zone;
+using RoomVariable = SocketServer.Data.RoomVariable;
+using Zone = SocketServer.Data.Zone;
 
 namespace SocketServer.Actions
 {

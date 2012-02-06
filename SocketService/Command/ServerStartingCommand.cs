@@ -1,6 +1,6 @@
 ﻿using System;
 using SocketServer.Actions;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 
 namespace SocketServer.Command
 {

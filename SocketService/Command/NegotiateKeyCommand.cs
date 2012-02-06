@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 using SocketServer.Net.Client;
 using SocketServer.Shared.Response;
 using SocketServer.Crypto;

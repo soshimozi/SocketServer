@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 using SocketServer.Crypto;
 using SocketServer.Net.Client;
 using SocketServer.Repository;

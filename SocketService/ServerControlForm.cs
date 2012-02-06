@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Windows.Forms;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 using SocketServer.Net;
-using SocketServer.Core.Configuration;
+using SocketServer.Configuration;
 using System.Configuration;
 
 namespace SocketServer
@@ -10,15 +10,19 @@ namespace SocketServer
     public partial class ServerControlForm : Form
     {
         private readonly SocketManager _serverManager;
-        private readonly MessageServer _messageServer = new MessageServer();
+        private readonly MessageServer _messageServer;// = new MessageServer();
 
         public ServerControlForm()
         {
-            RequestHandlerConfigurationSection config = 
-                (RequestHandlerConfigurationSection)ConfigurationManager.
-                GetSection("HandlersSection");
+            SocketServerConfiguration config = ServerConfigurationHelper.GetServerConfiguration();
 
             _serverManager = new SocketManager(config);
+
+
+            if (config.Queues.Count > 0)
+            {
+                _messageServer = new MessageServer(config.Queues[0].QueueName, config.Queues[0].QueuePath);
+            }
 
             InitializeComponent();
         }

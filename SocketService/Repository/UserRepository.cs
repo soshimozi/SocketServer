@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
-using SocketServer.Core.Data;
+using SocketServer.Data;
 using log4net;
-using User = SocketServer.Core.Data.User;
+using User = SocketServer.Data.User;
 
 namespace SocketServer.Repository
 {

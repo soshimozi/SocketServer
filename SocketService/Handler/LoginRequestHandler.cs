@@ -1,6 +1,6 @@
 ﻿using System;
 using SocketServer.Command;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 using SocketServer.Shared.Request;
 
 namespace SocketServer.Handler

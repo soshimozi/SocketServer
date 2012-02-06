@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 using SocketServer.Shared.Header;
 using SocketServer.Reflection;
 using SocketServer.Shared;
@@ -8,62 +8,65 @@ using SocketServer.Shared.Serialization;
 using System.Reflection;
 using log4net;
 using SocketServer.Shared.Request;
+using SocketServer.Repository;
 
 namespace SocketServer.Command
 {
     [Serializable]
     public class HandleClientRequestCommand : BaseMessageHandler
     {
-        private readonly Guid _clientConnect;
-        private readonly string _requestString;
-        private readonly string _requestTypeString;
-        private readonly string _handlerTypeString;
+        private readonly Guid _clientId;
+        private readonly string _request;
+        private readonly string _requestType;
+        private readonly string _handlerName;
 
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public HandleClientRequestCommand(Guid connection, string handlerTypeString, string requestTypeString, string requestString)
+        public HandleClientRequestCommand(Guid id, string handlerName, string requestType, string request)
         {
-            _clientConnect = connection;
-            _requestString = requestString;
-            _requestTypeString = requestTypeString;
-            _handlerTypeString = handlerTypeString;
+            _clientId = id;
+            _handlerName = handlerName;
+            _requestType = requestType;
+            _request = request;
         }
 
         public override void Execute()
         {
             object requestObject
                 = DeSerializeRequest(
-                    _requestTypeString,
-                    _requestString);
+                    _requestType,
+                    _request);
 
             if (requestObject != null)
             {
-                // find handler
-                Type handlerType = ReflectionHelper.FindType(_handlerTypeString);
+                ServiceHandlerLookup.Instance.InvokeHandler(_handlerName, requestObject, _clientId);
 
-                if (handlerType != null)
-                {
-                    object handler = ReflectionHelper.ActivateObject(handlerType, null);
+                //// find handler
+                //Type handlerType = ReflectionHelper.FindType(_handlerTypeString);
 
-                    if (handler != null)
-                    {
-                        Type interfaceType = ReflectionHelper.FindGenericInterfaceMethod("IRequestHandler", new Type[] { typeof(NegotiateKeysRequest) }, handlerType);
-                        if (interfaceType != null)
-                        {
-                            // we are in business
-                            MethodInfo mi = interfaceType.GetMethod("HandleRequest");
-                            try
-                            {
-                                mi.Invoke(handler, new object[] { requestObject, _clientConnect });
-                            }
-                            catch (Exception ex)
-                            {
-                                Logger.ErrorFormat("Error in HandleRequest\n. {0}", ex);
-                            }
-                        }
-                    }
+                //if (handlerType != null)
+                //{
+                //    object handler = ReflectionHelper.ActivateObject(handlerType, null);
 
-                }
+                //    if (handler != null)
+                //    {
+                //        Type interfaceType = ReflectionHelper.FindGenericInterfaceMethod("IRequestHandler", new Type[] { typeof(NegotiateKeysRequest) }, handlerType);
+                //        if (interfaceType != null)
+                //        {
+                //            // we are in business
+                //            MethodInfo mi = interfaceType.GetMethod("HandleRequest");
+                //            try
+                //            {
+                //                mi.Invoke(handler, new object[] { requestObject, _clientConnect });
+                //            }
+                //            catch (Exception ex)
+                //            {
+                //                Logger.ErrorFormat("Error in HandleRequest\n. {0}", ex);
+                //            }
+                //        }
+                //    }
+
+                //}
                     
             }
         }

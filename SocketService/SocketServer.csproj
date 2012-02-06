@@ -53,6 +53,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Messaging" />
     <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -76,12 +77,30 @@
     <Compile Include="Command\HandleClientRequestCommand.cs" />
     <Compile Include="Command\LoginUserCommand.cs" />
     <Compile Include="Command\LogoutUserCommand.cs" />
-    <Compile Include="Command\ParseRequestCommand.cs" />
     <Compile Include="Command\PublicMessageCommand.cs" />
     <Compile Include="Command\SendMessageCommand.cs" />
     <Compile Include="Command\ServerStartingCommand.cs" />
     <Compile Include="Command\UpdateRoomVariableCommand.cs" />
     <Compile Include="Compression\CompressionHelper.cs" />
+    <Compile Include="Configuration\MessageQueueCollection.cs" />
+    <Compile Include="Configuration\MessageQueueConfigurationElement.cs" />
+    <Compile Include="Configuration\PluginInfoInstanceCollection.cs" />
+    <Compile Include="Configuration\PluginInfoInstanceElement.cs" />
+    <Compile Include="Configuration\RequestHandlerCollection.cs" />
+    <Compile Include="Configuration\RequestHandlerConfigurationElement.cs" />
+    <Compile Include="Configuration\ServerConfigurationHelper.cs" />
+    <Compile Include="Configuration\SocketServerConfiguration.cs" />
+    <Compile Include="Data\AutoIdElement.cs" />
+    <Compile Include="Data\DatabaseContextFactory.cs" />
+    <Compile Include="Data\Room.cs" />
+    <Compile Include="Data\RoomVariable.cs" />
+    <Compile Include="Data\ServerDataModel.Designer.cs">
+      <DependentUpon>ServerDataModel.edmx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Data\User.cs" />
+    <Compile Include="Data\Zone.cs" />
     <Compile Include="Handler\ChangeRoomRequestHandler.cs" />
     <Compile Include="Handler\CreateRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\DeleteRoomVariableRequestHandler.cs" />
@@ -92,6 +111,11 @@
     <Compile Include="Handler\LoginRequestHandler.cs" />
     <Compile Include="Handler\PublicMessageRequestHandler.cs" />
     <Compile Include="Handler\UpdateRoomVariableRequestHandler.cs" />
+    <Compile Include="Messaging\BaseMessageHandler.cs" />
+    <Compile Include="Messaging\ICommand.cs" />
+    <Compile Include="Messaging\MessageServer.cs" />
+    <Compile Include="Messaging\MSMQQueueWatcher.cs" />
+    <Compile Include="Messaging\MSMQQueueWrapper.cs" />
     <Compile Include="Net\ClientRequestEventArgs.cs" />
     <Compile Include="Net\Client\ClientBuffer.cs" />
     <Compile Include="Net\Client\ProtocolState.cs" />
@@ -108,6 +132,7 @@
     <Compile Include="Repository\IDataRepository.cs" />
     <Compile Include="Repository\RoomRepository.cs" />
     <Compile Include="Repository\ZoneRepository.cs" />
+    <Compile Include="SingletonBase.cs" />
     <Compile Include="ServerControlForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,10 +157,6 @@
     <Compile Include="Repository\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Core\SocketServer.Core.csproj">
-      <Project>{A0CAE0A0-EFA9-452B-98FB-5FE3172FCD1B}</Project>
-      <Name>SocketServer.Core</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SocketService.Crypto\SocketServer.Crypto.csproj">
       <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
       <Name>SocketServer.Crypto</Name>
@@ -164,6 +185,14 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <EntityDeploy Include="Data\ServerDataModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ServerDataModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Data\ServerDataModel.edmx.sqlce" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Serialization\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

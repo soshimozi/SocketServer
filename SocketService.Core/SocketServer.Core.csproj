@@ -68,23 +68,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\RequestHandlerCollection.cs" />
-    <Compile Include="Configuration\RequestHandlerConfigurationElement.cs" />
-    <Compile Include="Configuration\RequestHandlerConfigurationSection.cs" />
-    <Compile Include="Configuration\SocketServiceConfiguration.cs" />
-    <Compile Include="Configuration\PluginInfoInstanceCollection.cs" />
-    <Compile Include="Configuration\PluginInfoInstanceElement.cs" />
     <Compile Include="Data\AutoIdElement.cs" />
     <Compile Include="Data\DatabaseContextFactory.cs" />
     <Compile Include="Data\Room.cs" />
     <Compile Include="Data\RoomVariable.cs" />
     <Compile Include="Data\User.cs" />
     <Compile Include="Data\Zone.cs" />
-    <Compile Include="Messaging\BaseMessageHandler.cs" />
-    <Compile Include="Messaging\ICommand.cs" />
-    <Compile Include="Messaging\MessageServer.cs" />
-    <Compile Include="Messaging\MSMQQueueWatcher.cs" />
-    <Compile Include="Messaging\MSMQQueueWrapper.cs" />
     <Compile Include="Data\ServerDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

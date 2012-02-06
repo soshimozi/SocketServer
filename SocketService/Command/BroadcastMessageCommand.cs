@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using log4net;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 using SocketServer.Net;
 using SocketServer.Shared;
 using SocketServer.Shared.Interop.Java;

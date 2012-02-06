@@ -1,5 +1,5 @@
 ﻿using System;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 
 namespace SocketServer.Command
 {

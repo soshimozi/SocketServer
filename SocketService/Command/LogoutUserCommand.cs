@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using SocketServer.Actions;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 using SocketServer.Event;
 using SocketServer.Net;
 using SocketServer.Net.Client;

@@ -15,17 +15,18 @@ namespace SocketServer.Core.Messaging
 
         private bool _running;
 
-        private readonly string _queuePath;
+        private readonly string _queueName;
         /// <summary>
         /// Initializes a new instance of the <see cref="MessageServer"/> class.
         /// </summary>
-        public MessageServer() : base(ConfigurationManager.AppSettings["ServerMessageQueue"])
+        public MessageServer(string queueName, string queuePath)
+            : base(queuePath)
         {
-            _queuePath = ConfigurationManager.AppSettings["ServerMessageQueue"];
+            _queueName = queueName;
 
             // create queue, if it doesn't exist
-            if (!MessageQueue.Exists(_queuePath))
-                MessageQueue.Create(_queuePath);
+            if (!MessageQueue.Exists(queuePath))
+                MessageQueue.Create(queuePath);
         }
 
         /// <summary>

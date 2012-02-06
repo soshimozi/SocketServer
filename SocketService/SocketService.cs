@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Diagnostics;
 using System.ServiceProcess;
-using SocketServer.Core.Messaging;
+using SocketServer.Messaging;
 using SocketServer.Net;
-using SocketServer.Core.Configuration;
+using SocketServer.Configuration;
 using System.Configuration;
 
 namespace SocketServer
 {
     public partial class SocketService : SocketServiceBase
     {
-        private readonly SocketManager _serverManager; // = new SocketManager();
-        private readonly MessageServer _messageServer = new MessageServer();
+        private readonly SocketManager _serverManager; 
+        private readonly MessageServer _messageServer;
 
         public SocketService()
         {
-            RequestHandlerConfigurationSection config =
-                (RequestHandlerConfigurationSection)ConfigurationManager.
-                GetSection("HandlersSection");
+            SocketServerConfiguration config = ServerConfigurationHelper.GetServerConfiguration();
+
+            if (config.Queues.Count > 0)
+            {
+                _messageServer = new MessageServer(config.Queues[0].QueueName, config.Queues[0].QueuePath);
+            }
 
             _serverManager = new SocketManager(config);
             InitializeComponent();
@@ -25,7 +28,7 @@ namespace SocketServer
 
         public override void StartService()
         {
-            //InitializeCounters();
+            InitializeCounters();
 
             _serverManager.StartServer();
             _messageServer.Start();

@@ -14,36 +14,36 @@ namespace SocketServer.Core.Configuration
 
         public RequestHandlerConfigurationElement(String requestTypeTag, String requestType, String handlerType)
         {
-            RequestTypeTag = requestTypeTag;
+            Key = requestTypeTag;
             HandlerType = handlerType;
             RequestType = requestType;
         }
 
-        [ConfigurationProperty("RequestTypeTag", IsRequired = true)]
-        public String RequestTypeTag
+        [ConfigurationProperty("key", IsRequired = true)]
+        public String Key
         {
             get
-            { return (String)this["RequestTypeTag"]; }
+            { return (String)this["key"]; }
             set
-            { this["RequestTypeTag"] = value; }
+            { this["key"] = value; }
         }
 
-        [ConfigurationProperty("RequestType", IsRequired = true)]
+        [ConfigurationProperty("requestType", IsRequired = true)]
         public String RequestType
         {
             get
-            { return (String)this["RequestType"]; }
+            { return (String)this["requestType"]; }
             set
-            { this["RequestType"] = value; }
+            { this["requestType"] = value; }
         }
 
-        [ConfigurationProperty("HandlerType", IsRequired = true)]
+        [ConfigurationProperty("handlerType", IsRequired = true)]
         public String HandlerType
         {
             get
-            { return (String)this["HandlerType"]; }
+            { return (String)this["handlerType"]; }
             set
-            { this["HandlerType"] = value; }
+            { this["handlerType"] = value; }
         }
     }
 }
