@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SocketServer.Core</RootNamespace>
-    <AssemblyName>SocketService.Core</AssemblyName>
+    <AssemblyName>SocketServer.Core</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <PublishUrl>publish\</PublishUrl>
@@ -68,6 +68,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\RequestHandlerCollection.cs" />
+    <Compile Include="Configuration\RequestHandlerConfigurationElement.cs" />
+    <Compile Include="Configuration\RequestHandlerConfigurationSection.cs" />
     <Compile Include="Configuration\SocketServiceConfiguration.cs" />
     <Compile Include="Configuration\PluginInfoInstanceCollection.cs" />
     <Compile Include="Configuration\PluginInfoInstanceElement.cs" />
@@ -88,10 +91,6 @@
       <DependentUpon>ServerDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceHandlerLib\BaseHandler.cs" />
-    <Compile Include="ServiceHandlerLib\IServiceHandler.cs" />
-    <Compile Include="ServiceHandlerLib\IServiceHandlerMetaData.cs" />
-    <Compile Include="ServiceHandlerLib\ServiceHandlerTypeAttribute.cs" />
     <Compile Include="Util\SingletonBase.cs" />
   </ItemGroup>
   <ItemGroup>

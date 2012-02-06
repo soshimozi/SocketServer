@@ -61,7 +61,6 @@
     <Compile Include="RoomVariableUpdateEvent.cs" />
     <Compile Include="ServerEventEventArgs.cs" />
     <Compile Include="ServerMessageReceivedArgs.cs" />
-    <Compile Include="ServerResponseEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -37,7 +37,7 @@ namespace SocketServer.Command
                     so = var.Value;
 
                 MSMQQueueWrapper.QueueCommand(
-                    new SendObjectCommand(_clientId,
+                    new SendMessageCommand<GetRoomVariableResponse>(_clientId,
                         new GetRoomVariableResponse { ZoneId = _zoneId, RoomId = room.Id, Name = _name, Value = so })
                 );
             }

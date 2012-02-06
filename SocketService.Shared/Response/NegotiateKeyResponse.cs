@@ -6,7 +6,7 @@ using System.Text;
 namespace SocketServer.Shared.Response
 {
     [Serializable]
-    public class NegotiateKeyResponse : IServerResponse
+    public class NegotiateKeyResponse
     {
         /// <summary>
         /// Gets or sets the remote public key.

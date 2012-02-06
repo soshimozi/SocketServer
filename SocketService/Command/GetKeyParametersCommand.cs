@@ -26,14 +26,14 @@ namespace SocketServer.Command
             ClientConnection connection = ConnectionRepository.Instance.Query(c => c.ClientId == _clientId).FirstOrDefault();
             if (connection != null)
             {
-                connection.Provider = new DHProvider(DHParameterHelper.GenerateParameters());
+                //connection.Provider = new DHProvider(DHParameterHelper.GenerateParameters());
 
                 //connection.Provider.Parameters = DHParameterHelper.GenerateParameters();
 
-                MSMQQueueWrapper.QueueCommand(
-                    new SendObjectCommand(_clientId,
-                                          new GetKeyParametersResponse { G = connection.Provider.Parameters.G.ToByteArray(), P = connection.Provider.Parameters.P.ToByteArray() })
-                    );
+                //MSMQQueueWrapper.QueueCommand(
+                //    new SendMessageCommand<GetKeyParametersResponse>(_clientId,
+                //                          new GetKeyParametersResponse { G = connection.Provider.Parameters.G.ToByteArray(), P = connection.Provider.Parameters.P.ToByteArray() })
+                //    );
 
             }
 

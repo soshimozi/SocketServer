@@ -1,6 +1,6 @@
 ﻿namespace SocketServer.Shared.Response
 {
-    public class GetRoomVariableResponse : IServerResponse
+    public class GetRoomVariableResponse
     {
         public long ZoneId { get; set; }
 

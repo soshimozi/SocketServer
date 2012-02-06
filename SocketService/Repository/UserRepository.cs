@@ -7,7 +7,7 @@ using User = SocketServer.Core.Data.User;
 
 namespace SocketServer.Repository
 {
-    public class UserRepository : IRepository<User>, IDisposable
+    public class UserRepository : IDataRepository<User>, IDisposable
     {
         private static UserRepository _instance;
 
@@ -23,11 +23,12 @@ namespace SocketServer.Repository
         private readonly ServerDataEntities _context;
 
         #region ctor
-        public UserRepository() : this(DatabaseContextFactory.Context)
+        protected UserRepository()
+            : this(DatabaseContextFactory.Context)
         {
         }
 
-        public UserRepository(ServerDataEntities context)
+        protected UserRepository(ServerDataEntities context)
         {
             if (context == null) throw new ArgumentNullException("context");
             _context = context;

@@ -1,26 +1,40 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Configuration;
 using System.Reflection;
+using log4net;
 using SocketServer.Command;
 using SocketServer.Core.Configuration;
 using SocketServer.Core.Messaging;
 using SocketServer.Net.Client;
-using log4net;
 using SocketServer.Crypto;
+using SocketServer.Shared.Interop.Java;
+using System.Xml.Serialization;
+using SocketServer.Shared.Header;
+using SocketServer.Shared;
+using System.Collections.Generic;
+using SocketServer.Shared.Serialization;
+using SocketServer.Reflection;
 
 namespace SocketServer.Net
 {
     public class SocketManager //: IServerContext
     {
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+        private Dictionary<string, RequestHandlerConfigurationElement> _configuration = new Dictionary<string, RequestHandlerConfigurationElement>();
+
         private readonly SocketServer _socketServer;
+
+        public event EventHandler<ClientRequestEventArgs> ClientRequestReceived;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SocketManager"/> class.
         /// </summary>
-        public SocketManager()
+        public SocketManager(RequestHandlerConfigurationSection config)
         {
+            LoadHandlers(config);
+
             // create server, doesn't start pumping until we get the Start command
             _socketServer = new SocketServer();
 
@@ -34,8 +48,94 @@ namespace SocketServer.Net
             var connection = ConnectionRepository.Instance.Query( c => c.ClientId == e.ClientId).FirstOrDefault();
             if (connection != null)
             {
-                ParseRequest(connection.ClientId, e.Data);
+                // update client buffer with new data
+                connection.ClientBuffer.Write(e.Data);
+
+                bool done = false;
+                while (!done)
+                {
+                    done = true;
+
+                    MemoryStream stream = new MemoryStream(connection.ClientBuffer.Buffer);
+                    switch (connection.CurrentState)
+                    {
+                        case ProtocolState.WaitingForHeader:
+                            {
+                                // check if there is a utf string available for reading
+                                // low level protocol is all utf strings
+                                string utfString = stream.ReadUTF();
+                                if (utfString != null)
+                                {
+                                    //TextReader reader = new StringReader(utfString);
+                                    connection.RequestHeader 
+                                        = XmlSerializationHelper
+                                            .DeSerialize<RequestHeader>(utfString);
+
+                                    // if we got a valid request header, move to next state
+                                    // otherwise wait until we get a valid request header
+                                    if (connection.RequestHeader != null)
+                                    {
+                                        connection.CurrentState = ProtocolState.WaitingForBody;
+                                    }
+                                }
+                            }
+                            break;
+
+                        case ProtocolState.WaitingForBody:
+                            {
+                                string rawRequestString = stream.ReadUTF();
+                                if (rawRequestString != null)
+                                {
+                                    if (_configuration.ContainsKey(connection.RequestHeader.RequestType.ToString()))
+                                    {
+                                        string requestHandlerType = _configuration[connection.RequestHeader.RequestType.ToString()].HandlerType;
+                                        string requestType = _configuration[connection.RequestHeader.RequestType.ToString()].RequestType;
+                                        string requestString = ProcessRawRequest(connection.RequestHeader, rawRequestString);
+
+                                        MSMQQueueWrapper.QueueCommand(
+                                            new HandleClientRequestCommand(
+                                                connection.ClientId, 
+                                                requestHandlerType,
+                                                requestType, 
+                                                requestString));
+                                    }
+
+                                    connection.CurrentState = ProtocolState.WaitingForHeader;
+                                }
+                            }
+                            break;
+                    }
+
+                    // fix up buffers
+                    connection.ClientBuffer = new ClientBuffer();
+
+                    // if any data left, fix up buffers
+                    if (stream.Length > stream.Position)
+                    {
+                        // left over bytes
+                        byte[] leftover = stream.Read((int)(stream.Length - stream.Position));
+                        connection.ClientBuffer.Write(leftover);
+
+                        // we are not done reading
+                        done = false;
+                    }
+                }
             }
+        }
+
+        private string ProcessRawRequest(RequestHeader requestHeader, string requestString)
+        {
+            if (requestHeader.MessageHeader.CompressionType != CompressionTypes.None)
+            {
+                // decompress
+            }
+
+            if (requestHeader.MessageHeader.EncryptionHeader.EncryptionType != EncryptionTypes.None)
+            {
+                // decrypt
+            }
+
+            return requestString;
         }
 
         protected void SocketServerClientConnecting(object sender, ConnectArgs e)
@@ -52,6 +152,15 @@ namespace SocketServer.Net
             MSMQQueueWrapper.QueueCommand(new LogoutUserCommand(e.ClientId));
         }
 
+        protected virtual void OnClientRequestReceived(Guid clientId, RequestHeader header, object request)
+        {
+            EventHandler<ClientRequestEventArgs> clientRequestReceived = ClientRequestReceived;
+            if (clientRequestReceived != null)
+            {
+                var args = new ClientRequestEventArgs(clientId, header, request);
+                clientRequestReceived(this, args);
+            }
+        }
         /// <summary>
         /// Starts the server.
         /// </summary>
@@ -86,9 +195,19 @@ namespace SocketServer.Net
             _socketServer.StopServer();
         }
 
-        private static void ParseRequest(Guid clientId, byte[] requestData)
+        //private static void ParseRequest(Guid clientId, byte[] requestData)
+        //{
+        //    MSMQQueueWrapper.QueueCommand(new ParseRequestCommand(clientId, requestData));
+        //}
+
+
+        private void LoadHandlers(RequestHandlerConfigurationSection config)
         {
-            MSMQQueueWrapper.QueueCommand(new ParseRequestCommand(clientId, requestData));
+            foreach (RequestHandlerConfigurationElement element in config.Handlers)
+            {
+                // try to find enum type first
+                _configuration.Add(element.RequestTypeTag, element);
+            }
         }
     }
 }

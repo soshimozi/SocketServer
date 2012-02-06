@@ -5,7 +5,7 @@ using Zone = SocketServer.Core.Data.Zone;
 
 namespace SocketServer.Repository
 {
-    public class ZoneRepository : IRepository<Zone>, IDisposable
+    public class ZoneRepository : IDataRepository<Zone>, IDisposable
     {
         private readonly ServerDataEntities _context;
 
@@ -17,11 +17,12 @@ namespace SocketServer.Repository
         }
 
         #region ctor
-        public ZoneRepository() : this(DatabaseContextFactory.Context)
+        protected ZoneRepository()
+            : this(DatabaseContextFactory.Context)
         {
         }
 
-        public ZoneRepository(ServerDataEntities context)
+        protected ZoneRepository(ServerDataEntities context)
         {
             _context = context;
         }

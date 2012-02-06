@@ -9,7 +9,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SocketServer</RootNamespace>
-    <AssemblyName>SocketService</AssemblyName>
+    <AssemblyName>SocketServer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -66,7 +66,7 @@
     <Compile Include="Actions\RoomActionEngine.cs" />
     <Compile Include="Actions\UserActionEngine.cs" />
     <Compile Include="Actions\ZoneActionEngine.cs" />
-    <Compile Include="Command\BroadcastObjectCommand.cs" />
+    <Compile Include="Command\BroadcastMessageCommand.cs" />
     <Compile Include="Command\CreateRoomCommand.cs" />
     <Compile Include="Command\CreateRoomVariableCommand.cs" />
     <Compile Include="Command\DeleteRoomVariableCommand.cs" />
@@ -78,28 +78,34 @@
     <Compile Include="Command\LogoutUserCommand.cs" />
     <Compile Include="Command\ParseRequestCommand.cs" />
     <Compile Include="Command\PublicMessageCommand.cs" />
-    <Compile Include="Command\SendObjectCommand.cs" />
+    <Compile Include="Command\SendMessageCommand.cs" />
     <Compile Include="Command\ServerStartingCommand.cs" />
     <Compile Include="Command\UpdateRoomVariableCommand.cs" />
+    <Compile Include="Compression\CompressionHelper.cs" />
     <Compile Include="Handler\ChangeRoomRequestHandler.cs" />
     <Compile Include="Handler\CreateRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\DeleteRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\GetKeyParametersRequestHandler.cs" />
-    <Compile Include="Handler\NegotiateKeyRequestHandler.cs" />
+    <Compile Include="Handler\ServiceHandler.cs" />
+    <Compile Include="Handler\NegotiateKeysRequestHandler.cs" />
     <Compile Include="Handler\GetRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\LoginRequestHandler.cs" />
     <Compile Include="Handler\PublicMessageRequestHandler.cs" />
     <Compile Include="Handler\UpdateRoomVariableRequestHandler.cs" />
+    <Compile Include="Net\ClientRequestEventArgs.cs" />
+    <Compile Include="Net\Client\ClientBuffer.cs" />
+    <Compile Include="Net\Client\ProtocolState.cs" />
     <Compile Include="Net\Client\ConnectArgs.cs" />
     <Compile Include="Net\Client\ClientConnection.cs" />
     <Compile Include="Net\Client\Connection.cs" />
     <Compile Include="Net\Client\ConnectionRepository.cs" />
     <Compile Include="Net\Client\DisconnectedArgs.cs" />
-    <Compile Include="Net\Client\SocketDataRecievedArgs.cs" />
+    <Compile Include="Net\Client\DataRecievedArgs.cs" />
     <Compile Include="Net\SocketManager.cs" />
     <Compile Include="Net\SocketRepository.cs" />
     <Compile Include="Net\SocketServer.cs" />
-    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Reflection\ReflectionHelper.cs" />
+    <Compile Include="Repository\IDataRepository.cs" />
     <Compile Include="Repository\RoomRepository.cs" />
     <Compile Include="Repository\ZoneRepository.cs" />
     <Compile Include="ServerControlForm.cs">

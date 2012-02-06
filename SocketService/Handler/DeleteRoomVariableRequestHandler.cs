@@ -1,16 +1,13 @@
 ﻿using System;
 using SocketServer.Command;
 using SocketServer.Core.Messaging;
-using SocketServer.Core.ServiceHandlerLib;
 using SocketServer.Shared.Request;
 
 namespace SocketServer.Handler
 {
-    [Serializable]
-    [ServiceHandlerType(typeof (DeleteRoomVariableRequest))]
-    public class DeleteRoomVariableRequestHandler : BaseHandler<DeleteRoomVariableRequest, Guid>
+    public class DeleteRoomVariableRequestHandler : IRequestHandler<DeleteRoomVariableRequest>
     {
-        public override bool HandleRequest(DeleteRoomVariableRequest request, Guid state)
+        public void HandleRequest(DeleteRoomVariableRequest request, Guid state)
         {
             if (request != null)
             {
@@ -18,10 +15,8 @@ namespace SocketServer.Handler
                     new DeleteRoomVariableCommand(state, request.ZoneId, request.RoomId, request.Name)
                     );
 
-                return true;
             }
 
-            return false;
         }
     }
 }

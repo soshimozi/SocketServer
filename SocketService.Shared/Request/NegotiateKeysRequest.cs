@@ -1,32 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace SocketServer.Shared.Request
 {
-    [Serializable]
+    [XmlRoot]
     public class NegotiateKeysRequest
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NegotiateKeysRequest"/> class.
-        /// </summary>
-        public NegotiateKeysRequest()
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="NegotiateKeysRequest"/> class.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        public NegotiateKeysRequest(byte[] key)
-        {
-            PublicKey = key;
-        }
-
-        /// <summary>
-        /// Gets or sets the public key.
-        /// </summary>
-        /// <value>
-        /// The public key.
-        /// </value>
-        public byte[] PublicKey { get; set; }
     }
 }

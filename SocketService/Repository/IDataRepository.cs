@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace SocketServer.Repository
 {
-    public interface IRepository<T>
+    public interface IDataRepository<T>
     {
         T Find(long id);
         T[] GetAll();

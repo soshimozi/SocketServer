@@ -16,14 +16,12 @@ using Org.BouncyCastle.Crypto;
 namespace SocketServer.Command
 {
     [Serializable]
-    public class NegotiateKeyCommand : BaseMessageHandler
+    public class NegotiateKeysCommand : BaseMessageHandler
     {
         private readonly Guid _clientGuid;
-        private readonly byte[] _remotePublicKey;
-        public NegotiateKeyCommand(Guid clientGuid, byte [] remotePublicKey)
+        public NegotiateKeysCommand(Guid clientGuid)
         {
             _clientGuid = clientGuid;
-            _remotePublicKey = remotePublicKey;
         }
 
         /// <summary>
@@ -34,13 +32,13 @@ namespace SocketServer.Command
             ClientConnection connection = ConnectionRepository.Instance.Query(c => c.ClientId == _clientGuid).FirstOrDefault();
             if (connection != null)
             {
-                connection.Provider.RemotePublicKey = new DHPublicKeyParameters(
-                    ((DHPublicKeyParameters)PublicKeyFactory.CreateKey(_remotePublicKey)).Y, connection.Provider.Parameters);
+                //connection.Provider.RemotePublicKey = new DHPublicKeyParameters(
+                //    ((DHPublicKeyParameters)PublicKeyFactory.CreateKey(_remotePublicKey)).Y, connection.Provider.Parameters);
 
-                MSMQQueueWrapper.QueueCommand(
-                    new SendObjectCommand(_clientGuid,
-                                          new NegotiateKeyResponse { RemotePublicKey = connection.Provider.GetEncryptedPublicKey() })
-                    );
+                //MSMQQueueWrapper.QueueCommand(
+                //    new SendMessageCommand<NegotiateKeyResponse>(_clientGuid,
+                //                          new NegotiateKeyResponse { RemotePublicKey = connection.Provider.GetEncryptedPublicKey() })
+                //    );
             }
         }
     }

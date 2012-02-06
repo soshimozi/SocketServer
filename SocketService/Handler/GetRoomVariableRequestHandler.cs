@@ -1,14 +1,11 @@
 ﻿using System;
-using SocketServer.Core.ServiceHandlerLib;
 using SocketServer.Shared.Request;
 
 namespace SocketServer.Handler
 {
-    [Serializable]
-    [ServiceHandlerType(typeof (GetRoomVariableRequest))]
-    public class GetRoomVariableRequestHandler : BaseHandler<GetRoomVariableRequest, Guid>
+    public class GetRoomVariableRequestHandler : IRequestHandler<GetRoomVariableRequest>
     {
-        public override bool HandleRequest(GetRoomVariableRequest request, Guid state)
+        public void HandleRequest(GetRoomVariableRequest request, Guid state)
         {
             if (request != null)
             {
@@ -18,10 +15,7 @@ namespace SocketServer.Handler
                 //    new GetRoomVariableCommand(state, request.RoomName, request.VariableName)
                 //);
 
-                return true;
             }
-
-            return false;
         }
     }
 }

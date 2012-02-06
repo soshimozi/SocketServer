@@ -1,23 +1,30 @@
 ﻿using System;
-using SocketServer.Command;
-using SocketServer.Core.Messaging;
-using SocketServer.Core.ServiceHandlerLib;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using SocketServer.Shared.Request;
+using SocketServer.Core.Messaging;
+using SocketServer.Command;
 
 namespace SocketServer.Handler
 {
     [Serializable]
-    [ServiceHandlerType(typeof (NegotiateKeysRequest))]
-    public class NegotiateKeysRequestHandler :
-        BaseHandler<NegotiateKeysRequest, Guid>
+    //[ServiceHandlerType(typeof(NegotiateKeysRequest))]
+    class NegotiateKeysRequestHandler : IRequestHandler<NegotiateKeysRequest>
     {
-        public override bool HandleRequest(NegotiateKeysRequest request, Guid state)
+        public void HandleRequest(NegotiateKeysRequest request, Guid state)
         {
-            MSMQQueueWrapper.QueueCommand(
-                new NegotiateKeysCommand(state, request.PublicKey)
+            if (request != null)
+            {
+                MSMQQueueWrapper.QueueCommand(
+                    new NegotiateKeysCommand(state)
                 );
 
-            return true;
+                //return true;
+
+            }
+
+            //return false;
         }
     }
 }

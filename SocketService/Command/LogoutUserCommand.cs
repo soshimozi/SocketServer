@@ -45,7 +45,7 @@ namespace SocketServer.Command
             {
                 var userList = user.Room.Users.Select(u => u.ClientKey);
                 MSMQQueueWrapper.QueueCommand(
-                    new BroadcastObjectCommand(userList.ToArray(),
+                    new BroadcastMessageCommand<PublicMessageEvent>(userList.ToArray(),
                                                new PublicMessageEvent
                                                    {
                                                        RoomId = (int) user.RoomId,

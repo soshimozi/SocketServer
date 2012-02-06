@@ -4,11 +4,16 @@ using System.Net;
 using System.IO;
 using System.IO.Compression;
 using System.Threading;
+using System;
+using log4net;
+using System.Reflection;
 
 namespace SocketServer.Shared.Sockets
 {
     public class ZipSocket
     {
+        private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
+
         private readonly Mutex _sendMutex = new Mutex();
         /// <summary>
         /// Initializes a new instance of the <see cref="ZipSocket"/> class.
@@ -47,7 +52,12 @@ namespace SocketServer.Shared.Sockets
             _sendMutex.WaitOne();
             try
             {
-                RawSocket.Send(Compress(buffer));
+                //RawSocket.Send(Compress(buffer));
+                RawSocket.Send(buffer);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
             }
             finally
             {
@@ -93,8 +103,18 @@ namespace SocketServer.Shared.Sockets
         public byte[] ReceiveData()
         {
             var zippedData = new byte[RawSocket.Available];
-            RawSocket.Receive(zippedData);
-            return Decompress(zippedData);
+            try
+            {
+                RawSocket.Receive(zippedData);
+                return zippedData;
+            }
+            catch (Exception ex)
+            {
+                Log.Error(ex);
+            }
+
+            return null;
+            //return Decompress(zippedData);
         }
 
         /// <summary>

@@ -3,16 +3,23 @@ using System.Diagnostics;
 using System.ServiceProcess;
 using SocketServer.Core.Messaging;
 using SocketServer.Net;
+using SocketServer.Core.Configuration;
+using System.Configuration;
 
 namespace SocketServer
 {
     public partial class SocketService : SocketServiceBase
     {
-        private readonly SocketManager _serverManager = new SocketManager();
+        private readonly SocketManager _serverManager; // = new SocketManager();
         private readonly MessageServer _messageServer = new MessageServer();
 
         public SocketService()
         {
+            RequestHandlerConfigurationSection config =
+                (RequestHandlerConfigurationSection)ConfigurationManager.
+                GetSection("HandlersSection");
+
+            _serverManager = new SocketManager(config);
             InitializeComponent();
         }
 

@@ -5,9 +5,8 @@ using System.Text;
 
 namespace SocketServer.Shared.Request
 {
-    [Serializable]
-    public class NegotiateKeyRequest
+    public interface IRequestHandler<T>
     {
-        public byte[] RemotePublicKey;
+        void HandleRequest(T request, Guid clientId);
     }
 }

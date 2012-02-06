@@ -33,7 +33,7 @@ namespace SocketServer.Command
             //RoomActionEngine.Instance.UpdateRoomVariable(room.Id, _name, _so);
 
             MSMQQueueWrapper.QueueCommand(
-                new BroadcastObjectCommand(
+                new BroadcastMessageCommand<RoomVariableUpdateEvent>(
                     room.Users.Select(u => u == null ? new Guid() : u.ClientKey).ToArray(),
                     new RoomVariableUpdateEvent
                         {

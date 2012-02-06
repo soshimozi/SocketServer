@@ -6,7 +6,7 @@ using Room = SocketServer.Core.Data.Room;
 
 namespace SocketServer.Repository
 {
-    public class RoomRepository : IRepository<Room>, IDisposable
+    public class RoomRepository : IDataRepository<Room>, IDisposable
     {
         private static RoomRepository _instance = new RoomRepository();
 
@@ -19,11 +19,12 @@ namespace SocketServer.Repository
         }
 
         private readonly ServerDataEntities _context;
-        public RoomRepository() : this(DatabaseContextFactory.Context)
+        protected RoomRepository()
+            : this(DatabaseContextFactory.Context)
         {
         }
 
-        public RoomRepository(ServerDataEntities context)
+        protected RoomRepository(ServerDataEntities context)
         {
             _context = context;
         }

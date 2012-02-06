@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Linq;
 using System.Reflection;
+using log4net;
 using SocketServer.Core.Messaging;
 using SocketServer.Net;
 using SocketServer.Shared;
-using log4net;
+using SocketServer.Shared.Interop.Java;
+using SocketServer.Shared.Serialization;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    class BroadcastObjectCommand : BaseMessageHandler
+    class BroadcastMessageCommand<T> : BaseMessageHandler where T : class
     {
         private readonly Guid [] _clientList;
-        private readonly byte[] _data;
+        private readonly string _message;
 
         private readonly static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public BroadcastObjectCommand(Guid [] clientList, object graph)
+        public BroadcastMessageCommand(Guid[] clientList, T graph)
         {
             _clientList = clientList;
-            _data = ObjectSerialize.Serialize(graph);
+            _message = XmlSerializationHelper.Serialize<T>(graph);
+
+            //_data = ObjectSerialize.Serialize(graph);
         }
 
         public override void Execute()
@@ -28,7 +32,7 @@ namespace SocketServer.Command
             {
                 try
                 {
-                    connection.SendData(_data);
+                    connection.SendData(_message.SerializeUTF());
                 }
                 catch (Exception ex)
                 {

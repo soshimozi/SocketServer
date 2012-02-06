@@ -26,7 +26,7 @@ namespace SocketServer.Client
         private bool _connected;
 
         public event EventHandler<ConnectionEventArgs> ConnectionResponse;
-        public event EventHandler<ServerResponseEventArgs> ServerResponse;
+        //public event EventHandler<ServerResponseEventArgs> ServerResponse;
         public event EventHandler<ServerEventEventArgs> ServerEvent;
 
         /// <summary>
@@ -113,9 +113,9 @@ namespace SocketServer.Client
 
                         // it should be a server message, we can look
                         // at other message types later
-                        var message = ObjectSerialize.Deserialize(objectData);
+                        //var message = ObjectSerialize.Deserialize(objectData);
 
-                        DispatchMessage(message);
+                        //DispatchMessage(message);
                     }
 
                 }
@@ -124,13 +124,13 @@ namespace SocketServer.Client
             _serverDisconnectedEvent.Set();
         }
 
-        private void DispatchMessage(object message)
-        {
-            if (message is IServerResponse)
-                OnServerResponse(new ServerResponseEventArgs { Response = message as IServerResponse });
-            else if (message is IEvent)
-                OnServerEvent(new ServerEventEventArgs {ServerEvent = message as IEvent});
-        }
+        //private void DispatchMessage(object message)
+        //{
+        //    if (message is IServerResponse)
+        //        OnServerResponse(new ServerResponseEventArgs { Response = message as IServerResponse });
+        //    else if (message is IEvent)
+        //        OnServerEvent(new ServerEventEventArgs {ServerEvent = message as IEvent});
+        //}
 
         protected void OnServerEvent(ServerEventEventArgs args)
         {
@@ -141,14 +141,14 @@ namespace SocketServer.Client
             }
         }
 
-        protected void OnServerResponse(ServerResponseEventArgs args)
-        {
-            var func = ServerResponse;
-            if (func != null)
-            {
-                func(this, args);
-            }
-        }
+        //protected void OnServerResponse(ServerResponseEventArgs args)
+        //{
+        //    var func = ServerResponse;
+        //    if (func != null)
+        //    {
+        //        func(this, args);
+        //    }
+        //}
 
         private T ReadObject<T>(int timeout) where T : class
         {
@@ -164,7 +164,7 @@ namespace SocketServer.Client
                 if (availableBytes > 0)
                 {
                     var objectData = _socket.ReceiveData();
-                    response = ObjectSerialize.Deserialize<T>(objectData);
+                    //response = ObjectSerialize.Deserialize<T>(objectData);
                 }
             }
 
@@ -173,20 +173,20 @@ namespace SocketServer.Client
 
         private void NegotiateKeys()
         {
-            SendRequestRaw(new GetKeyParametersRequest());
-            var parametersResponse = ReadObject<GetKeyParametersResponse>(-1);
+            //SendRequestRaw(new GetKeyParametersRequest());
+            //var parametersResponse = ReadObject<GetKeyParametersResponse>(-1);
 
-            // generate some parameters from the response (P/G values)
-            DHParameters parameters = DHParameterHelper.GenerateParameters(parametersResponse.P, parametersResponse.G);
-            _provider = new DHProvider(parameters);
+            //// generate some parameters from the response (P/G values)
+            //DHParameters parameters = DHParameterHelper.GenerateParameters(parametersResponse.P, parametersResponse.G);
+            //_provider = new DHProvider(parameters);
 
-            SendRequestRaw(new NegotiateKeyRequest() { RemotePublicKey = _provider.GetEncryptedPublicKey() } );
-            var negotiateKeyResponse = ReadObject<NegotiateKeyResponse>(-1);
+            //SendRequestRaw(new NegotiateKeyRequest() { RemotePublicKey = _provider.GetEncryptedPublicKey() } );
+            //var negotiateKeyResponse = ReadObject<NegotiateKeyResponse>(-1);
 
-            _provider.RemotePublicKey = new DHPublicKeyParameters(
-                ((DHPublicKeyParameters)PublicKeyFactory.CreateKey(negotiateKeyResponse.RemotePublicKey)).Y, _provider.Parameters);
+            //_provider.RemotePublicKey = new DHPublicKeyParameters(
+            //    ((DHPublicKeyParameters)PublicKeyFactory.CreateKey(negotiateKeyResponse.RemotePublicKey)).Y, _provider.Parameters);
 
-            byte [] agree = _provider.Agree();
+            //byte [] agree = _provider.Agree();
         }
 
         /// <summary>
@@ -212,27 +212,29 @@ namespace SocketServer.Client
         {
             if (encrypt)
             {
-                using (CryptoManager cryptoWrapper =
-                    CryptoManager.CreateEncryptor(AlgorithmType.TripleDES,
-                            _provider.Agree()))
-                {
-                    return ObjectSerialize.Serialize(
-                        new ClientRequest(cryptoWrapper.IV,
-                           EncryptionType.TripleDES,
-                           DateTime.Now, 0,
-                           cryptoWrapper.Encrypt(ObjectSerialize.Serialize(requestData))
-                           )
-                        );
-                }
+                //using (CryptoManager cryptoWrapper =
+                //    CryptoManager.CreateEncryptor(AlgorithmType.TripleDES,
+                //            _provider.Agree()))
+                //{
+                //    return ObjectSerialize.Serialize(
+                //        new ClientRequest(cryptoWrapper.IV,
+                //           EncryptionType.TripleDES,
+                //           DateTime.Now, 0,
+                //           cryptoWrapper.Encrypt(ObjectSerialize.Serialize(requestData))
+                //           )
+                //        );
+                //}
             }
             
-            return ObjectSerialize.Serialize(
-                new ClientRequest(new byte[] { },
-                                         EncryptionType.None,
-                                         DateTime.Now, 0,
-                                         ObjectSerialize.Serialize(requestData)
-                    )
-                );
+            //return ObjectSerialize.Serialize(
+            //    new ClientRequest(new byte[] { },
+            //                             EncryptionType.None,
+            //                             DateTime.Now, 0,
+            //                             ObjectSerialize.Serialize(requestData)
+            //        )
+            //    );
+
+            return null;
         }
 
     }

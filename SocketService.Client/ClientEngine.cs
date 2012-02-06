@@ -33,7 +33,7 @@ namespace SocketServer.Client
             }
 
             server.ServerEvent += ServerEvent;
-            server.ServerResponse += ServerResponse;
+            //server.ServerResponse += ServerResponse;
         }
 
         public void StopEngine()
@@ -47,28 +47,28 @@ namespace SocketServer.Client
             }
         }
 
-        protected void ServerResponse(object sender, ServerResponseEventArgs e)
-        {
-            if (e.Response is GetRoomVariableResponse)
-            {
-                OnGetRoomVariableResponseRecieved(
-                    new GetRoomVariableResponseArgs
-                    {
-                        Response = e.Response as GetRoomVariableResponse
-                    }
-                    );
-            }
-            else if (e.Response is LoginResponse)
-            {
-                OnLoginResponseReceieved(
-                    new LoginResponseEventArgs
-                    {
-                        Response = e.Response as LoginResponse
-                    }
-                    );
-            }
+        //protected void ServerResponse(object sender, ServerResponseEventArgs e)
+        //{
+        //    if (e.Response is GetRoomVariableResponse)
+        //    {
+        //        OnGetRoomVariableResponseRecieved(
+        //            new GetRoomVariableResponseArgs
+        //            {
+        //                Response = e.Response as GetRoomVariableResponse
+        //            }
+        //            );
+        //    }
+        //    else if (e.Response is LoginResponse)
+        //    {
+        //        OnLoginResponseReceieved(
+        //            new LoginResponseEventArgs
+        //            {
+        //                Response = e.Response as LoginResponse
+        //            }
+        //            );
+        //    }
 
-        }
+        //}
 
         protected void ServerEvent(object sender, ServerEventEventArgs e)
         {
