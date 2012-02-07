@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using SocketServer.Messaging;
 using SocketServer.Shared.Header;
@@ -9,6 +10,12 @@ using System.Reflection;
 using log4net;
 using SocketServer.Shared.Request;
 using SocketServer.Repository;
+using SocketServer.Net.Client;
+using SocketServer.Crypto;
+using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Security;
 
 namespace SocketServer.Command
 {
@@ -32,42 +39,21 @@ namespace SocketServer.Command
 
         public override void Execute()
         {
-            object requestObject
-                = DeSerializeRequest(
-                    _requestType,
-                    _request);
+            ClientConnection client = ConnectionRepository.Instance.Query( c => c.ClientId == _clientId ).FirstOrDefault();
 
-            if (requestObject != null)
+            if (client != null)
             {
-                ServiceHandlerLookup.Instance.InvokeHandler(_handlerName, requestObject, _clientId);
+                string requestString = ProcessRawRequest(client, _request);
+                
+                object requestObject
+                    = DeSerializeRequest(
+                        _requestType,
+                        ProcessRawRequest(client, _request));
 
-                //// find handler
-                //Type handlerType = ReflectionHelper.FindType(_handlerTypeString);
-
-                //if (handlerType != null)
-                //{
-                //    object handler = ReflectionHelper.ActivateObject(handlerType, null);
-
-                //    if (handler != null)
-                //    {
-                //        Type interfaceType = ReflectionHelper.FindGenericInterfaceMethod("IRequestHandler", new Type[] { typeof(NegotiateKeysRequest) }, handlerType);
-                //        if (interfaceType != null)
-                //        {
-                //            // we are in business
-                //            MethodInfo mi = interfaceType.GetMethod("HandleRequest");
-                //            try
-                //            {
-                //                mi.Invoke(handler, new object[] { requestObject, _clientConnect });
-                //            }
-                //            catch (Exception ex)
-                //            {
-                //                Logger.ErrorFormat("Error in HandleRequest\n. {0}", ex);
-                //            }
-                //        }
-                //    }
-
-                //}
-                    
+                if (requestObject != null)
+                {
+                    ServiceHandlerLookup.Instance.InvokeHandler(_handlerName, requestObject, _clientId);
+                }
             }
         }
 
@@ -79,6 +65,30 @@ namespace SocketServer.Command
                 return XmlSerializationHelper.DeSerialize(requestString, requestType);
             }
             return null;
+        }
+
+        private string ProcessRawRequest(ClientConnection client, string requestString)
+        {
+            if (client.RequestHeader.MessageHeader.CompressionType != CompressionTypes.None)
+            {
+                // decompress
+            }
+            
+            if (client.RequestHeader.MessageHeader.EncryptionHeader.EncryptionType != EncryptionTypes.None)
+            {
+                // decrypt
+                byte [] publicKeyEncoded = client.RequestHeader.MessageHeader.EncryptionHeader.PublicKey;
+
+                DHPublicKeyParameters publicKey = new DHPublicKeyParameters(
+                    ((DHPublicKeyParameters)PublicKeyFactory.CreateKey(publicKeyEncoded)).Y, client.ServerAuthority.Parameters);
+
+                BigInteger agreementValue = client.ServerAuthority.GenerateAgreementValue(publicKey);
+
+                RijndaelCrypto crypto = new RijndaelCrypto();
+                return crypto.Decrypt(requestString, agreementValue.ToString(16));
+            }
+
+            return requestString;
         }
 
     }

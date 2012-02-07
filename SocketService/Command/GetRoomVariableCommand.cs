@@ -5,6 +5,7 @@ using SocketServer.Messaging;
 using SocketServer.Repository;
 using SocketServer.Shared;
 using SocketServer.Shared.Response;
+using SocketServer.Shared.Serialization;
 
 namespace SocketServer.Command
 {
@@ -37,8 +38,8 @@ namespace SocketServer.Command
                     so = var.Value;
 
                 MSMQQueueWrapper.QueueCommand(
-                    new SendMessageCommand<GetRoomVariableResponse>(_clientId,
-                        new GetRoomVariableResponse { ZoneId = _zoneId, RoomId = room.Id, Name = _name, Value = so })
+                    new SendMessageCommand(_clientId,
+                        XmlSerializationHelper.Serialize<GetRoomVariableResponse>( new GetRoomVariableResponse { ZoneId = _zoneId, RoomId = room.Id, Name = _name, Value = so } ))
                 );
             }
         }

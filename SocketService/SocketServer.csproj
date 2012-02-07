@@ -67,18 +67,20 @@
     <Compile Include="Actions\RoomActionEngine.cs" />
     <Compile Include="Actions\UserActionEngine.cs" />
     <Compile Include="Actions\ZoneActionEngine.cs" />
-    <Compile Include="Command\BroadcastMessageCommand.cs" />
     <Compile Include="Command\CreateRoomCommand.cs" />
     <Compile Include="Command\CreateRoomVariableCommand.cs" />
     <Compile Include="Command\DeleteRoomVariableCommand.cs" />
     <Compile Include="Command\GetKeyParametersCommand.cs" />
-    <Compile Include="Command\NegotiateKeyCommand.cs" />
+    <Compile Include="Command\NegotiateKeysCommand.cs" />
     <Compile Include="Command\GetRoomVariableCommand.cs" />
     <Compile Include="Command\HandleClientRequestCommand.cs" />
     <Compile Include="Command\LoginUserCommand.cs" />
     <Compile Include="Command\LogoutUserCommand.cs" />
     <Compile Include="Command\PublicMessageCommand.cs" />
-    <Compile Include="Command\SendMessageCommand.cs" />
+    <Compile Include="Command\SendMessageCommand.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Command\SendServerResponseCommand.cs" />
     <Compile Include="Command\ServerStartingCommand.cs" />
     <Compile Include="Command\UpdateRoomVariableCommand.cs" />
     <Compile Include="Compression\CompressionHelper.cs" />

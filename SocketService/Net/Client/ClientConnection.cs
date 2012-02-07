@@ -8,10 +8,12 @@ namespace SocketServer.Net.Client
 {
     public class ClientConnection //: Connection
     {
-        private readonly ServerAuthority _sa = new ServerAuthority(256, 30);
+        //private readonly ServerAuthority _sa = new ServerAuthority(256, 30);
 
-        public ClientConnection()
+        public ClientConnection(ServerAuthority sa, ClientBuffer buffer)
         {
+            ServerAuthority = sa;
+            ClientBuffer = buffer;
         }
 
         /// <summary>
@@ -34,75 +36,24 @@ namespace SocketServer.Net.Client
 
         public ServerAuthority ServerAuthority
         {
-            get
-            {
-                lock (this)
-                {
-                    return _sa;
-                }
-            }
-
+            get;
+            set;
         }
 
-        private ClientBuffer _buffer = new ClientBuffer();
         public ClientBuffer ClientBuffer
         {
-            get
-            {
-                lock (this)
-                {
-                    return _buffer;
-                }
-            }
-            set
-            {
-                lock (this)
-                {
-                    _buffer = value;
-                }
-            }
+            get; set;
         }
 
-        ProtocolState _state;
         public ProtocolState CurrentState
         {
-            get
-            {
-                lock (this)
-                {
-                    return _state;
-                }
-            }
-
-            set
-            {
-                lock (this)
-                {
-                    _state = value;
-                }
-            }
+            get; set;
         }
 
-        private RequestHeader _requestHeader = null;
         public RequestHeader RequestHeader
         {
-            get
-            {
-                lock (this)
-                {
-                    return _requestHeader;
-                }
-            }
-
-            set
-            {
-                lock (this)
-                {
-                    _requestHeader = value;
-                }
-            }
+            get; set;
         }
-
     }
 
 }

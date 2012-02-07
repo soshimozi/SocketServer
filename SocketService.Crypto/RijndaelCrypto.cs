@@ -8,7 +8,7 @@ namespace SocketServer.Crypto
 {
     public class RijndaelCrypto
     {
-        private const int DefaultKeySize = 256;
+        private const int DefaultKeySize = 128;
 
         public string Encrypt(string plainText, string password)
         {

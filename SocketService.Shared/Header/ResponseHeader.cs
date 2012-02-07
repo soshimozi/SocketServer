@@ -8,7 +8,6 @@ namespace SocketServer.Shared.Header
 {
     public class ResponseHeader
     {
-
         [XmlAttribute]
         public ResponseTypes ResponseType
         {

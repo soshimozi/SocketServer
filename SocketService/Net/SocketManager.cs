@@ -92,7 +92,7 @@ namespace SocketServer.Net
 
                                         string requestHandlerType = _configuration[key].HandlerType;
                                         string requestType = _configuration[key].RequestType;
-                                        string requestString = ProcessRawRequest(connection.RequestHeader, rawRequestString);
+                                        string requestString = rawRequestString;
 
                                         MSMQQueueWrapper.QueueCommand(
                                             new HandleClientRequestCommand(
@@ -125,20 +125,7 @@ namespace SocketServer.Net
             }
         }
 
-        private string ProcessRawRequest(RequestHeader requestHeader, string requestString)
-        {
-            if (requestHeader.MessageHeader.CompressionType != CompressionTypes.None)
-            {
-                // decompress
-            }
 
-            if (requestHeader.MessageHeader.EncryptionHeader.EncryptionType != EncryptionTypes.None)
-            {
-                // decrypt
-            }
-
-            return requestString;
-        }
 
         protected void SocketServerClientConnecting(object sender, ConnectArgs e)
         {

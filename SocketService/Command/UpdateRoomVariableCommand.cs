@@ -32,19 +32,19 @@ namespace SocketServer.Command
 
             //RoomActionEngine.Instance.UpdateRoomVariable(room.Id, _name, _so);
 
-            MSMQQueueWrapper.QueueCommand(
-                new BroadcastMessageCommand<RoomVariableUpdateEvent>(
-                    room.Users.Select(u => u == null ? new Guid() : u.ClientKey).ToArray(),
-                    new RoomVariableUpdateEvent
-                        {
-                            ZoneId =  _zoneId,
-                            RoomId = room.Id,
-                            Name = _name,
-                            Value = _so,
-                            Action = RoomVariableUpdateAction.Update
-                        }
-                    )
-                );
+            //MSMQQueueWrapper.QueueCommand(
+            //    new BroadcastMessageCommand<RoomVariableUpdateEvent>(
+            //        room.Users.Select(u => u == null ? new Guid() : u.ClientKey).ToArray(),
+            //        new RoomVariableUpdateEvent
+            //            {
+            //                ZoneId =  _zoneId,
+            //                RoomId = room.Id,
+            //                Name = _name,
+            //                Value = _so,
+            //                Action = RoomVariableUpdateAction.Update
+            //            }
+            //        )
+            //    );
 
             //MSMQQueueWrapper.QueueCommand(
             //    new SendObjectCommand(

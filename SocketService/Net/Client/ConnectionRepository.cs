@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using SocketServer.Crypto;
 
 namespace SocketServer.Net.Client
 {
@@ -94,7 +95,11 @@ namespace SocketServer.Net.Client
         /// <param name="connection">The connection.</param>
         public ClientConnection NewConnection()
         {
-            var connection = new ClientConnection();
+            var connection 
+                = new ClientConnection(
+                    ServerAuthorityFactory.CreateServerAuthority(),
+                    new ClientBuffer()
+                    );
 
             _connectionMutex.WaitOne();
             try

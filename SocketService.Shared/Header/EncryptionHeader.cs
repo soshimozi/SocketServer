@@ -6,7 +6,6 @@ using System.Xml.Serialization;
 
 namespace SocketServer.Shared.Header
 {
-    [Serializable]
     public class EncryptionHeader
     {
         [XmlAttribute]
@@ -16,8 +15,8 @@ namespace SocketServer.Shared.Header
             set;
         }
 
-        [XmlAttribute]
-        public string PublicKey
+        [XmlElement(IsNullable=true)]
+        public byte [] PublicKey
         {
             get;
             set;

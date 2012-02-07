@@ -12,15 +12,15 @@ using SocketServer.Shared.Serialization;
 namespace SocketServer.Command
 {
     [Serializable]
-    internal class SendMessageCommand<T> : BaseMessageHandler where T : class
+    internal class SendMessageCommand : BaseMessageHandler
     {
         private readonly Guid _clientId;
         private readonly string _message;
 
-        public SendMessageCommand(Guid clientId, T graph)
+        public SendMessageCommand(Guid clientId, string message)
         {
             _clientId = clientId;
-            _message = XmlSerializationHelper.Serialize<T>(graph);
+            _message = message;
 
             //_message = message;
 

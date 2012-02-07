@@ -79,7 +79,7 @@
     <Compile Include="Response\GetRoomVariableResponse.cs" />
     <Compile Include="Response\GetRoomVariableResponseArgs.cs" />
     <Compile Include="Response\LoginResponse.cs" />
-    <Compile Include="Response\NegotiateKeyResponse.cs" />
+    <Compile Include="Response\NegotiateKeysResponse.cs" />
     <Compile Include="Header\ResponseHeader.cs" />
     <Compile Include="Serialization\XmlSerializationHelper.cs" />
     <Compile Include="Sockets\ZipSocket.cs">

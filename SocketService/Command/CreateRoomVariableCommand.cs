@@ -28,17 +28,17 @@ namespace SocketServer.Command
 
         public override void Execute()
         {
-            var room = RoomRepository.Instance.Find(_roomId);
-            if (room == null) return;
+            //var room = RoomRepository.Instance.Find(_roomId);
+            //if (room == null) return;
 
-            //RoomActionEngine.Instance.CreateRoomVariable(room, _name, ObjectSerialize.Serialize(_so));
+            ////RoomActionEngine.Instance.CreateRoomVariable(room, _name, ObjectSerialize.Serialize(_so));
 
-            MSMQQueueWrapper.QueueCommand(
-                new BroadcastMessageCommand<RoomVariableUpdateEvent>(
-                    room.Users.Select( u => u.ClientKey ).ToArray(),
-                    new RoomVariableUpdateEvent() { Action = RoomVariableUpdateAction.Add, Name = _name, RoomId = _roomId, Value = _so, ZoneId = _zoneId }
-                    )
-                );
+            //MSMQQueueWrapper.QueueCommand(
+            //    new BroadcastMessageCommand<RoomVariableUpdateEvent>(
+            //        room.Users.Select( u => u.ClientKey ).ToArray(),
+            //        new RoomVariableUpdateEvent() { Action = RoomVariableUpdateAction.Add, Name = _name, RoomId = _roomId, Value = _so, ZoneId = _zoneId }
+            //        )
+            //    );
 
         }
     }

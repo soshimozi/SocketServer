@@ -9,6 +9,7 @@ namespace SocketServer.Shared
     public enum ResponseTypes
     {
         [XmlEnum]
-        NegotiateKeysResponse
+        NegotiateKeysResponse,
+        LoginResponse
     }
 }

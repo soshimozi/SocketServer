@@ -43,17 +43,17 @@ namespace SocketServer.Command
             var user = UserRepository.Instance.Query(u => u.ClientKey == _clientId).FirstOrDefault();
             if (user != null && user.Room != null)
             {
-                var userList = user.Room.Users.Select(u => u.ClientKey);
-                MSMQQueueWrapper.QueueCommand(
-                    new BroadcastMessageCommand<PublicMessageEvent>(userList.ToArray(),
-                                               new PublicMessageEvent
-                                                   {
-                                                       RoomId = (int) user.RoomId,
-                                                       UserName = string.Empty,
-                                                       Message = string.Format("{0} has logged out.", user.Name),
-                                                       ZoneId = (int) user.Room.ZoneId
-                                                   })
-                    );
+                //var userList = user.Room.Users.Select(u => u.ClientKey);
+                //MSMQQueueWrapper.QueueCommand(
+                //    new BroadcastMessageCommand<PublicMessageEvent>(userList.ToArray(),
+                //                               new PublicMessageEvent
+                //                                   {
+                //                                       RoomId = (int) user.RoomId,
+                //                                       UserName = string.Empty,
+                //                                       Message = string.Format("{0} has logged out.", user.Name),
+                //                                       ZoneId = (int) user.Room.ZoneId
+                //                                   })
+                //    );
             }
 
             UserActionEngine.Instance.LogoutUser(_clientId);

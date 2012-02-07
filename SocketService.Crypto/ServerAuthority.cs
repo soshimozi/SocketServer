@@ -33,6 +33,12 @@ namespace SocketServer.Crypto
             agreement.Init(kp.Private);
         }
 
+        public DHParameters Parameters
+        {
+            get { return parameters;  }
+        }
+    
+
         public BigInteger G
         {
             get { return parameters.G; }
@@ -59,5 +65,11 @@ namespace SocketServer.Crypto
         {
             return kp.Public;
         }
+
+        public BigInteger GenerateAgreementValue(AsymmetricKeyParameter remotePublicKey)
+        {
+            return agreement.CalculateAgreement(remotePublicKey);
+        }
+
     }
 }

@@ -1,16 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml.Serialization;
 
 namespace SocketServer.Shared.Response
 {
-    [Serializable]
-    public class NegotiateKeysResponse : IServerResponse
+    public class NegotiateKeysResponse
     {
-        /// <summary>
-        /// Gets or sets the remote public key.
-        /// </summary>
-        /// <value>
-        /// The remote public key.
-        /// </value>
-        public byte[] RemotePublicKey { get; set; }
+        [XmlElement]
+        public byte [] ServerPublicKey { get; set; }
+
+        [XmlElement]
+        public String Prime { get; set; }
+
+        [XmlElement]
+        public String G { get; set; }
     }
 }

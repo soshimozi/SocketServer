@@ -6,7 +6,6 @@ using System.Xml.Serialization;
 
 namespace SocketServer.Shared.Header
 {
-    [Serializable]
     public class RequestHeader
     {
         [XmlAttribute]

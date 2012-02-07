@@ -7,6 +7,8 @@ using SocketServer.Event;
 using SocketServer.Repository;
 using SocketServer.Shared;
 using SocketServer.Shared.Response;
+using SocketServer.Shared.Serialization;
+using SocketServer.Net.Client;
 
 namespace SocketServer.Command
 {
@@ -32,13 +34,20 @@ namespace SocketServer.Command
             // get/create default room
             var room = RoomActionEngine.Instance.CreateRoom(RoomActionEngine.DefaultRoom, zone);
 
+            var connection = ConnectionRepository.Instance.Query( c => c.ClientId == _clientId ).FirstOrDefault();
+
             // authenticate
             if (!UserActionEngine.Instance.LoginUser(_clientId, _username, room))
             {
+                LoginResponse response = new LoginResponse() { Success = false };
+
                 MSMQQueueWrapper.QueueCommand(
-                    new SendMessageCommand<LoginResponse>(_clientId,
-                                          new LoginResponse {Success = false})
-                    );
+                    new SendServerResponseCommand(
+                        _clientId, 
+                        XmlSerializationHelper.Serialize<LoginResponse>(response),
+                        ResponseTypes.NegotiateKeysResponse, 
+                        connection.RequestHeader.MessageHeader.CompressionType, 
+                        connection.RequestHeader.MessageHeader.EncryptionHeader.EncryptionType));
 
                 return;
             }
@@ -50,32 +59,40 @@ namespace SocketServer.Command
                 UserActionEngine.Instance.ClientChangeRoom(_clientId, RoomActionEngine.DefaultRoom);
 
                 // tell clients about new user
-                if (room != null)
-                    MSMQQueueWrapper.QueueCommand(
-                        new BroadcastMessageCommand<RoomUserUpdateEvent>(
-                            room.Users.Where(u =>
-                                                 {
-                                                     if (u == null) throw new ArgumentNullException("u");
-                                                     return u.ClientKey != _clientId;
-                                                 }).
-                                Select(u => u != null ? u.ClientKey : new Guid()).
-                                ToArray(),
-                            new RoomUserUpdateEvent
-                                {
-                                    Action = RoomUserUpdateAction.AddUser,
-                                    RoomId = room.Id,
-                                    RoomName = room.Name,
-                                    UserName = user.Name
-                                }
-                            )
-                        );
+                //if (room != null)
+                //    MSMQQueueWrapper.QueueCommand(
+                //        new BroadcastMessageCommand<RoomUserUpdateEvent>(
+                //            room.Users.Where(u =>
+                //                                 {
+                //                                     if (u == null) throw new ArgumentNullException("u");
+                //                                     return u.ClientKey != _clientId;
+                //                                 }).
+                //                Select(u => u != null ? u.ClientKey : new Guid()).
+                //                ToArray(),
+                //            new RoomUserUpdateEvent
+                //                {
+                //                    Action = RoomUserUpdateAction.AddUser,
+                //                    RoomId = room.Id,
+                //                    RoomName = room.Name,
+                //                    UserName = user.Name
+                //                }
+                //            )
+                //        );
             }
 
             // send login response
+            //MSMQQueueWrapper.QueueCommand(
+            //    new SendMessageCommand(_clientId,
+            //                            XmlSerializationHelper.Serialize<LoginResponse>(new LoginResponse {UserName = _username, Success = true}))
+            //    );
+
             MSMQQueueWrapper.QueueCommand(
-                new SendMessageCommand<LoginResponse>(_clientId,
-                                      new LoginResponse {UserName = _username, Success = true})
-                );
+                new SendServerResponseCommand(
+                    _clientId,
+                    XmlSerializationHelper.Serialize<LoginResponse>(new LoginResponse { UserName = _username, Success = true }),
+                    ResponseTypes.LoginResponse,
+                    connection.RequestHeader.MessageHeader.CompressionType,
+                    connection.RequestHeader.MessageHeader.EncryptionHeader.EncryptionType));
 
             // finally send a join room event to user
             //if (room != null)
