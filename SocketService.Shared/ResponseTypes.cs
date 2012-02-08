@@ -10,6 +10,7 @@ namespace SocketServer.Shared
     {
         [XmlEnum]
         NegotiateKeysResponse,
-        LoginResponse
+        LoginResponse,
+        ChangeRoomResponse
     }
 }

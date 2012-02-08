@@ -203,14 +203,19 @@ namespace SocketServer.Client
 
             }
 
-            switch(header.ResponseType)
+            switch (header.ResponseType)
             {
                 case ResponseTypes.LoginResponse:
                     {
                         LoginResponse response = XmlSerializationHelper.DeSerialize<LoginResponse>(rawRequestString);
-                        OnServerResponse( new ServerResponseEventArgs() { Response = response } );
+                        OnServerResponse(new ServerResponseEventArgs() { Response = response });
                     }
                     break;
+
+                case ResponseTypes.ChangeRoomResponse:
+                    {
+                        ChangeRoomResponse
+                    }
             }
 
         }

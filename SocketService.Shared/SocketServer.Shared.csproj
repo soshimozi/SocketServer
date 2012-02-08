@@ -58,6 +58,7 @@
     <Compile Include="CompressionHelper.cs" />
     <Compile Include="Interop\Java\SerializationExtensions.cs" />
     <Compile Include="Header\MessageHeader.cs" />
+    <Compile Include="Response\JoinRoomEvent.cs" />
     <Compile Include="RequestBuilder.cs" />
     <Compile Include="ResponseBuilder.cs" />
     <Compile Include="Plugin\IPluginMetaData.cs" />
