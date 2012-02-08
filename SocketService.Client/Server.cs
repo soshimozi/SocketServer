@@ -4,7 +4,7 @@ using System.Threading;
 using System.Collections;
 using System.Net.Sockets;
 using SocketServer.Crypto;
-using SocketServer.Event;
+using SocketServer.Client;
 using SocketServer.Shared;
 using SocketServer.Shared.Request;
 using SocketServer.Shared.Response;
@@ -13,6 +13,12 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
+using SocketServer.Shared.Header;
+using SocketServer.Shared.Serialization;
+using SocketServer.Shared.Interop.Java;
+using System.IO;
+using Org.BouncyCastle.Asn1.X509;
+using Org.BouncyCastle.X509;
 
 namespace SocketServer.Client
 {
@@ -21,13 +27,19 @@ namespace SocketServer.Client
         private readonly ManualResetEvent _serverDisconnectedEvent = new ManualResetEvent(false);
 
         private ZipSocket _socket = null;
-        private DHProvider _provider = new DHProvider(SocketServer.Crypto.Constants.DefaultDiffieHellmanKeyLength, SocketServer.Crypto.Constants.DefaultPrimeProbability);
+        //private DHProvider _provider = new DHProvider(SocketServer.Crypto.Constants.DefaultDiffieHellmanKeyLength, SocketServer.Crypto.Constants.DefaultPrimeProbability);
 
         private bool _connected;
 
         public event EventHandler<ConnectionEventArgs> ConnectionResponse;
-        //public event EventHandler<ServerResponseEventArgs> ServerResponse;
+        public event EventHandler<ServerResponseEventArgs> ServerResponse;
         public event EventHandler<ServerEventEventArgs> ServerEvent;
+        public event EventHandler<CommunicationErrorArgs> CommunicationError;
+
+        private ServerAuthority _serverAuthority = null;
+        private byte[] _serverPublicKey = null;
+
+        private ClientBuffer buffer = new ClientBuffer();
 
         /// <summary>
         /// Disconnects this instance.
@@ -67,15 +79,22 @@ namespace SocketServer.Client
 
                 // wrap the socket
                 _socket = new ZipSocket(rawSocket);
-                NegotiateKeys();
 
-                OnConnectionResponse(new ConnectionEventArgs { IsSuccessful = true });
-                _connected = true;
+                if (!NegotiateKeys())
+                {
+                    // we could not negotiate keys, so we can't connect
+                    OnConnectionResponse(new ConnectionEventArgs { IsSuccessful = false });
+                }
+                else
+                {
+                    OnConnectionResponse(new ConnectionEventArgs { IsSuccessful = true });
+                    _connected = true;
 
-                var serverThread = new Thread(PumpMessages);
-                serverThread.Start();
+                    // start pumping messages
+                    var serverThread = new Thread(PumpMessages);
+                    serverThread.Start();
+                }
             }
-
         }
 
         protected virtual void OnConnectionResponse(ConnectionEventArgs args)
@@ -92,8 +111,12 @@ namespace SocketServer.Client
         {
             var serverDown = false;
 
+            int step = 0;
+            ResponseHeader header = null;
             while (!serverDown && !_serverDisconnectedEvent.WaitOne(0))
             {
+                // wait on header
+
                 IList readList = new List<Socket> { _socket.RawSocket };
 
                 // now let's wait for messages
@@ -109,19 +132,95 @@ namespace SocketServer.Client
                     serverDown = _socket.RawSocket.Available == 0;
                     if (!serverDown)
                     {
-                        var objectData = _socket.ReceiveData();
+                        byte[] data = _socket.ReceiveData();
+                        buffer.Write(data);
 
-                        // it should be a server message, we can look
-                        // at other message types later
-                        //var message = ObjectSerialize.Deserialize(objectData);
+                        MemoryStream stream = new MemoryStream(buffer.Buffer);
+                        switch (step)
+                        {
+                            case 0: /* reading header */
+                                {
+                                    string utfString = stream.ReadUTF();
+                                    if (utfString != null)
+                                    {
+                                        //TextReader reader = new StringReader(utfString);
+                                        header = XmlSerializationHelper
+                                                .DeSerialize<ResponseHeader>(utfString);
 
-                        //DispatchMessage(message);
+                                        step++;
+                                    }
+                                }
+                                break;
+
+                            case 1:
+                                {
+                                    string rawRequestString = stream.ReadUTF();
+                                    if (rawRequestString != null && header != null)
+                                    {
+                                        ProcessResponse(header, rawRequestString);
+                                        step = 0;
+                                    }
+                                }
+                                break;
+                        }
+
+                        // fix up buffers
+                        buffer = new ClientBuffer();
+
+                        // if any data left, fix up buffers
+                        if (stream.Length > stream.Position)
+                        {
+                            // left over bytes
+                            byte[] leftover = stream.Read((int)(stream.Length - stream.Position));
+                            buffer.Write(leftover);
+                        }
+
                     }
 
+                    var objectData = _socket.ReceiveData();
+
+                    // it should be a server message, we can look
+                    // at other message types later
+                    //var message = ObjectSerialize.Deserialize(objectData);
+
+                    //DispatchMessage(message);
                 }
+
             }
+            
 
             _serverDisconnectedEvent.Set();
+        }
+
+        private void ProcessResponse(ResponseHeader header, string rawRequestString)
+        {
+            if (header.MessageHeader.EncryptionHeader.EncryptionType != EncryptionTypes.None)
+            {
+                DHPublicKeyParameters publicKey = new DHPublicKeyParameters(
+                    ((DHPublicKeyParameters)PublicKeyFactory.CreateKey(_serverPublicKey)).Y, _serverAuthority.Parameters);
+
+                BigInteger agreementValue = _serverAuthority.GenerateAgreementValue(publicKey);
+
+                RijndaelCrypto crypto = new RijndaelCrypto();
+                rawRequestString = crypto.Decrypt(rawRequestString, agreementValue.ToString(16));
+
+                //rawRequestString = ResponseBuilder.ProcessResponse(_serverAuthority, _serverPublicKey, header, rawRequestString);
+            }
+
+            //switch(header.ResponseType)
+            //{
+            //    case ResponseTypes.LoginResponse:
+            //        {
+            //        LoginResponse response = XmlSerializationHelper.DeSerialize<LoginResponse>(rawRequestString);
+            //            OnServerEvent(new ServerEventEventArgs() { ServerEvent = new LoginResponseEvent  })
+            //}
+            //val = XmlSerializationHelper.DeSerialize<T>(
+            //    ResponseBuilder
+            //    .ProcessResponse(
+            //            _serverAuthority,
+            //            _serverPublicKey,
+            //            header,
+            //            rawRequestString));
         }
 
         //private void DispatchMessage(object message)
@@ -171,8 +270,28 @@ namespace SocketServer.Client
             return response;
         }
 
-        private void NegotiateKeys()
+        private bool NegotiateKeys()
         {
+            SendRequest<NegotiateKeysRequest>(RequestTypes.NegotiateKeysRequest, new NegotiateKeysRequest(), false);
+
+            // wait 10 seconds for response
+            NegotiateKeysResponse response = WaitForResponse<NegotiateKeysResponse>();
+            if (response == null)
+            {
+                return false;
+            }
+
+            // we have a response, let's copy the server key and create the serverauthority
+            _serverAuthority = new ServerAuthority(new BigInteger(response.Prime, 16), new BigInteger(response.G, 16));
+            _serverPublicKey = response.ServerPublicKey;
+
+            return true;
+            // now wait for response
+
+            //NetworkStream stream = new NetworkStream(_socket.RawSocket);
+
+             //_socket .SendData(CreateRequest(new NegotiateKeysRequest(), false));
+
             //SendRequestRaw(new GetKeyParametersRequest());
             //var parametersResponse = ReadObject<GetKeyParametersResponse>(-1);
 
@@ -189,53 +308,186 @@ namespace SocketServer.Client
             //byte [] agree = _provider.Agree();
         }
 
-        /// <summary>
-        /// Sends the request.
-        /// </summary>
-        /// <param name="requestData">The request data.</param>
-        private void SendRequestRaw(object requestData)
+
+        private T WaitForResponse<T>() where T : class
         {
-            _socket.SendData(CreateRequest(requestData, false));
+            T val = default(T);
+
+            ResponseHeader header = null;
+            int step = 0;
+
+            while (step < 2)
+            {
+                byte [] data = _socket.ReceiveData();
+                buffer.Write(data);
+
+                MemoryStream stream = new MemoryStream(buffer.Buffer);
+                switch (step)
+                {
+                    case 0: /* reading header */
+                        {
+                            string utfString = stream.ReadUTF();
+                            if (utfString != null)
+                            {
+                                //TextReader reader = new StringReader(utfString);
+                                header = XmlSerializationHelper
+                                        .DeSerialize<ResponseHeader>(utfString);
+
+                                step++;
+
+                                // if we got a valid request header, move to next state
+                                // otherwise wait until we get a valid request header
+                                //if (header != null)
+                                //{
+                                //    step++;
+                                //}
+                            }
+                        }
+                        break;
+
+                    case 1:
+                        {
+                            string rawRequestString = stream.ReadUTF();
+                            if (rawRequestString != null)
+                            {
+                                if (header != null)
+                                {
+                                    val = XmlSerializationHelper.DeSerialize<T>(
+                                        ResponseBuilder
+                                        .ProcessResponse(
+                                                _serverAuthority,
+                                                _serverPublicKey,
+                                                header,
+                                                rawRequestString));
+                                }
+
+                                step++;
+                            }
+                        }
+                        break;
+                }
+
+                // fix up buffers
+                buffer = new ClientBuffer();
+
+                // if any data left, fix up buffers
+                if (stream.Length > stream.Position)
+                {
+                    // left over bytes
+                    byte[] leftover = stream.Read((int)(stream.Length - stream.Position));
+                    buffer.Write(leftover);
+                }
+
+            }
+
+            return val;
+
         }
+
+        //private T WaitForResponse<T>() where T : class
+        //{
+        //    NetworkStream stream = new NetworkStream(_socket.RawSocket);
+        //    return XmlSerializationHelper.DeSerialize<T>(stream.ReadUTF()) as T;
+        //}
+
+        ///// <summary>
+        ///// Sends the request.
+        ///// </summary>
+        ///// <param name="requestData">The request data.</param>
+        //private void SendRequestRaw(object requestData)
+        //{
+        //    _socket.SendData(CreateRequest(requestData, false));
+        //}
 
         /// <summary>
         /// Sends the request encrypted.
         /// </summary>
         /// <param name="requestData">The request data.</param>
-        public void SendRequest(object requestData)
+        public void SendRequest<T>(RequestTypes requestType, T request, bool encrypted) where T : class
         {
-            _socket.SendData(CreateRequest(requestData, true));
-        }
+            string requestString = XmlSerializationHelper.Serialize<T>(request);
 
+            RequestHeader header = null;
 
-        private byte[] CreateRequest(object requestData, bool encrypt)
-        {
-            if (encrypt)
+            byte[] publicKey = null;
+
+            if( encrypted )
             {
-                //using (CryptoManager cryptoWrapper =
-                //    CryptoManager.CreateEncryptor(AlgorithmType.TripleDES,
-                //            _provider.Agree()))
-                //{
-                //    return ObjectSerialize.Serialize(
-                //        new ClientRequest(cryptoWrapper.IV,
-                //           EncryptionType.TripleDES,
-                //           DateTime.Now, 0,
-                //           cryptoWrapper.Encrypt(ObjectSerialize.Serialize(requestData))
-                //           )
-                //        );
-                //}
-            }
-            
-            //return ObjectSerialize.Serialize(
-            //    new ClientRequest(new byte[] { },
-            //                             EncryptionType.None,
-            //                             DateTime.Now, 0,
-            //                             ObjectSerialize.Serialize(requestData)
-            //        )
-            //    );
+                header = RequestBuilder.BuildRequestHeader(
+                    EncryptionTypes.Aes, 
+                    CompressionTypes.None, 
+                    requestType);
 
-            return null;
+                publicKey = EncryptionHelper.EncodeKeyParameter(
+                    _serverAuthority.GetPublicKeyParameter());
+
+                header.MessageHeader.EncryptionHeader.PublicKey = publicKey;
+
+            } else
+            {
+                header = RequestBuilder.BuildRequestHeader(
+                    EncryptionTypes.None,
+                    CompressionTypes.None,
+                    requestType);
+            }
+
+            _socket.SendData(XmlSerializationHelper.Serialize<RequestHeader>(header));
+            _socket.SendData(RequestBuilder.ProcessRequest(
+                                _serverAuthority,
+                                _serverPublicKey, 
+                                header,
+                                XmlSerializationHelper.Serialize<T>(request)));
+
+            //string request = RequestBuilder.ProcessRequest()
+
         }
+
+
+        //private byte[] CreateRequest(object requestData, bool encrypt)
+        //{
+
+        //    //NegotiateKeysRequest negotiateKeysRequest = new NegotiateKeysRequest();
+        //    //
+
+        //    EncryptionHeader encryptionHeader = new EncryptionHeader();
+
+        //    MessageHeader messageHeader = new MessageHeader();
+        //    RequestHeader requestHeader = new RequestHeader();
+
+        //    //SendRequest(negotiateKeysRequest, false)
+
+        //    if (encrypt)
+        //    {
+
+        //        //header = new RequestHeader()
+        //        //{
+        //        //    MessageHeader = new MessageHeader() { CompressionType = CompressionTypes.None, EncryptionHeader = new EncryptionHeader() { EncryptionType= EncryptionTypes.Aes, PublicKey =  } }
+        //        //};
+
+        //        //using (CryptoManager cryptoWrapper =
+        //        //    CryptoManager.CreateEncryptor(AlgorithmType.TripleDES,
+        //        //            _provider.Agree()))
+        //        //{
+        //        //    return ObjectSerialize.Serialize(
+        //        //        new ClientRequest(cryptoWrapper.IV,
+        //        //           EncryptionType.TripleDES,
+        //        //           DateTime.Now, 0,
+        //        //           cryptoWrapper.Encrypt(ObjectSerialize.Serialize(requestData))
+        //        //           )
+        //        //        );
+        //        //}
+        //    }
+
+        //    //return ObjectSerialize.Serialize(
+        //    //    new ClientRequest(new byte[] { },
+        //    //                             EncryptionType.None,
+        //    //                             DateTime.Now, 0,
+        //    //                             ObjectSerialize.Serialize(requestData)
+        //    //        )
+        //    //    );
+
+        //    return null;
+        //}
 
     }
 }

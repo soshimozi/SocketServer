@@ -3,16 +3,16 @@ using SocketServer.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto;
 using SocketServer.Shared.Header;
+using SocketServer.Shared;
 
 namespace SocketServer.Net.Client
 {
     public class ClientConnection //: Connection
     {
-        //private readonly ServerAuthority _sa = new ServerAuthority(256, 30);
+        private ServerAuthority _sa = null;
 
-        public ClientConnection(ServerAuthority sa, ClientBuffer buffer)
+        public ClientConnection(ClientBuffer buffer)
         {
-            ServerAuthority = sa;
             ClientBuffer = buffer;
         }
 
@@ -36,8 +36,8 @@ namespace SocketServer.Net.Client
 
         public ServerAuthority ServerAuthority
         {
-            get;
-            set;
+            get { return _sa ?? (_sa = ServerAuthorityFactory.CreateServerAuthority());  }
+            //set;
         }
 
         public ClientBuffer ClientBuffer

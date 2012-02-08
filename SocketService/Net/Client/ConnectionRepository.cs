@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using SocketServer.Crypto;
+using SocketServer.Shared;
 
 namespace SocketServer.Net.Client
 {
@@ -97,7 +98,6 @@ namespace SocketServer.Net.Client
         {
             var connection 
                 = new ClientConnection(
-                    ServerAuthorityFactory.CreateServerAuthority(),
                     new ClientBuffer()
                     );
 

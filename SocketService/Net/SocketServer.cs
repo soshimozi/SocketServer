@@ -270,7 +270,9 @@ namespace SocketServer.Net
 
                             if (availableBytes > 0)
                             {
-                                OnDataRecieved(clientId, client.ReceiveData());
+                                var data = new byte[availableBytes];
+                                socket.Receive(data);
+                                OnDataRecieved(clientId, data);
                             }
                             else
                             {

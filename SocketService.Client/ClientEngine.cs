@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using SocketServer.Client.Manager;
-using SocketServer.Event;
+using SocketServer.Client;
 using SocketServer.Shared.Response;
 
 namespace SocketServer.Client

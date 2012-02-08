@@ -37,10 +37,10 @@ namespace SocketServer.Command
                 if( var != null)
                     so = var.Value;
 
-                MSMQQueueWrapper.QueueCommand(
-                    new SendMessageCommand(_clientId,
-                        XmlSerializationHelper.Serialize<GetRoomVariableResponse>( new GetRoomVariableResponse { ZoneId = _zoneId, RoomId = room.Id, Name = _name, Value = so } ))
-                );
+                //MSMQQueueWrapper.QueueCommand(
+                //    new SendMessageCommand(_clientId,
+                //        XmlSerializationHelper.Serialize<GetRoomVariableResponse>( new GetRoomVariableResponse { ZoneId = _zoneId, RoomId = room.Id, Name = _name, Value = so } ))
+                //);
             }
         }
     }

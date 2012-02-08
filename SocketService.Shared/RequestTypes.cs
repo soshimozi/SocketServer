@@ -9,6 +9,7 @@ namespace SocketServer.Shared
         [XmlEnum]
         LoginRequest,
         [XmlEnum]
-        LogoutRequest
+        LogoutRequest,
+        CreateRoomRequest
     }
 }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 using SocketServer.Client;
-using SocketServer.Event;
 using SocketServer.Shared.Request;
 using SocketServer.Shared.Response;
+using SocketServer.Shared;
 
 namespace ConsoleApplication1
 {
@@ -145,8 +145,7 @@ namespace ConsoleApplication1
         private void Login(string userName)
         {
             var request = new LoginRequest {LoginName = userName};
-
-            _server.SendRequest(request);
+            _server.SendRequest(RequestTypes.LoginRequest, request, true);
         }
 
 
@@ -167,8 +166,7 @@ namespace ConsoleApplication1
         private void JoinRoom(string roomName)
         {
             var crr = new CreateRoomRequest {RoomName = roomName};
-
-            _server.SendRequest(crr);
+            _server.SendRequest(RequestTypes.CreateRoomRequest, crr, true);
         }
 
         void EngineJoinRoom(JoinRoomEventArgs e = null)

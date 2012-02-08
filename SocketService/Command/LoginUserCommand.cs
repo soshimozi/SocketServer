@@ -3,7 +3,6 @@ using System.Linq;
 using SocketServer.Actions;
 using SocketServer.Data;
 using SocketServer.Messaging;
-using SocketServer.Event;
 using SocketServer.Repository;
 using SocketServer.Shared;
 using SocketServer.Shared.Response;
@@ -45,7 +44,7 @@ namespace SocketServer.Command
                     new SendServerResponseCommand(
                         _clientId, 
                         XmlSerializationHelper.Serialize<LoginResponse>(response),
-                        ResponseTypes.NegotiateKeysResponse, 
+                        ResponseTypes.LoginResponse, 
                         connection.RequestHeader.MessageHeader.CompressionType, 
                         connection.RequestHeader.MessageHeader.EncryptionHeader.EncryptionType));
 

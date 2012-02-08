@@ -7,6 +7,9 @@ using System.Threading;
 using System;
 using log4net;
 using System.Reflection;
+using System.Collections.Generic;
+using System.Collections;
+using SocketServer.Shared.Interop.Java;
 
 namespace SocketServer.Shared.Sockets
 {
@@ -40,7 +43,7 @@ namespace SocketServer.Shared.Sockets
         /// <param name="data">The data.</param>
         public virtual void SendData(string data)
         {
-            SendData(Encoding.UTF8.GetBytes(data));
+            SendData(data.SerializeUTF());
         }
 
         /// <summary>
@@ -102,18 +105,45 @@ namespace SocketServer.Shared.Sockets
         /// <returns></returns>
         public byte[] ReceiveData()
         {
-            var zippedData = new byte[RawSocket.Available];
-            try
+            List<Socket> socketList = new List<Socket>();
+            socketList.Add(RawSocket);
+
+            Socket.Select(socketList, null, null, 0);
+
+            foreach (Socket socket in socketList)
             {
-                RawSocket.Receive(zippedData);
-                return zippedData;
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex);
+                if (socket != null)
+                {
+                    if (socket.Connected)
+                    {
+                        int availableBytes = socket.Available;
+
+                        if (availableBytes > 0)
+                        {
+                            var buffer = new byte[availableBytes];
+                            socket.Receive(buffer);
+
+                            return buffer;
+                        }
+                    }
+                }
             }
 
-            return null;
+            return new byte[0];
+
+
+            //var zippedData = new byte[RawSocket.Available];
+            //try
+            //{
+            //    RawSocket.Receive(zippedData);
+            //    return zippedData;
+            //}
+            //catch (Exception ex)
+            //{
+            //    Log.Error(ex);
+            //}
+
+            //return null;
             //return Decompress(zippedData);
         }
 

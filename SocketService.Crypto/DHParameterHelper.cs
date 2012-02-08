@@ -16,6 +16,11 @@ namespace SocketServer.Crypto
             return new DHParameters(new BigInteger(pdata), new BigInteger(gdata));
         }
 
+        public static DHParameters GenerateParameters(string pData, string gData)
+        {
+            return new DHParameters(new BigInteger(pData), new BigInteger(gData));
+        }
+
         public static DHParameters GenerateParameters(int keyLength, int probability)
         {
             DHParametersGenerator generator = new DHParametersGenerator();
@@ -25,7 +30,7 @@ namespace SocketServer.Crypto
 
         public static DHParameters GenerateParameters()
         {
-            return GenerateParameters(SocketServer.Crypto.Constants.DefaultDiffieHellmanKeyLength, SocketServer.Crypto.Constants.DefaultPrimeProbability);
+            return GenerateParameters(Constants.DefaultDiffieHellmanKeyLength, Constants.DefaultPrimeProbability);
         }
 
     }

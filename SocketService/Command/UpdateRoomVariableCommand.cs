@@ -2,7 +2,6 @@
 using System.Linq;
 using SocketServer.Data;
 using SocketServer.Messaging;
-using SocketServer.Event;
 using SocketServer.Repository;
 
 namespace SocketServer.Command

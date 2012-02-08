@@ -21,10 +21,6 @@ namespace SocketServer.Command
         {
             _clientId = clientId;
             _message = message;
-
-            //_message = message;
-
-            //_data = ObjectSerialize.Serialize(graph);
         }
 
         public override void Execute()

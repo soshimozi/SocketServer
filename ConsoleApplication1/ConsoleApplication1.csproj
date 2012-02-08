@@ -60,10 +60,6 @@
       <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
       <Name>SocketServer.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Event\SocketServer.Event.csproj">
-      <Project>{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}</Project>
-      <Name>SocketServer.Event</Name>
-    </ProjectReference>
     <ProjectReference Include="..\SocketService.Shared\SocketServer.Shared.csproj">
       <Project>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</Project>
       <Name>SocketServer.Shared</Name>

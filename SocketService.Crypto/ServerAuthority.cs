@@ -13,16 +13,23 @@ namespace SocketServer.Crypto
 {
     public class ServerAuthority
     {
-        //const int BitLength = 512;
-        //const int Probability = 30;
-
         private readonly DHParameters parameters;
         private readonly AsymmetricCipherKeyPair kp;
         private readonly IBasicAgreement agreement;
 
-        public ServerAuthority(int bitLength, int probability)
+        public ServerAuthority(BigInteger prime, BigInteger g) 
+            : this(new DHParameters(prime, g))
         {
-            parameters = GetDiffieHellmanParameters(bitLength, probability);
+        }
+
+        public ServerAuthority(int bitLength, int probability)
+            : this(GetDiffieHellmanParameters(bitLength, probability))
+        {
+        }
+
+        public ServerAuthority(DHParameters parameters)
+        {
+            this.parameters = parameters;
 
             IAsymmetricCipherKeyPairGenerator keyGen = GeneratorUtilities.GetKeyPairGenerator("DH");
             KeyGenerationParameters kgp = new DHKeyGenerationParameters(new SecureRandom(), parameters);
@@ -32,6 +39,7 @@ namespace SocketServer.Crypto
             agreement = AgreementUtilities.GetBasicAgreement("DH");
             agreement.Init(kp.Private);
         }
+
 
         public DHParameters Parameters
         {
@@ -49,17 +57,12 @@ namespace SocketServer.Crypto
             get { return parameters.P; }
         }
 
-        private DHParameters GetDiffieHellmanParameters(int bitLength, int probability)
+        private static DHParameters GetDiffieHellmanParameters(int bitLength, int probability)
         {
             DHParametersGenerator generator = new DHParametersGenerator();
             generator.Init(bitLength, probability, new SecureRandom());
             return generator.GenerateParameters();
         }
-
-        //public byte[] GetEncryptedPublicKey()
-        //{
-        //    return SubjectPublicKeyInfoFactory.CreateSubjectPublicKeyInfo(kp.Public).GetDerEncoded();
-        //}
 
         public AsymmetricKeyParameter GetPublicKeyParameter()
         {

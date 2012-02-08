@@ -1,6 +1,6 @@
 ﻿using System;
 using SocketServer.Client.Data;
-using SocketServer.Event;
+using SocketServer.Client;
 
 namespace SocketServer.Client.Manager
 {

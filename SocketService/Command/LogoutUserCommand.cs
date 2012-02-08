@@ -2,7 +2,6 @@
 using System.Linq;
 using SocketServer.Actions;
 using SocketServer.Messaging;
-using SocketServer.Event;
 using SocketServer.Net;
 using SocketServer.Net.Client;
 using SocketServer.Repository;

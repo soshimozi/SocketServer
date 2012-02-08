@@ -129,11 +129,19 @@ namespace SocketServer.Net
 
         protected void SocketServerClientConnecting(object sender, ConnectArgs e)
         {
+
             Logger.InfoFormat("Client {0} connecting from {1}", e.ClientId, e.RemoteAddress);
             SocketRepository.Instance.AddSocket(e.ClientId, e.RawSocket);
 
             var connection = ConnectionRepository.Instance.NewConnection();
             connection.ClientId = e.ClientId;
+
+            //MSMQQueueWrapper.QueueCommand(new ClientConnectingCommand(e.ClientId));
+            //Logger.InfoFormat("Client {0} connecting from {1}", e.ClientId, e.RemoteAddress);
+            //SocketRepository.Instance.AddSocket(e.ClientId, e.RawSocket);
+
+            //var connection = ConnectionRepository.Instance.NewConnection();
+            //connection.ClientId = e.ClientId;
         }
 
         protected void SocketServerClientDisconnecting(object sender, DisconnectedArgs e)

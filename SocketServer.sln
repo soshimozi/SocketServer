@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApplication1", "ConsoleApplication1\ConsoleApplication1.csproj", "{0E8F0B30-5C79-47A4-9F35-932CBBEC0139}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketServer.Event", "SocketService.Event\SocketServer.Event.csproj", "{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketServer.Shared", "SocketService.Shared\SocketServer.Shared.csproj", "{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketServer.Client", "SocketService.Client\SocketServer.Client.csproj", "{93FD4F32-5214-40E3-8E36-5B4E354F10C4}"
@@ -26,6 +24,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketServer.Crypto", "SocketService.Crypto\SocketServer.Crypto.csproj", "{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHarness", "TestHarness\TestHarness.csproj", "{6954295D-F42E-4D2F-A030-64D17EE12AFB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocketServer.Event", "SocketService.Event\SocketServer.Event.csproj", "{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -60,16 +60,6 @@ Global
 		{0E8F0B30-5C79-47A4-9F35-932CBBEC0139}.Release|Mixed Platforms.Build.0 = Release|x86
 		{0E8F0B30-5C79-47A4-9F35-932CBBEC0139}.Release|x86.ActiveCfg = Release|x86
 		{0E8F0B30-5C79-47A4-9F35-932CBBEC0139}.Release|x86.Build.0 = Release|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|x86.ActiveCfg = Debug|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|x86.Build.0 = Debug|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|Any CPU.ActiveCfg = Release|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|Mixed Platforms.Build.0 = Release|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|x86.ActiveCfg = Release|x86
-		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|x86.Build.0 = Release|x86
 		{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -110,6 +100,16 @@ Global
 		{6954295D-F42E-4D2F-A030-64D17EE12AFB}.Release|Mixed Platforms.Build.0 = Release|x86
 		{6954295D-F42E-4D2F-A030-64D17EE12AFB}.Release|x86.ActiveCfg = Release|x86
 		{6954295D-F42E-4D2F-A030-64D17EE12AFB}.Release|x86.Build.0 = Release|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|x86.ActiveCfg = Debug|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Debug|x86.Build.0 = Debug|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|Any CPU.ActiveCfg = Release|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|Mixed Platforms.Build.0 = Release|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|x86.ActiveCfg = Release|x86
+		{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
