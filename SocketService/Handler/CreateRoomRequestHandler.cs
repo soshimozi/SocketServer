@@ -5,7 +5,7 @@ using SocketServer.Shared.Request;
 
 namespace SocketServer.Handler
 {
-    public class ChangeRoomRequestHandler : IRequestHandler<CreateRoomRequest>
+    public class CreateRoomRequestHandler : IRequestHandler<CreateRoomRequest>
     {
         public void HandleRequest(CreateRoomRequest request, Guid state)
         {

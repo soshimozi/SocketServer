@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using SocketServer.Crypto;
 using SocketServer.Shared;
+using SocketServer.Shared.Sockets;
+using System.Net.Sockets;
 
 namespace SocketServer.Net.Client
 {
@@ -94,12 +96,13 @@ namespace SocketServer.Net.Client
         /// Adds the connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public ClientConnection NewConnection()
+        public ClientConnection NewConnection(ZipSocket socket)
         {
             var connection 
                 = new ClientConnection(
-                    new ClientBuffer()
-                    );
+                    new ClientBuffer(),
+                    socket
+                   );
 
             _connectionMutex.WaitOne();
             try

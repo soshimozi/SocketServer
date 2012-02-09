@@ -65,10 +65,10 @@ namespace SocketServer.Client.Data
     
         public void AddUser(ClientUser clientUser)
         {
-            //User u = UserByName(user.UserName);
+            ClientUser u = UserByName(clientUser.UserName);
 
-            //if (u == null)
-            //{
+            if (u == null)
+            {
                 Monitor.Enter(this);
                 try
                 {
@@ -78,14 +78,14 @@ namespace SocketServer.Client.Data
                 {
                     Monitor.Exit(this);
                 }
-            //}
+            }
         }
 
         public void RemoveUser(ClientUser clientUser)
         {
-            //User user = UserByName(userName);
-            //if (user != null)
-            //{
+            ClientUser user = UserByName(clientUser.UserName);
+            if (user != null)
+            {
                 Monitor.Enter(this);
                 try
                 {
@@ -95,26 +95,26 @@ namespace SocketServer.Client.Data
                 {
                     Monitor.Exit(this);
                 }
-            //}
+           }
         }
 
-        //public User UserByName(string userName)
-        //{
-        //    Monitor.Enter(this);
-        //    try
-        //    {
-        //        var query = from u in _userList
-        //                    where u.UserName.Equals(userName)
-        //                    select u;
+        public ClientUser UserByName(string userName)
+        {
+            Monitor.Enter(this);
+            try
+            {
+                var query = from u in _userList
+                            where u.UserName.Equals(userName)
+                            select u;
 
-        //        return query.FirstOrDefault();
-        //    }
-        //    finally
-        //    {
-        //        Monitor.Exit(this);
-        //    }
+                return query.FirstOrDefault();
+            }
+            finally
+            {
+                Monitor.Exit(this);
+            }
 
-        //}
+        }
 
         public void AddRoomVariable(String name, object value)
         {

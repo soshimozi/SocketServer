@@ -4,21 +4,21 @@ namespace SocketServer.Configuration
 {
     public class SocketServerConfiguration : ConfigurationSection
     {
-        [ConfigurationProperty("Plugins", IsRequired = true, IsDefaultCollection = true)]
+        [ConfigurationProperty("plugins", IsRequired = true, IsDefaultCollection = true)]
         public PluginInfoInstanceCollection Plugins
         {
-            get { return (PluginInfoInstanceCollection) this["Plugins"]; }
-            set { this["Plugins"] = value; }
+            get { return (PluginInfoInstanceCollection)this["plugins"]; }
+            set { this["plugins"] = value; }
         }
 
-        [ConfigurationProperty("ListenPort", IsRequired = true)]
+        [ConfigurationProperty("listenPort", IsRequired = true)]
         public int ListenPort
         {
-            get { return (int) this["ListenPort"]; }
-            set { this["ListenPort"] = value; }
+            get { return (int)this["listenPort"]; }
+            set { this["listenPort"] = value; }
         }
 
-        [ConfigurationProperty("Handlers", IsDefaultCollection = false)]
+        [ConfigurationProperty("handlers", IsDefaultCollection = false)]
         [ConfigurationCollection(typeof(RequestHandlerCollection),
             AddItemName = "add",
             ClearItemsName = "clear",
@@ -27,11 +27,11 @@ namespace SocketServer.Configuration
         {
             get
             {
-                return (RequestHandlerCollection)base["Handlers"];
+                return (RequestHandlerCollection)base["handlers"];
             }
         }
 
-        [ConfigurationProperty("Queues", IsDefaultCollection = false)]
+        [ConfigurationProperty("queues", IsDefaultCollection = false)]
         [ConfigurationCollection(typeof(MessageQueueCollection),
             AddItemName = "add",
             ClearItemsName = "clear",
@@ -40,7 +40,7 @@ namespace SocketServer.Configuration
         {
             get
             {
-                return (MessageQueueCollection)base["Queues"];
+                return (MessageQueueCollection)base["queues"];
             }
         }
     }

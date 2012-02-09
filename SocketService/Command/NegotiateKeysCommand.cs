@@ -52,8 +52,7 @@ namespace SocketServer.Command
                         _clientGuid, 
                         XmlSerializationHelper.Serialize<NegotiateKeysResponse>(response),
                         ResponseTypes.NegotiateKeysResponse, 
-                        connection.RequestHeader.MessageHeader.CompressionType, 
-                        connection.RequestHeader.MessageHeader.EncryptionHeader.EncryptionType));
+                        connection.RequestHeader.MessageHeader));
 
                 //connection.Provider.RemotePublicKey = new DHPublicKeyParameters(
                 //    ((DHPublicKeyParameters)PublicKeyFactory.CreateKey(_remotePublicKey)).Y, connection.Provider.Parameters);

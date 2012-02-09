@@ -26,13 +26,13 @@ namespace SocketServer.Command
         private readonly EncryptionTypes _encryptionType;
         private readonly ResponseTypes _responseType;
 
-        public SendServerResponseCommand(Guid clientId, string response, ResponseTypes responseType, CompressionTypes compressType, EncryptionTypes encryptionType)
+        public SendServerResponseCommand(Guid clientId, string response, ResponseTypes responseType, MessageHeader header)
         {
             _clientId = clientId;
             _response = response;
             _responseType = responseType;
-            _compressionType = compressType;
-            _encryptionType = encryptionType;
+            _compressionType = header.CompressionType;
+            _encryptionType = header.EncryptionHeader.EncryptionType;
         }
 
 

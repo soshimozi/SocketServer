@@ -88,7 +88,7 @@ namespace SocketServer.Messaging
                 }
                 catch (Exception e)
                 {
-                    Log.ErrorFormat("MessageServer.Serve(): {0}", e.Message);
+                    Log.Error(e);
                 }
             }
         }

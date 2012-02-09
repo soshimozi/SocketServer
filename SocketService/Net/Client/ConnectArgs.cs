@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using SocketServer.Shared.Sockets;
 
 namespace SocketServer.Net.Client
 {
@@ -18,11 +19,11 @@ namespace SocketServer.Net.Client
         /// <param name="clientId">The client id.</param>
         /// <param name="rawSocket">The raw socket.</param>
         /// <param name="remoteAddress">The remote address.</param>
-        public ConnectArgs(Guid clientId, Socket rawSocket, string remoteAddress)
+        public ConnectArgs(Guid clientId, ZipSocket zipSocket, string remoteAddress)
         {
             ClientId = clientId;
             RemoteAddress = remoteAddress;
-            RawSocket = rawSocket;
+            ZipSocket = zipSocket;
         }
 
         /// <summary>
@@ -39,7 +40,7 @@ namespace SocketServer.Net.Client
         /// <value>
         /// The raw socket.
         /// </value>
-        public Socket RawSocket { get; set; }
+        public ZipSocket ZipSocket { get; set; }
 
         /// <summary>
         /// Gets or sets the remote address.

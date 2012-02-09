@@ -22,9 +22,7 @@ namespace SocketServer.Repository
         /// </summary>
         static ServiceHandlerLookup()
         {
-            SocketServerConfiguration config =
-                (SocketServerConfiguration)ConfigurationManager.
-                GetSection("SocketServerConfiguration");
+            SocketServerConfiguration config = ServerConfigurationHelper.GetServerConfiguration();
 
             Instance.LoadHandlers(config);
         }

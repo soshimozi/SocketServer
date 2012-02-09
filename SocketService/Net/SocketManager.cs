@@ -131,9 +131,9 @@ namespace SocketServer.Net
         {
 
             Logger.InfoFormat("Client {0} connecting from {1}", e.ClientId, e.RemoteAddress);
-            SocketRepository.Instance.AddSocket(e.ClientId, e.RawSocket);
+            SocketRepository.Instance.AddSocket(e.ClientId, e.ZipSocket.RawSocket);
 
-            var connection = ConnectionRepository.Instance.NewConnection();
+            var connection = ConnectionRepository.Instance.NewConnection(e.ZipSocket);
             connection.ClientId = e.ClientId;
 
             //MSMQQueueWrapper.QueueCommand(new ClientConnectingCommand(e.ClientId));
@@ -166,8 +166,7 @@ namespace SocketServer.Net
             SocketServerConfiguration configuration = null;
             try
             {
-                configuration =
-                    (SocketServerConfiguration) ConfigurationManager.GetSection("SocketServerConfiguration");
+                configuration = ServerConfigurationHelper.GetServerConfiguration();
             }
             catch (Exception exception)
             {

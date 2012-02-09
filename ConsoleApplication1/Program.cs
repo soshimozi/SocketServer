@@ -98,7 +98,7 @@ namespace ConsoleApplication1
                 {
                     case ConsoleKey.R:
                         Console.Write("Room Name: ");
-                        JoinRoom(Console.ReadLine());
+                        JoinRoom(Console.ReadLine(), "");
                         break;
 
                     //case ConsoleKey.L:
@@ -163,9 +163,9 @@ namespace ConsoleApplication1
             //_server.SendRequestEncrypted(grvr);
         }
 
-        private void JoinRoom(string roomName)
+        private void JoinRoom(string roomName, string zoneName)
         {
-            var crr = new CreateRoomRequest {RoomName = roomName};
+            var crr = new CreateRoomRequest {RoomName = roomName, ZoneName = zoneName};
             _server.SendRequest(RequestTypes.CreateRoomRequest, crr, true);
         }
 

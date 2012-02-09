@@ -7,32 +7,55 @@ using SocketServer.Net;
 using SocketServer.Shared;
 using SocketServer.Shared.Interop.Java;
 using SocketServer.Shared.Serialization;
+using SocketServer.Shared.Header;
+using SocketServer.Net.Client;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    class BroadcastMessageCommand<T> : BaseMessageHandler where T : class
+    class BroadcastMessageCommand : BaseMessageHandler
     {
-        private readonly Guid [] _clientList;
-        private readonly string _message;
-
         private readonly static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
-        public BroadcastMessageCommand(Guid[] clientList, T graph)
+        private readonly Guid[] _clientList;
+        private readonly string _response;
+        private readonly CompressionTypes _compressionType;
+        private readonly EncryptionTypes _encryptionType;
+        private readonly ResponseTypes _responseType;
+
+        public BroadcastMessageCommand(Guid[] clientList, string response, ResponseTypes responseType, MessageHeader header)
         {
             _clientList = clientList;
-            _message = XmlSerializationHelper.Serialize<T>(graph);
-
-            //_data = ObjectSerialize.Serialize(graph);
+            _response = response;
+            _responseType = responseType;
+            _compressionType = header.CompressionType;
+            _encryptionType = header.EncryptionHeader.EncryptionType;
         }
 
         public override void Execute()
         {
-            foreach (var connection in _clientList.Select(clientId => SocketRepository.Instance.FindByClientId(clientId)).Where(connection => connection != null))
+            foreach (var connection in ConnectionRepository.Instance.Query(c => _clientList.Contains(c.ClientId)))
             {
                 try
                 {
-                    connection.SendData(_message.SerializeUTF());
+                    ResponseHeader responseHeader = ResponseBuilder.BuildResponseHeader(_encryptionType, _compressionType, _responseType);
+
+                    connection.ClientSocket.SendData(
+                        XmlSerializationHelper
+                        .Serialize<ResponseHeader>(responseHeader)
+                        .SerializeUTF());
+
+
+                    connection.ClientSocket.SendData(
+                            ResponseBuilder.ProcessResponse(
+                                connection.ServerAuthority,
+                                connection
+                                .RequestHeader
+                                .MessageHeader
+                                .EncryptionHeader
+                                .PublicKey,
+                                responseHeader,
+                                _response).SerializeUTF());
                 }
                 catch (Exception ex)
                 {

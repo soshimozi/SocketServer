@@ -111,7 +111,7 @@ namespace SocketServer.Net
             }
         }
 
-        protected virtual void OnClientConnected(Guid clientId, Socket socket, string remoteAddress)
+        protected virtual void OnClientConnected(Guid clientId, ZipSocket socket, string remoteAddress)
         {
             EventHandler<ConnectArgs> clientConnected = ClientConnecting;
             if (clientConnected != null)
@@ -192,7 +192,7 @@ namespace SocketServer.Net
                     Guid clientId = Guid.NewGuid();
                     var client = new ZipSocket(socket);
 
-                    OnClientConnected(clientId, socket, ((IPEndPoint) socket.RemoteEndPoint).Address.ToString());
+                    OnClientConnected(clientId, client, ((IPEndPoint) socket.RemoteEndPoint).Address.ToString());
                     AddConnection(clientId, client);
                 }
             }

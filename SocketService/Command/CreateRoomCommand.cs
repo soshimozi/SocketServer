@@ -3,6 +3,10 @@ using System.Linq;
 using SocketServer.Messaging;
 using SocketServer.Actions;
 using SocketServer.Repository;
+using SocketServer.Shared.Serialization;
+using SocketServer.Shared;
+using SocketServer.Net.Client;
+using SocketServer.Shared.Event;
 
 namespace SocketServer.Command
 {
@@ -22,15 +26,29 @@ namespace SocketServer.Command
         public override void Execute()
         {
             var newZone = ZoneActionEngine.Instance.CreateZone(_zoneName);
+            var connection = ConnectionRepository.Instance.Query(c => c.ClientId == _clientId).FirstOrDefault();
 
-            if( newZone != null)
+            if( newZone != null && connection != null)
             {
                 var newRoom = RoomActionEngine.Instance.CreateRoom(_roomName, newZone);
-                var user = UserRepository.Instance.Query(u => u.ClientKey.Equals(_clientId)).FirstOrDefault();
+                if (newRoom != null && UserActionEngine.Instance.ClientChangeRoom(_clientId, _roomName))
+                { 
+                    JoinRoomEvent evt = new JoinRoomEvent() 
+                    { 
+                        RoomName = newRoom.Name, 
+                        RoomId = newRoom.Id, 
+                        Capacity = newRoom.Capacity, 
+                        Hidden = newRoom.IsPrivate, 
+                        Protected = newRoom.IsPersistable, 
+                        RoomDescription = string.Empty,
+                        Users = newRoom.Users.Select( u => u.Name ).ToList()};
 
-                if( user != null && newRoom != null)
-                {
-                    
+                    MSMQQueueWrapper.QueueCommand(
+                        new SendServerResponseCommand(
+                            _clientId,
+                            XmlSerializationHelper.Serialize<JoinRoomEvent>(evt),
+                            ResponseTypes.JoinRoomEvent,
+                            connection.RequestHeader.MessageHeader));
                 }
             }
 

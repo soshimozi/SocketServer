@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace SocketServer.Client
+namespace SocketServer.Shared.Event
 {
     [Serializable]
-    public class PublicMessageEvent : IEvent
+    public class PublicMessageEvent //: IEvent
     {
         public string EventName
         {

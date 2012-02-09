@@ -56,9 +56,13 @@
   <ItemGroup>
     <Compile Include="ClientBuffer.cs" />
     <Compile Include="CompressionHelper.cs" />
+    <Compile Include="Event\JoinRoomEvent.cs" />
+    <Compile Include="Event\LeaveRoomEvent.cs" />
+    <Compile Include="Event\PublicMessageEvent.cs" />
+    <Compile Include="Event\RoomUserUpdateEvent.cs" />
+    <Compile Include="Event\RoomVariableUpdateEvent.cs" />
     <Compile Include="Interop\Java\SerializationExtensions.cs" />
     <Compile Include="Header\MessageHeader.cs" />
-    <Compile Include="Response\JoinRoomEvent.cs" />
     <Compile Include="RequestBuilder.cs" />
     <Compile Include="ResponseBuilder.cs" />
     <Compile Include="Plugin\IPluginMetaData.cs" />

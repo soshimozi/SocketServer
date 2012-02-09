@@ -80,17 +80,20 @@ namespace SocketServer.Net
         /// </summary>
         /// <param name="clientId">The client id.</param>
         /// <param name="connection">The connection.</param>
-        public void AddSocket(Guid clientId, Socket connection)
+        public ZipSocket AddSocket(Guid clientId, Socket connection)
         {
             _connectionMutex.WaitOne();
             try
             {
-                _connectionList.Add(clientId, new ZipSocket(connection));
+                ZipSocket socket = new ZipSocket(connection);
+                _connectionList.Add(clientId, socket);
+                return socket;
             }
             finally
             {
                 _connectionMutex.ReleaseMutex();
             }
+
         }
     }
 }

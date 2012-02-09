@@ -5,7 +5,7 @@ namespace SocketServer.Client
 {
     public class ServerEventEventArgs : EventArgs
     {
-        public IEvent ServerEvent
+        public object ServerEvent
         {
             get;
             set;

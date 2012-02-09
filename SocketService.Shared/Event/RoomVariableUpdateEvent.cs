@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace SocketServer.Client
+namespace SocketServer.Shared.Event
 {
     [Serializable]
-    public class RoomVariableUpdateEvent : IEvent
+    public class RoomVariableUpdateEvent //: IEvent
     {
         public string EventName
         {

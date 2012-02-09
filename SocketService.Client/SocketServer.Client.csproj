@@ -49,10 +49,9 @@
     <Compile Include="Events\ConnectionEventArgs.cs" />
     <Compile Include="Data\ClientRoom.cs" />
     <Compile Include="Data\ClientUser.cs" />
-    <Compile Include="Events\IEvent.cs" />
-    <Compile Include="Events\JoinRoomEvent.cs" />
-    <Compile Include="Events\JoinRoomEventArgs.cs" />
-    <Compile Include="Events\LeaveRoomEvent.cs" />
+    <Compile Include="Events\JoinRoomEventArgs.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Events\LeaveRoomEventArgs.cs" />
     <Compile Include="Events\LoginResponseEventArgs.cs" />
     <Compile Include="Events\ServerResponseEventArgs.cs" />
@@ -60,11 +59,8 @@
     <Compile Include="Manager\RoomManager.cs" />
     <Compile Include="Manager\UserManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Events\PublicMessageEvent.cs" />
-    <Compile Include="Events\RoomUserUpdateEvent.cs" />
     <Compile Include="Events\RoomUserUpdateEventArgs.cs" />
     <Compile Include="Events\RoomVariableUpdateArgs.cs" />
-    <Compile Include="Events\RoomVariableUpdateEvent.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="Events\ServerEventEventArgs.cs" />
     <Compile Include="Events\ServerMessageReceivedArgs.cs" />

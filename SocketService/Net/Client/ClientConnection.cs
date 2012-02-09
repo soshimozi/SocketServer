@@ -4,18 +4,23 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto;
 using SocketServer.Shared.Header;
 using SocketServer.Shared;
+using SocketServer.Shared.Sockets;
 
 namespace SocketServer.Net.Client
 {
     public class ClientConnection //: Connection
     {
         private ServerAuthority _sa = null;
+        private readonly ZipSocket clientSocket;
 
-        public ClientConnection(ClientBuffer buffer)
+        public ClientConnection(ClientBuffer buffer, ZipSocket socket)
         {
+            clientSocket = socket;
             ClientBuffer = buffer;
         }
 
+
+        public ZipSocket ClientSocket { get { return clientSocket; } }
         /// <summary>
         /// Gets or sets the client id.
         /// </summary>

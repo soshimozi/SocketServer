@@ -1,4 +1,5 @@
 ﻿using System;
+using SocketServer.Shared.Event;
 
 namespace SocketServer.Client
 {

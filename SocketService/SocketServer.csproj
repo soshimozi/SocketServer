@@ -67,6 +67,7 @@
     <Compile Include="Actions\RoomActionEngine.cs" />
     <Compile Include="Actions\UserActionEngine.cs" />
     <Compile Include="Actions\ZoneActionEngine.cs" />
+    <Compile Include="Command\BroadcastMessageCommand.cs" />
     <Compile Include="Command\CreateRoomCommand.cs" />
     <Compile Include="Command\CreateRoomVariableCommand.cs" />
     <Compile Include="Command\DeleteRoomVariableCommand.cs" />
@@ -100,7 +101,7 @@
     </Compile>
     <Compile Include="Data\User.cs" />
     <Compile Include="Data\Zone.cs" />
-    <Compile Include="Handler\ChangeRoomRequestHandler.cs" />
+    <Compile Include="Handler\CreateRoomRequestHandler.cs" />
     <Compile Include="Handler\CreateRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\DeleteRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\GetKeyParametersRequestHandler.cs" />

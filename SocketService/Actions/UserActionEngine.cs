@@ -20,7 +20,7 @@ namespace SocketServer.Actions
             UserRepository.Instance.Delete(user);
         }
 
-        public bool LoginUser(Guid clientId, string loginName, Room entryRoom)
+        public bool LoginUser(Guid clientId, string loginName, Room room)
         {
             // check for duplicates
             var duplicateUser = UserRepository.Instance.Query(u => u.Name.Equals(loginName)).FirstOrDefault();
@@ -29,33 +29,35 @@ namespace SocketServer.Actions
                 return false;
             }
 
-            var user = new User { ClientKey = clientId, Name = loginName, Room = entryRoom };
+            var user = new User { ClientKey = clientId, Name = loginName };
             UserRepository.Instance.Add(user);
 
-            entryRoom.Users.Add(user);
+            room.Users.Add(user);
 
-            RoomRepository.Instance.Update(entryRoom);
+            RoomRepository.Instance.Update(room);
             UserRepository.Instance.Update(user);
 
             return true;
         }
 
-        public void ClientChangeRoom(Guid clientId, string roomName)
+        public bool ClientChangeRoom(Guid clientId, string roomName)
         {
             var user = UserRepository.Instance.Query(u => u.ClientKey.Equals(clientId)).FirstOrDefault();
             var room = RoomRepository.Instance.Query(r => r.Name.Equals(roomName)).FirstOrDefault();
 
-            if (user == null || room == null) return;
+            if (user == null || room == null) return false;
 
             // remove from old room
             if (user.Room != null)
             {
-                room.Users.Remove(user);
+                user.Room.Users.Remove(user);
             }
 
             room.Users.Add(user);
             RoomRepository.Instance.Update(room);
             UserRepository.Instance.Update(user);
+
+            return true;
         }
 
         public void RemoveAllUsers()

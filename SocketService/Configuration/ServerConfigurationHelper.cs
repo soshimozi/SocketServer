@@ -11,7 +11,7 @@ namespace SocketServer.Configuration
         public static SocketServerConfiguration GetServerConfiguration()
         {
             return (SocketServerConfiguration)ConfigurationManager.
-                GetSection("SocketServerConfiguration");
+                GetSection("socketServerConfiguration");
         }
     }
 }

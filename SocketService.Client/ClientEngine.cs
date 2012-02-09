@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using SocketServer.Client.Manager;
 using SocketServer.Client;
 using SocketServer.Shared.Response;
+using SocketServer.Shared.Event;
 
 namespace SocketServer.Client
 {

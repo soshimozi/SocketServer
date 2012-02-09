@@ -19,6 +19,7 @@ using SocketServer.Shared.Interop.Java;
 using System.IO;
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.X509;
+using SocketServer.Shared.Event;
 
 namespace SocketServer.Client
 {
@@ -133,13 +134,13 @@ namespace SocketServer.Client
                         byte[] data = _socket.ReceiveData();
                         buffer.Write(data);
 
-                        MemoryStream stream = new MemoryStream(buffer.Buffer);
                         bool done = false;
 
                         while (!done)
                         {
                             done = true;
 
+                            MemoryStream stream = new MemoryStream(buffer.Buffer);
                             switch (step)
                             {
                                 case 0: /* reading header */
@@ -159,7 +160,7 @@ namespace SocketServer.Client
                                 case 1:
                                     {
                                         string rawRequestString = stream.ReadUTF();
-                                        if (rawRequestString != null && header != null)
+                                        if (!string.IsNullOrEmpty(rawRequestString) && header != null)
                                         {
                                             ProcessResponse(header, rawRequestString);
                                             step = 0;
@@ -212,10 +213,19 @@ namespace SocketServer.Client
                     }
                     break;
 
-                case ResponseTypes.ChangeRoomResponse:
+                case ResponseTypes.JoinRoomEvent:
                     {
-                        ChangeRoomResponse
+                        JoinRoomEvent evt = XmlSerializationHelper.DeSerialize<JoinRoomEvent>(rawRequestString);
+                        OnServerEvent(new ServerEventEventArgs() { ServerEvent = evt });
                     }
+                    break;
+
+                case ResponseTypes.RoomUserUpdateEvent:
+                    {
+                        RoomUserUpdateEvent evt = XmlSerializationHelper.DeSerialize<RoomUserUpdateEvent>(rawRequestString);
+                        OnServerEvent(new ServerEventEventArgs() { ServerEvent = evt });
+                    }
+                    break;
             }
 
         }

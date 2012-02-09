@@ -11,6 +11,7 @@ namespace SocketServer.Shared
         [XmlEnum]
         NegotiateKeysResponse,
         LoginResponse,
-        ChangeRoomResponse
+        JoinRoomEvent,
+        RoomUserUpdateEvent
     }
 }

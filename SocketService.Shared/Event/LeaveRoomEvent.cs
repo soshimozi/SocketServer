@@ -1,9 +1,9 @@
 ﻿using System;
 
-namespace SocketServer.Client
+namespace SocketServer.Shared.Event
 {
     [Serializable]
-    public class LeaveRoomEvent : IEvent
+    public class LeaveRoomEvent //: IEvent
     {
         #region IEvent Members
 
