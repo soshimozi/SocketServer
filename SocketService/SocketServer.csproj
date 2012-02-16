@@ -44,6 +44,9 @@
     <Reference Include="log4net">
       <HintPath>..\References\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>E:\dev\Libraries\protobufs\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.configuration" />
@@ -104,31 +107,31 @@
     <Compile Include="Handler\CreateRoomRequestHandler.cs" />
     <Compile Include="Handler\CreateRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\DeleteRoomVariableRequestHandler.cs" />
+    <Compile Include="Handler\EnableEncryptionHandler.cs" />
     <Compile Include="Handler\GetKeyParametersRequestHandler.cs" />
     <Compile Include="Handler\IRequestHandler.cs" />
+    <Compile Include="Handler\MessageOneHandler.cs" />
     <Compile Include="Handler\ServiceHandler.cs" />
     <Compile Include="Handler\NegotiateKeysRequestHandler.cs" />
     <Compile Include="Handler\GetRoomVariableRequestHandler.cs" />
     <Compile Include="Handler\LoginRequestHandler.cs" />
     <Compile Include="Handler\PublicMessageRequestHandler.cs" />
     <Compile Include="Handler\UpdateRoomVariableRequestHandler.cs" />
-    <Compile Include="Messaging\BaseMessageHandler.cs" />
-    <Compile Include="Messaging\ICommand.cs" />
-    <Compile Include="Messaging\MessageServer.cs" />
-    <Compile Include="Messaging\MSMQQueueWatcher.cs" />
-    <Compile Include="Messaging\MSMQQueueWrapper.cs" />
+    <Compile Include="Command\BaseCommandHandler.cs" />
+    <Compile Include="Command\ICommand.cs" />
+    <Compile Include="Command\CommandServer.cs" />
+    <Compile Include="Command\MSMQQueueWatcher.cs" />
+    <Compile Include="Command\MSMQQueueWrapper.cs" />
     <Compile Include="Net\ClientRequestEventArgs.cs" />
     <Compile Include="Net\Client\ProtocolState.cs" />
-    <Compile Include="Net\Client\ConnectArgs.cs" />
-    <Compile Include="Net\Client\ClientConnection.cs" />
     <Compile Include="Net\Client\Connection.cs" />
     <Compile Include="Net\Client\ConnectionRepository.cs" />
-    <Compile Include="Net\Client\DisconnectedArgs.cs" />
     <Compile Include="Net\Client\DataRecievedArgs.cs" />
     <Compile Include="Net\SocketManager.cs" />
     <Compile Include="Net\SocketRepository.cs" />
-    <Compile Include="Net\SocketServer.cs" />
-    <Compile Include="Reflection\ReflectionHelper.cs" />
+    <Compile Include="Net\SocketServer.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Repository\IDataRepository.cs" />
     <Compile Include="Repository\RoomRepository.cs" />
     <Compile Include="Repository\ZoneRepository.cs" />
@@ -161,6 +164,10 @@
       <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
       <Name>SocketServer.Crypto</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SocketService.Messages\SocketServer.Messages.csproj">
+      <Project>{9394CA0C-0014-4C8B-8795-3A5C45B254EE}</Project>
+      <Name>SocketServer.Messages</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SocketService.Shared\SocketServer.Shared.csproj">
       <Project>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</Project>
       <Name>SocketServer.Shared</Name>
@@ -187,9 +194,7 @@
     </EntityDeploy>
     <None Include="Data\ServerDataModel.edmx.sqlce" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Serialization\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

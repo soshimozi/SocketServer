@@ -1,10 +1,9 @@
 ﻿using System;
-using SocketServer.Messaging;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    public class DeleteRoomVariableCommand : BaseMessageHandler
+    public class DeleteRoomVariableCommand : BaseCommandHandler
     {
         private readonly Guid _clientId;
         private readonly int _zoneId;

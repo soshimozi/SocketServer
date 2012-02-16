@@ -44,6 +44,9 @@
     <Reference Include="log4net">
       <HintPath>..\References\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>E:\dev\Libraries\protobufs\net40\protobuf-net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -56,13 +59,30 @@
   <ItemGroup>
     <Compile Include="ClientBuffer.cs" />
     <Compile Include="CompressionHelper.cs" />
+    <Compile Include="DataRecievedArgs.cs" />
+    <Compile Include="Messaging\EncryptedMessageEnvelope.cs" />
     <Compile Include="Event\JoinRoomEvent.cs" />
     <Compile Include="Event\LeaveRoomEvent.cs" />
     <Compile Include="Event\PublicMessageEvent.cs" />
     <Compile Include="Event\RoomUserUpdateEvent.cs" />
     <Compile Include="Event\RoomVariableUpdateEvent.cs" />
-    <Compile Include="Interop\Java\SerializationExtensions.cs" />
+    <Compile Include="Messaging\IMessage.cs" />
     <Compile Include="Header\MessageHeader.cs" />
+    <Compile Include="Messaging\MessageEnvelope.cs" />
+    <Compile Include="Messaging\PlainEnvelope.cs" />
+    <Compile Include="Network\ClientConnection.cs" />
+    <Compile Include="Network\ConnectArgs.cs" />
+    <Compile Include="Network\DisconnectedArgs.cs" />
+    <Compile Include="Network\INetworkListener.cs" />
+    <Compile Include="Network\INetworkTransport.cs" />
+    <Compile Include="Network\MessageEventArgs.cs" />
+    <Compile Include="Network\SocketListener.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Network\SocketTransport.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Reflection\ReflectionHelper.cs" />
     <Compile Include="RequestBuilder.cs" />
     <Compile Include="ResponseBuilder.cs" />
     <Compile Include="Plugin\IPluginMetaData.cs" />
@@ -91,6 +111,8 @@
     <Compile Include="Response\LoginResponse.cs" />
     <Compile Include="Response\NegotiateKeysResponse.cs" />
     <Compile Include="Header\ResponseHeader.cs" />
+    <Compile Include="Serialization\SerializationExtensions.cs" />
+    <Compile Include="Serialization\StreamWrapper.cs" />
     <Compile Include="Serialization\XmlSerializationHelper.cs" />
     <Compile Include="Sockets\ZipSocket.cs">
       <SubType>Code</SubType>

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using SocketServer.Messaging;
 using SocketServer.Actions;
 using SocketServer.Repository;
 using SocketServer.Shared;
@@ -8,7 +7,7 @@ using SocketServer.Shared;
 namespace SocketServer.Command
 {
     [Serializable]
-    internal class CreateRoomVariableCommand : BaseMessageHandler
+    internal class CreateRoomVariableCommand : BaseCommandHandler
     {
         private readonly Guid _clientId;
         private readonly string _name;

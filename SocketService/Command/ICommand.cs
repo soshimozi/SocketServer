@@ -1,4 +1,4 @@
-﻿namespace SocketServer.Messaging
+﻿namespace SocketServer.Command
 {
     public interface ICommand
     {

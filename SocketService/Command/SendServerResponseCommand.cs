@@ -2,23 +2,22 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketServer.Messaging;
 using SocketServer.Shared;
 using SocketServer.Shared.Header;
 using SocketServer.Net.Client;
 using SocketServer.Crypto;
 using SocketServer.Shared.Serialization;
-using SocketServer.Shared.Interop.Java;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
 using SocketServer.Shared.Sockets;
 using SocketServer.Net;
+using SocketServer.Shared.Network;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    public class SendServerResponseCommand : BaseMessageHandler
+    public class SendServerResponseCommand : BaseCommandHandler
     {
         private readonly Guid _clientId;
         private readonly string _response;

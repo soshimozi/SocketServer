@@ -8,6 +8,7 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.X509;
 using Org.BouncyCastle.Math;
+using Org.BouncyCastle.Asn1.X509;
 
 namespace SocketServer.Crypto
 {
@@ -41,6 +42,11 @@ namespace SocketServer.Crypto
         }
 
 
+        public AsymmetricCipherKeyPair KeyPair
+        {
+            get { return kp;  }
+        }
+    
         public DHParameters Parameters
         {
             get { return parameters;  }
@@ -67,6 +73,15 @@ namespace SocketServer.Crypto
         public AsymmetricKeyParameter GetPublicKeyParameter()
         {
             return kp.Public;
+        }
+
+        public byte [] GenerateEncodedPublicKeyInfo()
+        {
+            SubjectPublicKeyInfo publicKeyInfo 
+                = SubjectPublicKeyInfoFactory
+                    .CreateSubjectPublicKeyInfo(GetPublicKeyParameter());
+
+            return publicKeyInfo.ToAsn1Object().GetDerEncoded();
         }
 
         public BigInteger GenerateAgreementValue(AsymmetricKeyParameter remotePublicKey)

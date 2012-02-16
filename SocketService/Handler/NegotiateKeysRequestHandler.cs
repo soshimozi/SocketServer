@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using SocketServer.Shared.Request;
-using SocketServer.Messaging;
 using SocketServer.Command;
 
 namespace SocketServer.Handler
@@ -25,6 +24,11 @@ namespace SocketServer.Handler
             }
 
             //return false;
+        }
+
+        void IRequestHandler<NegotiateKeysRequest>.HandleRequest(NegotiateKeysRequest request, Shared.Network.ClientConnection connection)
+        {
+            throw new NotImplementedException();
         }
     }
 }

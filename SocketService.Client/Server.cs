@@ -15,7 +15,6 @@ using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using SocketServer.Shared.Header;
 using SocketServer.Shared.Serialization;
-using SocketServer.Shared.Interop.Java;
 using System.IO;
 using Org.BouncyCastle.Asn1.X509;
 using Org.BouncyCastle.X509;

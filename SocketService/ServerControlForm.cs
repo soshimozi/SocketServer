@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Windows.Forms;
-using SocketServer.Messaging;
 using SocketServer.Net;
 using SocketServer.Configuration;
 using System.Configuration;
+using SocketServer.Command;
 
 namespace SocketServer
 {
     public partial class ServerControlForm : Form
     {
         private readonly SocketManager _serverManager;
-        private readonly MessageServer _messageServer;// = new MessageServer();
+        private readonly CommandServer _messageServer;// = new MessageServer();
 
         public ServerControlForm()
         {
@@ -21,7 +21,7 @@ namespace SocketServer
 
             if (config.Queues.Count > 0)
             {
-                _messageServer = new MessageServer(config.Queues[0].QueueName, config.Queues[0].QueuePath);
+                _messageServer = new CommandServer(config.Queues[0].QueueName, config.Queues[0].QueuePath);
             }
 
             InitializeComponent();

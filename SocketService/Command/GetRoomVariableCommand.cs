@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using SocketServer.Data;
-using SocketServer.Messaging;
 using SocketServer.Repository;
 using SocketServer.Shared;
 using SocketServer.Shared.Response;
@@ -10,7 +9,7 @@ using SocketServer.Shared.Serialization;
 namespace SocketServer.Command
 {
     [Serializable]
-    public class GetRoomVariableCommand : BaseMessageHandler
+    public class GetRoomVariableCommand : BaseCommandHandler
     {
         private readonly int _zoneId;
         private readonly int _roomId;

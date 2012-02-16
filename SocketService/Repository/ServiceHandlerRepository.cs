@@ -5,29 +5,32 @@ using System.Linq;
 using System.Reflection;
 using SocketServer.Configuration;
 using System.Configuration;
-using SocketServer.Reflection;
+using SocketServer.Shared.Reflection;
 using log4net;
 using SocketServer.Handler;
 
 namespace SocketServer.Repository
 {
-    public class ServiceHandlerLookup // : IServiceHandlerRepository
+    public class ServiceHandlerRepository // : IServiceHandlerRepository
     {
+        private const string InterfaceName = "IRequestHandler";
+        private const string MethodName = "HandleRequest";
+            
         private Dictionary<string, ServiceHandler> _handlerMap = new Dictionary<string, ServiceHandler>();
-        private static ServiceHandlerLookup _instance;
+        private static ServiceHandlerRepository _instance;
         private static readonly ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
         /// <summary>
         /// Initializes the <see cref="ServiceHandlerLookup"/> class.
         /// </summary>
-        static ServiceHandlerLookup()
+        static ServiceHandlerRepository()
         {
             SocketServerConfiguration config = ServerConfigurationHelper.GetServerConfiguration();
 
             Instance.LoadHandlers(config);
         }
 
-        protected ServiceHandlerLookup()
+        protected ServiceHandlerRepository()
         {
             //string handlerPath
         }
@@ -35,9 +38,9 @@ namespace SocketServer.Repository
         /// <summary>
         /// Gets the instance.
         /// </summary>
-        public static ServiceHandlerLookup Instance
+        public static ServiceHandlerRepository Instance
         {
-            get { return _instance ?? (_instance = new ServiceHandlerLookup()); }
+            get { return _instance ?? (_instance = new ServiceHandlerRepository()); }
         }
 
         /// <summary>
@@ -105,13 +108,13 @@ namespace SocketServer.Repository
                     object handler = ReflectionHelper.ActivateObject(handlerType, null);
                     if (handler != null)
                     {
-                        Type interfaceType = ReflectionHelper.FindGenericInterfaceMethod("IRequestHandler", new Type[] { requestType }, handlerType);
+                        Type interfaceType = ReflectionHelper.FindGenericInterfaceMethod(InterfaceName, new Type[] { requestType }, handlerType);
                         if (interfaceType != null)
                         {
                             // we are in business
                             try
                             {
-                                MethodInfo mi = interfaceType.GetMethod("HandleRequest");
+                                MethodInfo mi = interfaceType.GetMethod(MethodName);
                                 if (mi != null)
                                 {
                                     ServiceHandler helper = new ServiceHandler(handler, mi);

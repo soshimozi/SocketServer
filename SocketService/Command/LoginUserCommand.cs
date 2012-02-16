@@ -2,7 +2,6 @@
 using System.Linq;
 using SocketServer.Actions;
 using SocketServer.Data;
-using SocketServer.Messaging;
 using SocketServer.Repository;
 using SocketServer.Shared;
 using SocketServer.Shared.Response;
@@ -13,7 +12,7 @@ using SocketServer.Shared.Event;
 namespace SocketServer.Command
 {
     [Serializable]
-    public class LoginUserCommand : BaseMessageHandler
+    public class LoginUserCommand : BaseCommandHandler
     {
         private readonly Guid _clientId;
         private readonly string _username;

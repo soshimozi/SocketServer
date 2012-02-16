@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using SocketServer.Command;
-using SocketServer.Messaging;
 using SocketServer.Repository;
 using SocketServer.Shared.Request;
 
@@ -18,6 +17,11 @@ namespace SocketServer.Handler
                     new PublicMessageCommand(request.ZoneId, request.RoomId, user.Name, request.Message)
                     );
             }
+        }
+
+        public void HandleRequest(PublicMessageRequest request, Shared.Network.ClientConnection connection)
+        {
+            throw new NotImplementedException();
         }
     }
 }

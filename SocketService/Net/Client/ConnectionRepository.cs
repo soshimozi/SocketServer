@@ -6,6 +6,7 @@ using SocketServer.Crypto;
 using SocketServer.Shared;
 using SocketServer.Shared.Sockets;
 using System.Net.Sockets;
+using SocketServer.Shared.Network;
 
 namespace SocketServer.Net.Client
 {
@@ -96,25 +97,25 @@ namespace SocketServer.Net.Client
         /// Adds the connection.
         /// </summary>
         /// <param name="connection">The connection.</param>
-        public ClientConnection NewConnection(ZipSocket socket)
-        {
-            var connection 
-                = new ClientConnection(
-                    new ClientBuffer(),
-                    socket
-                   );
+        //public ClientConnection NewConnection(ZipSocket socket)
+        //{
+        //    var connection 
+        //        = new ClientConnection(
+        //            new ClientBuffer(),
+        //            socket
+        //           );
 
-            _connectionMutex.WaitOne();
-            try
-            {
-                _connectionList.Add(connection);
-            }
-            finally
-            {
-                _connectionMutex.ReleaseMutex();
-            }
+        //    _connectionMutex.WaitOne();
+        //    try
+        //    {
+        //        _connectionList.Add(connection);
+        //    }
+        //    finally
+        //    {
+        //        _connectionMutex.ReleaseMutex();
+        //    }
 
-            return connection;
-        }
+        //    return connection;
+        //}
     }
 }

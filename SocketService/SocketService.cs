@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Diagnostics;
 using System.ServiceProcess;
-using SocketServer.Messaging;
 using SocketServer.Net;
 using SocketServer.Configuration;
 using System.Configuration;
+using SocketServer.Command;
 
 namespace SocketServer
 {
     public partial class SocketService : SocketServiceBase
     {
         private readonly SocketManager _serverManager; 
-        private readonly MessageServer _messageServer;
+        private readonly CommandServer _messageServer;
 
         public SocketService()
         {
@@ -19,7 +19,7 @@ namespace SocketServer
 
             if (config.Queues.Count > 0)
             {
-                _messageServer = new MessageServer(config.Queues[0].QueueName, config.Queues[0].QueuePath);
+                _messageServer = new CommandServer(config.Queues[0].QueueName, config.Queues[0].QueuePath);
             }
 
             _serverManager = new SocketManager(config);

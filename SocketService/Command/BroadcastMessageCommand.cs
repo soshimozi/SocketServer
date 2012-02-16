@@ -2,10 +2,8 @@
 using System.Linq;
 using System.Reflection;
 using log4net;
-using SocketServer.Messaging;
 using SocketServer.Net;
 using SocketServer.Shared;
-using SocketServer.Shared.Interop.Java;
 using SocketServer.Shared.Serialization;
 using SocketServer.Shared.Header;
 using SocketServer.Net.Client;
@@ -13,7 +11,7 @@ using SocketServer.Net.Client;
 namespace SocketServer.Command
 {
     [Serializable]
-    class BroadcastMessageCommand : BaseMessageHandler
+    class BroadcastMessageCommand : BaseCommandHandler
     {
         private readonly static ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -40,22 +38,22 @@ namespace SocketServer.Command
                 {
                     ResponseHeader responseHeader = ResponseBuilder.BuildResponseHeader(_encryptionType, _compressionType, _responseType);
 
-                    connection.ClientSocket.SendData(
-                        XmlSerializationHelper
-                        .Serialize<ResponseHeader>(responseHeader)
-                        .SerializeUTF());
+                    //connection. .ClientSocket.SendData(
+                    //    XmlSerializationHelper
+                    //    .Serialize<ResponseHeader>(responseHeader)
+                    //    .SerializeUTF());
 
 
-                    connection.ClientSocket.SendData(
-                            ResponseBuilder.ProcessResponse(
-                                connection.ServerAuthority,
-                                connection
-                                .RequestHeader
-                                .MessageHeader
-                                .EncryptionHeader
-                                .PublicKey,
-                                responseHeader,
-                                _response).SerializeUTF());
+                    //connection.ClientSocket.SendData(
+                    //        ResponseBuilder.ProcessResponse(
+                    //            connection.ServerAuthority,
+                    //            connection
+                    //            .RequestHeader
+                    //            .MessageHeader
+                    //            .EncryptionHeader
+                    //            .PublicKey,
+                    //            responseHeader,
+                    //            _response).SerializeUTF());
                 }
                 catch (Exception ex)
                 {

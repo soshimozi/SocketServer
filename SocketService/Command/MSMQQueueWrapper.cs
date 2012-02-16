@@ -5,7 +5,7 @@ using log4net;
 using System.Reflection;
 using SocketServer.Configuration;
 
-namespace SocketServer.Messaging
+namespace SocketServer.Command
 {
     public class MSMQQueueWrapper
     {
@@ -20,8 +20,10 @@ namespace SocketServer.Messaging
             {
                 QueuePath = config.Queues[0].QueuePath;
             }
-
-           // QueuePath = ConfigurationManager.AppSettings["ServerMessageQueue"];
+            else
+            {
+                throw new Exception("No queues specified in configuration.");
+            }
         }
 
         /// <summary>

@@ -1,6 +1,5 @@
 ﻿using System;
 using SocketServer.Command;
-using SocketServer.Messaging;
 using SocketServer.Shared.Request;
 
 namespace SocketServer.Handler
@@ -17,6 +16,11 @@ namespace SocketServer.Handler
 
             }
 
+        }
+
+        public void HandleRequest(DeleteRoomVariableRequest request, Shared.Network.ClientConnection connection)
+        {
+            throw new NotImplementedException();
         }
     }
 }

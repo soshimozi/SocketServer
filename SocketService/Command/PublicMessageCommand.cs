@@ -1,10 +1,9 @@
 ﻿using System;
-using SocketServer.Messaging;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    public class PublicMessageCommand : BaseMessageHandler
+    public class PublicMessageCommand : BaseCommandHandler
     {
         private readonly string _message;
         private readonly int _roomId;

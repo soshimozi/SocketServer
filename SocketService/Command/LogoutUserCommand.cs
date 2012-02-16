@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using SocketServer.Actions;
-using SocketServer.Messaging;
 using SocketServer.Net;
 using SocketServer.Net.Client;
 using SocketServer.Repository;
@@ -9,7 +8,7 @@ using SocketServer.Repository;
 namespace SocketServer.Command
 {
     [Serializable]
-    internal class LogoutUserCommand : BaseMessageHandler
+    internal class LogoutUserCommand : BaseCommandHandler
     {
         private readonly Guid _clientId;
 

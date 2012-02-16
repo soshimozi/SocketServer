@@ -1,6 +1,5 @@
 ﻿using System;
 using SocketServer.Command;
-using SocketServer.Messaging;
 using SocketServer.Shared.Request;
 
 namespace SocketServer.Handler
@@ -12,6 +11,11 @@ namespace SocketServer.Handler
             MSMQQueueWrapper.QueueCommand(
                 new CreateRoomVariableCommand(state, request.ZoneId, request.RoomId, request.Name, request.Value)
                 );
+        }
+
+        public void HandleRequest(CreateRoomVariableRequest request, Shared.Network.ClientConnection connection)
+        {
+            throw new NotImplementedException();
         }
     }
 }

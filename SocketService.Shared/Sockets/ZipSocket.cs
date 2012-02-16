@@ -9,7 +9,7 @@ using log4net;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Collections;
-using SocketServer.Shared.Interop.Java;
+using SocketServer.Shared.Serialization;
 
 namespace SocketServer.Shared.Sockets
 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketServer.Messaging;
 using SocketServer.Net.Client;
 using SocketServer.Shared.Response;
 using SocketServer.Crypto;
@@ -15,11 +14,12 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Asn1.X509;
 using SocketServer.Shared;
 using SocketServer.Shared.Serialization;
+using SocketServer.Shared.Network;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    public class NegotiateKeysCommand : BaseMessageHandler
+    public class NegotiateKeysCommand : BaseCommandHandler
     {
         private readonly Guid _clientGuid;
         public NegotiateKeysCommand(Guid clientGuid)
@@ -36,31 +36,24 @@ namespace SocketServer.Command
             ClientConnection connection = ConnectionRepository.Instance.Query(c => c.ClientId == _clientGuid).FirstOrDefault();
             if (connection != null)
             {
-                SubjectPublicKeyInfo publicKeyInfo 
-                    = SubjectPublicKeyInfoFactory
-                        .CreateSubjectPublicKeyInfo(connection.ServerAuthority.GetPublicKeyParameter());
+                //SubjectPublicKeyInfo publicKeyInfo 
+                //    = SubjectPublicKeyInfoFactory
+                //        .CreateSubjectPublicKeyInfo(connection.ServerAuthority.GetPublicKeyParameter());
 
-                NegotiateKeysResponse response = new NegotiateKeysResponse()
-                {
-                    ServerPublicKey = publicKeyInfo.ToAsn1Object().GetDerEncoded(),
-                    Prime = connection.ServerAuthority.P.ToString(16),
-                    G = connection.ServerAuthority.G.ToString(16)
-                };
-
-                MSMQQueueWrapper.QueueCommand(
-                    new SendServerResponseCommand(
-                        _clientGuid, 
-                        XmlSerializationHelper.Serialize<NegotiateKeysResponse>(response),
-                        ResponseTypes.NegotiateKeysResponse, 
-                        connection.RequestHeader.MessageHeader));
-
-                //connection.Provider.RemotePublicKey = new DHPublicKeyParameters(
-                //    ((DHPublicKeyParameters)PublicKeyFactory.CreateKey(_remotePublicKey)).Y, connection.Provider.Parameters);
+                //NegotiateKeysResponse response = new NegotiateKeysResponse()
+                //{
+                //    ServerPublicKey = publicKeyInfo.ToAsn1Object().GetDerEncoded(),
+                //    Prime = connection.ServerAuthority.P.ToString(16),
+                //    G = connection.ServerAuthority.G.ToString(16)
+                //};
 
                 //MSMQQueueWrapper.QueueCommand(
-                //    new SendMessageCommand<NegotiateKeyResponse>(_clientGuid,
-                //                          new NegotiateKeyResponse { RemotePublicKey = connection.Provider.GetEncryptedPublicKey() })
-                //    );
+                //    new SendServerResponseCommand(
+                //        _clientGuid, 
+                //        XmlSerializationHelper.Serialize<NegotiateKeysResponse>(response),
+                //        ResponseTypes.NegotiateKeysResponse, 
+                //        connection.RequestHeader.MessageHeader));
+
             }
         }
     }

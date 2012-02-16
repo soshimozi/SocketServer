@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Linq;
 using SocketServer.Data;
-using SocketServer.Messaging;
 using SocketServer.Repository;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    public class UpdateRoomVariableCommand : BaseMessageHandler
+    public class UpdateRoomVariableCommand : BaseCommandHandler
     {
         private readonly Guid _clientId;
         private readonly string _name;

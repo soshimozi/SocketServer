@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketServer.Messaging;
 using SocketServer.Net.Client;
 using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Security;
 using Org.BouncyCastle.Crypto.Parameters;
 using SocketServer.Crypto;
 using SocketServer.Shared.Response;
+using SocketServer.Shared.Network;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    public class GetKeyParametersCommand : BaseMessageHandler
+    public class GetKeyParametersCommand : BaseCommandHandler
     {
         private readonly Guid _clientId;
         public GetKeyParametersCommand(Guid clientId)

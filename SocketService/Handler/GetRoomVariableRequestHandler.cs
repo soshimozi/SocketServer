@@ -17,5 +17,10 @@ namespace SocketServer.Handler
 
             }
         }
+
+        public void HandleRequest(GetRoomVariableRequest request, Shared.Network.ClientConnection connection)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

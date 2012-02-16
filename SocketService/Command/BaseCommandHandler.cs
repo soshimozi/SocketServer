@@ -2,10 +2,10 @@
 using log4net;
 using System.Reflection;
 
-namespace SocketServer.Messaging
+namespace SocketServer.Command
 {
     [Serializable]
-    public abstract class BaseMessageHandler : ICommand
+    public abstract class BaseCommandHandler : ICommand
     {
         protected static ILog Logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 

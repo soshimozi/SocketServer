@@ -5,9 +5,9 @@ using System.Configuration;
 using System.Reflection;
 using log4net;
 
-namespace SocketServer.Messaging
+namespace TestServer.Command
 {
-    public class MessageServer : MSMQQueueWatcher
+    public class CommandServer : MSMQQueueWatcher
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -17,9 +17,9 @@ namespace SocketServer.Messaging
 
         private readonly string _queueName;
         /// <summary>
-        /// Initializes a new instance of the <see cref="MessageServer"/> class.
+        /// Initializes a new instance of the <see cref="CommandServer"/> class.
         /// </summary>
-        public MessageServer(string queueName, string queuePath)
+        public CommandServer(string queueName, string queuePath)
             : base(queuePath)
         {
             _queueName = queueName;

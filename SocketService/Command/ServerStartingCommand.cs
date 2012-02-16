@@ -1,11 +1,10 @@
 ﻿using System;
 using SocketServer.Actions;
-using SocketServer.Messaging;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    public class ServerStartingCommand : BaseMessageHandler
+    public class ServerStartingCommand : BaseCommandHandler
     {
         public override void Execute()
         {

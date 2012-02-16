@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using SocketServer.Messaging;
 using SocketServer.Shared.Header;
-using SocketServer.Reflection;
+using SocketServer.Shared.Reflection;
 using SocketServer.Shared;
 using SocketServer.Shared.Serialization;
 using System.Reflection;
@@ -16,11 +15,12 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
+using SocketServer.Shared.Network;
 
 namespace SocketServer.Command
 {
     [Serializable]
-    public class HandleClientRequestCommand : BaseMessageHandler
+    public class HandleClientRequestCommand : BaseCommandHandler
     {
         private readonly Guid _clientId;
         private readonly string _request;
@@ -52,7 +52,7 @@ namespace SocketServer.Command
 
                 if (requestObject != null)
                 {
-                    ServiceHandlerLookup.Instance.InvokeHandler(_handlerName, requestObject, _clientId);
+                    ServiceHandlerRepository.Instance.InvokeHandler(_handlerName, requestObject, _clientId);
                 }
             }
         }

@@ -1,6 +1,5 @@
 ﻿using System;
 using SocketServer.Command;
-using SocketServer.Messaging;
 using SocketServer.Shared.Request;
 
 namespace SocketServer.Handler
@@ -13,6 +12,11 @@ namespace SocketServer.Handler
                 new UpdateRoomVariableCommand(state, request.ZoneId, request.RoomId, request.Name, request.Value)
                 );
 
+        }
+
+        public void HandleRequest(UpdateRoomVariableRequest request, Shared.Network.ClientConnection connection)
+        {
+            throw new NotImplementedException();
         }
     }
 }
