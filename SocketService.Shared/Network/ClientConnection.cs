@@ -7,31 +7,33 @@ using SocketServer.Shared;
 using SocketServer.Shared.Sockets;
 using System.Threading;
 using SocketServer.Shared.Serialization;
+using SocketServer.Shared.Messaging;
 using System.Net.Sockets;
 using System.Net;
 using log4net;
-using SocketServer.Shared.Messaging;
+using log4net.Core;
 
 namespace SocketServer.Shared.Network
 {
     public class ClientConnection //: Connection
     {
         private ServerAuthority _sa = null;
+
+        private readonly object sendLock = new object();
         private readonly INetworkTransport client;
 
         private Thread responderThread;
 
         private volatile bool running = false;
 
-        private readonly object sendLock = new object();
-
-        private static ILog Logger = LogManager.GetLogger(typeof(ClientConnection));
+        private static readonly ILog logger = LogManager.GetLogger(typeof(ClientConnection));
 
         public ClientConnection(MessageEnvelope envelope, INetworkTransport client)
         {
             this.client = client;
             Envelope = envelope;
 
+            ClientId = Guid.NewGuid();
             _sa = new ServerAuthority(DHParameterHelper.GenerateParameters());
         }
 
@@ -57,9 +59,6 @@ namespace SocketServer.Shared.Network
 
         public INetworkTransport Transport { get { return client;  } }
 
-
-        //public ZipSocket ClientSocket { get { return zipSocket; } }
-
         /// <summary>
         /// Gets or sets the client id.
         /// </summary>
@@ -68,20 +67,9 @@ namespace SocketServer.Shared.Network
         /// </value>
         public Guid ClientId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the remote public key.
-        /// </summary>
-        /// <value>
-        /// The remote public key.
-        /// </value>
-        //public AsymmetricKeyParameter RemotePublicKey { get; set; }
-
-        //public DHParameters Parameters { get; set; }
-
         public ServerAuthority ServerAuthority
         {
             get { return _sa; }
-            //set;
         }
 
         public ClientBuffer ClientBuffer
@@ -89,12 +77,6 @@ namespace SocketServer.Shared.Network
             get;
             set;
         }
-
-        //public ProtocolState CurrentState
-        //{
-        //    get;
-        //    set;
-        //}
 
         public RequestHeader RequestHeader
         {
@@ -183,7 +165,7 @@ namespace SocketServer.Shared.Network
             }
             catch (Exception ex)
             {
-                Logger.Error(ex);
+                logger.Error(ex);
 
                 client.Disconnect(true);
 
@@ -219,36 +201,14 @@ namespace SocketServer.Shared.Network
                 if (message == null)
                     throw new NullReferenceException("Attempt to send a null message");
 
-                //if (!typeof(T).IsAbstract && !typeof(T).IsInterface)
-                //    MessageFactory.Register(typeof(T));
-
                 using (StreamWrapper wrapper = new StreamWrapper(Transport.Stream))
                 {
                     Envelope.Serialize(message, wrapper);
                 }
 
                 string endpoint = Transport.RemoteEndPoint == null ? "Unknown" : Transport.RemoteEndPoint.ToString();
-                Logger.InfoFormat("Sent message {0} to {1}", message.MessageID, endpoint);
-
-                // wait for a response
-                //bool responded = sendResponded.WaitOne(MessageResponseTimeout, false);
-                //if (!responded) throw new TimeoutException("Timeout waiting for message response");
-
-                //IMessage response = null;
-                //sendResponse = null;
-
-                //if (response is T)
-                //    return (T)response;
-
-                //// Let the protocol have a chance at handling an error response.  
-                //string errorString = Protocol.IsError(response);
-                //if (errorString != null)
-                //	throw new ProtocolException(errorString);
-
-                // If this is not an error message, we need to 
-                // inform the caller that we did not receive what it wanted.
-                //string messageName = response != null ? response.MessageID : "(no message)";
-                //throw new Exception(string.Format("Unexpected Message {0} received in response to {1}", messageName, message.MessageID));
+                logger.Logger.Log(null, Level.Finer, string.Format("Sent message {0} to {1}", message.MessageID, endpoint), null);
+                //Logger.w(Level.Finer, "Sent message {0} to {1}", message.MessageID, endpoint);
             }
         }
 

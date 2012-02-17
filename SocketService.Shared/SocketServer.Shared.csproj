@@ -41,8 +41,8 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\References\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\References\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <HintPath>E:\dev\Libraries\log4net-1.2.10\bin\net\2.0\debug\log4net.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>E:\dev\Libraries\protobufs\net40\protobuf-net.dll</HintPath>
