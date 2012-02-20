@@ -1,0 +1,43 @@
+package message;
+
+option java_package = "com.BlazeServer.Messages";
+option java_outer_classname = "MessageProtos";
+
+message EnableEncryptionRequest {
+  required int32 message_id = 1;        // Unique ID number for this message
+  required bool enable = 2;
+  required bytes publickey = 3;
+}
+
+message EnableEncryptionResponse {
+	required int32 message_id = 1;
+	required bool success = 2;
+	optional bytes publickey = 3;
+}
+
+message ServerConnectionResponse {
+	required int32 message_id = 1;
+
+	message KeyParameters {
+		required string g = 1;
+		required string p = 2;
+	}
+
+	required KeyParameters parameters = 2;
+}
+
+message LoginRequest {
+	required string user_name = 1;
+}
+
+message CreateRoomRequest {
+	required string room_name = 1;
+}
+
+message LoginResponse {
+	required bool success = 1;
+}
+
+message TestMessage {
+	required int32 message_id = 1;
+}

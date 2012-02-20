@@ -10,10 +10,10 @@ using log4net;
 using SocketServer.Shared.Reflection;
 using SocketServer.Shared.Serialization;
 using System.Reflection;
-using SocketServer.Crypto;
 using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
+using SocketServer.Crypto;
 
 namespace SocketServer.Shared.Messaging
 {

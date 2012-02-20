@@ -1,0 +1,31 @@
+-classpath
+'C:/temp/codec/target/classes'
+-encoding
+'UTF-8'
+-protected
+-quiet
+-source
+'1.5'
+-sourcepath
+'C:/temp/codec/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2002-2011 <a href="http://www.apache.org/">The Apache Software Foundation</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'C:/temp/codec/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Commons Codec 1.6 API'
+-link
+'http://download.oracle.com/javase/6/docs/api'
+-link
+'http://download.oracle.com/javaee/6/api'
+-linkoffline
+'http://download.oracle.com/javase/1.5.0/docs/api' 'C:/temp/codec/target/javadoc-bundle-options'
+-use
+-version
+-windowtitle
+'Commons Codec 1.6 API'

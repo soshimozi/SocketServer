@@ -126,7 +126,12 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\SocketServer.Crypto\SocketServer.Crypto.csproj">
+      <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
+      <Name>SocketServer.Crypto</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
