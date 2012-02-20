@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1A6918E7-55F6-4D9D-9AE6-E5F2CD2836C7}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{656E34AF-78EA-4ED0-B67C-B3EA28E002C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestServer</RootNamespace>
-    <AssemblyName>TestServer</AssemblyName>
+    <RootNamespace>SocketServer.Client</RootNamespace>
+    <AssemblyName>SocketService.Event</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -34,20 +34,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Google.ProtocolBuffers">
-      <HintPath>E:\dev\Libraries\protobuf\csharp\Debug\v4.0\Google.ProtocolBuffers.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.ProtocolBuffers.Serialization">
-      <HintPath>E:\dev\Libraries\protobuf\csharp\Debug\v4.0\Google.ProtocolBuffers.Serialization.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\References\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Messaging" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,35 +47,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Addressbook.cs" />
-    <Compile Include="Command\ICommand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Configuration\MessageCollection.cs" />
-    <Compile Include="Configuration\MessageConfigurationElement.cs" />
-    <Compile Include="Configuration\MessageQueueCollection.cs" />
-    <Compile Include="Configuration\MessageQueueConfigurationElement.cs" />
-    <Compile Include="Configuration\RequestHandlerCollection.cs" />
-    <Compile Include="Configuration\RequestHandlerConfigurationElement.cs" />
-    <Compile Include="Configuration\ServerConfigurationHelper.cs" />
-    <Compile Include="Configuration\SocketServerConfiguration.cs" />
-    <Compile Include="Command\BaseCommandHandler.cs" />
-    <Compile Include="Command\CommandServer.cs" />
-    <Compile Include="Command\MSMQQueueWatcher.cs" />
-    <Compile Include="Command\MSMQQueueWrapper.cs" />
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestMessageOne.cs" />
-    <Compile Include="TestMessageTwo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="addressbook.desc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="app.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <ProjectReference Include="..\SocketServer.Shared\SocketServer.Shared.csproj">
+      <Project>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</Project>
+      <Name>SocketServer.Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

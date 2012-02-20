@@ -7,11 +7,11 @@ using System.Net.Sockets;
 using log4net;
 using System.Collections;
 using TestServer.Configuration;
-using TestServer.Reflection;
 using log4net.Config;
 using log4net.Core;
-using TestServer.Network;
-using TestServer.Messaging;
+using SocketServer.Shared.Network;
+using SocketServer.Shared.Messaging;
+using SocketServer.Shared.Reflection;
 
 namespace TestServer
 {
@@ -57,7 +57,7 @@ namespace TestServer
                     Type t = ReflectionHelper.FindType(messageConfiguration.TypeName);
                     if (t != null)
                     {
-                        MessageFactory.Register(messageConfiguration.Name, t);
+                       // MessageFactory.Register(messageConfiguration.Name, t);
                     }
                     else
                     {
@@ -109,14 +109,16 @@ namespace TestServer
 
             while (!stopEvent.WaitOne(100))
             {
-                INetworkTransport transport = listener.AcceptClient(0);
+                INetworkTransport transport = listener.AcceptClient();
                 if (transport != null)
                 {
                     // let's wrap this with a client connection
-                    ClientConnection connection = new ClientConnection(transport);
+                    ClientConnection connection = ClientConnection.CreateClientConnection(new PlainEnvelope(), transport);
 
                     // start pumping messages on this connection
-                    connection.StartMessagePump();
+                    //connection.StartMessagePump();
+
+                    connection.MessageReceived += new EventHandler<MessageEventArgs>(connection_MessageReceived);
 
                     // add to client list
                     AddClient(connection);
@@ -124,6 +126,10 @@ namespace TestServer
             }
 
             listener.Stop();
+        }
+
+        void connection_MessageReceived(object sender, MessageEventArgs e)
+        {
         }
 
         protected void AddClient(ClientConnection connection)
@@ -134,23 +140,23 @@ namespace TestServer
             }
         }
 
-        private List<Socket> BuildSocketList()
-        {
-            var clientList = new List<Socket>();
+        //private List<Socket> BuildSocketList()
+        //{
+        //    var clientList = new List<Socket>();
 
-            lock (connectionListLock)
-            {
-                try
-                {
-                    clientList = connectionList.Select(c => c.Transport.Client).ToList();
-                }
-                catch (Exception ex)
-                {
-                    Logger.ErrorFormat("Error: {0}", ex.Message);
-                }
-            }
+        //    lock (connectionListLock)
+        //    {
+        //        try
+        //        {
+        //            clientList = connectionList.Select(c => c.Transport.Client).ToList();
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Logger.ErrorFormat("Error: {0}", ex.Message);
+        //        }
+        //    }
 
-            return clientList;
-        }
+        //    return clientList;
+        //}
     }
 }

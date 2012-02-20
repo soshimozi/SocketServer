@@ -56,11 +56,19 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Client\SocketServer.Client.csproj">
+    <ProjectReference Include="..\SocketServer.Client\SocketServer.Client.csproj">
       <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
       <Name>SocketServer.Client</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Shared\SocketServer.Shared.csproj">
+    <ProjectReference Include="..\SocketServer.Crypto\SocketServer.Crypto.csproj">
+      <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
+      <Name>SocketServer.Crypto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketServer.Messages\SocketServer.Messages.csproj">
+      <Project>{9394CA0C-0014-4C8B-8795-3A5C45B254EE}</Project>
+      <Name>SocketServer.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketServer.Shared\SocketServer.Shared.csproj">
       <Project>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</Project>
       <Name>SocketServer.Shared</Name>
     </ProjectReference>

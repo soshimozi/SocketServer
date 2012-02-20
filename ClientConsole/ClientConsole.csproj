@@ -38,6 +38,12 @@
     <Reference Include="BouncyCastle.Crypto, Version=1.7.4114.6375, Culture=neutral, PublicKeyToken=0e99375e54769942">
       <HintPath>..\References\BouncyCastle.Crypto.dll</HintPath>
     </Reference>
+    <Reference Include="Google.ProtocolBuffers, Version=2.4.1.473, Culture=neutral, PublicKeyToken=55f7125234beb589, processorArchitecture=MSIL">
+      <HintPath>E:\dev\Libraries\protobuf\csharp\Debug\v4.0\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers.Serialization">
+      <HintPath>E:\dev\Libraries\protobuf\csharp\Debug\v4.0\Google.ProtocolBuffers.Serialization.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
       <HintPath>E:\dev\Libraries\log4net\log4net.dll</HintPath>
     </Reference>
@@ -60,15 +66,19 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SocketService.Crypto\SocketServer.Crypto.csproj">
+    <ProjectReference Include="..\SocketServer.Client\SocketServer.Client.csproj">
+      <Project>{93FD4F32-5214-40E3-8E36-5B4E354F10C4}</Project>
+      <Name>SocketServer.Client</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SocketServer.Crypto\SocketServer.Crypto.csproj">
       <Project>{4138075A-49CD-4A46-92CB-DFF64A0BB0B6}</Project>
       <Name>SocketServer.Crypto</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Messages\SocketServer.Messages.csproj">
+    <ProjectReference Include="..\SocketServer.Messages\SocketServer.Messages.csproj">
       <Project>{9394CA0C-0014-4C8B-8795-3A5C45B254EE}</Project>
       <Name>SocketServer.Messages</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SocketService.Shared\SocketServer.Shared.csproj">
+    <ProjectReference Include="..\SocketServer.Shared\SocketServer.Shared.csproj">
       <Project>{7C9013CF-CEC4-4F7D-B80D-C6FA2E243CF1}</Project>
       <Name>SocketServer.Shared</Name>
     </ProjectReference>

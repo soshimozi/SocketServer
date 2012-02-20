@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ServerDataModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.4.0" ProviderManifestToken="4.0" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="ServerDataModelStoreContainer">
+    <EntitySet Name="Rooms" EntityType="ServerDataModel.Store.Rooms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="ServerDataModel.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Variables" EntityType="ServerDataModel.Store.Variables" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Extensions" EntityType="ServerDataModel.Store.Extensions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Plugins" EntityType="ServerDataModel.Store.Plugins" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Variables_RoomVariable" EntityType="ServerDataModel.Store.Variables_RoomVariable" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Variables_UserVariable" EntityType="ServerDataModel.Store.Variables_UserVariable" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="RoomUser" Association="ServerDataModel.Store.RoomUser">
+      <End Role="Room" EntitySet="Rooms" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="RoomRoomVariable" Association="ServerDataModel.Store.RoomRoomVariable">
+      <End Role="Room" EntitySet="Rooms" />
+      <End Role="RoomVariable" EntitySet="Variables_RoomVariable" />
+    </AssociationSet>
+    <AssociationSet Name="UserUserVariable" Association="ServerDataModel.Store.UserUserVariable">
+      <End Role="User" EntitySet="Users" />
+      <End Role="UserVariable" EntitySet="Variables_UserVariable" />
+    </AssociationSet>
+    <AssociationSet Name="ExtensionPlugin" Association="ServerDataModel.Store.ExtensionPlugin">
+      <End Role="Extension" EntitySet="Extensions" />
+      <End Role="Plugin" EntitySet="Plugins" />
+    </AssociationSet>
+    <AssociationSet Name="RoomPlugin" Association="ServerDataModel.Store.RoomPlugin">
+      <End Role="Room" EntitySet="Rooms" />
+      <End Role="Plugin" EntitySet="Plugins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_RoomVariable_inherits_Variable" Association="ServerDataModel.Store.FK_RoomVariable_inherits_Variable">
+      <End Role="Variable" EntitySet="Variables" />
+      <End Role="RoomVariable" EntitySet="Variables_RoomVariable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserVariable_inherits_Variable" Association="ServerDataModel.Store.FK_UserVariable_inherits_Variable">
+      <End Role="Variable" EntitySet="Variables" />
+      <End Role="UserVariable" EntitySet="Variables_UserVariable" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Rooms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="IsPersistable" Type="bit" Nullable="false" />
+    <Property Name="Capacity" Type="int" Nullable="false" />
+    <Property Name="IsPrivate" Type="bit" Nullable="false" />
+    <Property Name="Password" Type="nvarchar" Nullable="false" />
+    <Property Name="ZoneName" Type="nvarchar" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="ClientKey" Type="uniqueidentifier" Nullable="false" />
+    <Property Name="RoomId" Type="bigint" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Variables">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+    <Property Name="Value" Type="varbinary" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Extensions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Plugins">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Handle" Type="nvarchar" Nullable="false" />
+    <Property Name="ExtensionId" Type="bigint" Nullable="false" />
+    <Property Name="RoomId" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Variables_RoomVariable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="RoomId" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Variables_UserVariable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="UserId" Type="bigint" Nullable="false" />
+    <Property Name="Id" Type="bigint" Nullable="false" />
+  </EntityType>
+  <Association Name="RoomUser">
+    <End Role="Room" Type="ServerDataModel.Store.Rooms" Multiplicity="0..1" />
+    <End Role="User" Type="ServerDataModel.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RoomRoomVariable">
+    <End Role="Room" Type="ServerDataModel.Store.Rooms" Multiplicity="1" />
+    <End Role="RoomVariable" Type="ServerDataModel.Store.Variables_RoomVariable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RoomVariable">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="UserUserVariable">
+    <End Role="User" Type="ServerDataModel.Store.Users" Multiplicity="1" />
+    <End Role="UserVariable" Type="ServerDataModel.Store.Variables_UserVariable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserVariable">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ExtensionPlugin">
+    <End Role="Extension" Type="ServerDataModel.Store.Extensions" Multiplicity="1" />
+    <End Role="Plugin" Type="ServerDataModel.Store.Plugins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Extension">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Plugin">
+        <PropertyRef Name="ExtensionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RoomPlugin">
+    <End Role="Room" Type="ServerDataModel.Store.Rooms" Multiplicity="1" />
+    <End Role="Plugin" Type="ServerDataModel.Store.Plugins" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Room">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Plugin">
+        <PropertyRef Name="RoomId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_RoomVariable_inherits_Variable">
+    <End Role="Variable" Type="ServerDataModel.Store.Variables" Multiplicity="1" />
+    <End Role="RoomVariable" Type="ServerDataModel.Store.Variables_RoomVariable" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Variable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="RoomVariable">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserVariable_inherits_Variable">
+    <End Role="Variable" Type="ServerDataModel.Store.Variables" Multiplicity="1" />
+    <End Role="UserVariable" Type="ServerDataModel.Store.Variables_UserVariable" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Variable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="UserVariable">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ServerDataModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="ServerDataEntities" annotation:LazyLoadingEnabled="true" >
+          <EntitySet Name="Rooms" EntityType="ServerDataModel.Room" />
+          <EntitySet Name="Users" EntityType="ServerDataModel.User" />
+          <EntitySet Name="Variables" EntityType="ServerDataModel.Variable" />
+          <EntitySet Name="Extensions" EntityType="ServerDataModel.Extension" />
+          <EntitySet Name="Plugins" EntityType="ServerDataModel.Plugin" />
+          <AssociationSet Name="RoomUser" Association="ServerDataModel.RoomUser">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="RoomRoomVariable" Association="ServerDataModel.RoomRoomVariable">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="RoomVariable" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="UserUserVariable" Association="ServerDataModel.UserUserVariable">
+            <End Role="User" EntitySet="Users" />
+            <End Role="UserVariable" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="ExtensionPlugin" Association="ServerDataModel.ExtensionPlugin">
+            <End Role="Extension" EntitySet="Extensions" />
+            <End Role="Plugin" EntitySet="Plugins" />
+          </AssociationSet>
+          <AssociationSet Name="RoomPlugin" Association="ServerDataModel.RoomPlugin">
+            <End Role="Room" EntitySet="Rooms" />
+            <End Role="Plugin" EntitySet="Plugins" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Room">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Boolean" Name="IsPersistable" Nullable="false" />
+          <Property Type="Int32" Name="Capacity" Nullable="false" />
+          <Property Type="Boolean" Name="IsPrivate" Nullable="false" />
+          <Property Type="String" Name="Password" Nullable="false" />
+          <Property Type="String" Name="ZoneName" Nullable="true" />
+          <NavigationProperty Name="Users" Relationship="ServerDataModel.RoomUser" FromRole="Room" ToRole="User" />
+          <NavigationProperty Name="RoomVariables" Relationship="ServerDataModel.RoomRoomVariable" FromRole="Room" ToRole="RoomVariable" />
+          <NavigationProperty Name="Plugins" Relationship="ServerDataModel.RoomPlugin" FromRole="Room" ToRole="Plugin" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Guid" Name="ClientKey" Nullable="false" />
+          <NavigationProperty Name="Room" Relationship="ServerDataModel.RoomUser" FromRole="User" ToRole="Room" />
+          <Property Type="Int64" Name="RoomId" Nullable="true" />
+          <NavigationProperty Name="UserVariables" Relationship="ServerDataModel.UserUserVariable" FromRole="User" ToRole="UserVariable" />
+        </EntityType>
+        <EntityType Name="Variable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Binary" Name="Value" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserVariable" BaseType="ServerDataModel.Variable" >
+          <NavigationProperty Name="User" Relationship="ServerDataModel.UserUserVariable" FromRole="UserVariable" ToRole="User" />
+          <Property Type="Int64" Name="UserId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RoomVariable" BaseType="ServerDataModel.Variable">
+          <NavigationProperty Name="Room" Relationship="ServerDataModel.RoomRoomVariable" FromRole="RoomVariable" ToRole="Room" />
+          <Property Type="Int64" Name="RoomId" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Extension">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="None" />
+          <Property Type="String" Name="Name" Nullable="false" />
+          <NavigationProperty Name="Plugins" Relationship="ServerDataModel.ExtensionPlugin" FromRole="Extension" ToRole="Plugin" />
+        </EntityType>
+        <EntityType Name="Plugin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Handle" Nullable="false" />
+          <NavigationProperty Name="Extension" Relationship="ServerDataModel.ExtensionPlugin" FromRole="Plugin" ToRole="Extension" />
+          <Property Type="Int64" Name="ExtensionId" Nullable="false" />
+          <NavigationProperty Name="Room" Relationship="ServerDataModel.RoomPlugin" FromRole="Plugin" ToRole="Room" />
+          <Property Type="Int64" Name="RoomId" Nullable="false" />
+        </EntityType>
+        <Association Name="RoomUser">
+          <End Type="ServerDataModel.Room" Role="Room" Multiplicity="0..1" />
+          <End Type="ServerDataModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoomRoomVariable">
+          <End Type="ServerDataModel.Room" Role="Room" Multiplicity="1" />
+          <End Type="ServerDataModel.RoomVariable" Role="RoomVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RoomVariable">
+              <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="UserUserVariable">
+          <End Type="ServerDataModel.User" Role="User" Multiplicity="1" />
+          <End Type="ServerDataModel.UserVariable" Role="UserVariable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserVariable">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ExtensionPlugin">
+          <End Type="ServerDataModel.Extension" Role="Extension" Multiplicity="1" />
+          <End Type="ServerDataModel.Plugin" Role="Plugin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Extension">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Plugin">
+              <PropertyRef Name="ExtensionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RoomPlugin">
+          <End Type="ServerDataModel.Room" Role="Room" Multiplicity="1" />
+          <End Type="ServerDataModel.Plugin" Role="Plugin" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Room">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Plugin">
+              <PropertyRef Name="RoomId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="ServerDataModelStoreContainer" CdmEntityContainer="ServerDataEntities">
+    <EntitySetMapping Name="Rooms">
+      <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.Room)">
+        <MappingFragment StoreEntitySet="Rooms">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="IsPersistable" ColumnName="IsPersistable" />
+          <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+          <ScalarProperty Name="IsPrivate" ColumnName="IsPrivate" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ZoneName" ColumnName="ZoneName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ClientKey" ColumnName="ClientKey" />
+          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Variables">
+      <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.Variable)">
+        <MappingFragment StoreEntitySet="Variables">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Value" ColumnName="Value" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.RoomVariable)">
+        <MappingFragment StoreEntitySet="Variables_RoomVariable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.UserVariable)">
+        <MappingFragment StoreEntitySet="Variables_UserVariable">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Extensions">
+      <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.Extension)">
+        <MappingFragment StoreEntitySet="Extensions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Plugins">
+      <EntityTypeMapping TypeName="IsTypeOf(ServerDataModel.Plugin)">
+        <MappingFragment StoreEntitySet="Plugins">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Handle" ColumnName="Handle" />
+          <ScalarProperty Name="ExtensionId" ColumnName="ExtensionId" />
+          <ScalarProperty Name="RoomId" ColumnName="RoomId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="Model1" >
+        <EntityTypeShape EntityType="ServerDataModel.Room" Width="1.5" PointX="5.125" PointY="0.5" Height="2.9417936197916665" />
+        <EntityTypeShape EntityType="ServerDataModel.User" Width="1.5" PointX="2.75" PointY="2.625" Height="2.172587890625" />
+        <EntityTypeShape EntityType="ServerDataModel.Variable" Width="1.5" PointX="0.5" PointY="3" Height="1.59568359375" />
+        <EntityTypeShape EntityType="ServerDataModel.UserVariable" Width="1.5" PointX="0.5" PointY="0.625" Height="1.0187792968750031" />
+        <EntityTypeShape EntityType="ServerDataModel.RoomVariable" Width="1.5" PointX="2.375" PointY="0.625" Height="1.4033821614583339" />
+        <EntityTypeShape EntityType="ServerDataModel.Extension" Width="1.5" PointX="7.75" PointY="4.25" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="ServerDataModel.Plugin" Width="1.5" PointX="5.25" PointY="4.25" Height="2.1725878906249996" />
+        <AssociationConnector Association="ServerDataModel.RoomUser">
+          <ConnectorPoint PointX="5.125" PointY="3.1295475260416667" />
+          <ConnectorPoint PointX="4.25" PointY="3.1295475260416667" />
+        </AssociationConnector>
+        <AssociationConnector Association="ServerDataModel.RoomRoomVariable">
+          <ConnectorPoint PointX="5.125" PointY="1.2354484049479164" />
+          <ConnectorPoint PointX="3.875" PointY="1.2354484049479164" />
+        </AssociationConnector>
+        <AssociationConnector Association="ServerDataModel.UserUserVariable">
+          <ConnectorPoint PointX="2.75" PointY="3.7112939453125" />
+          <ConnectorPoint PointX="2.25" PointY="3.7112939453125" />
+          <ConnectorPoint PointX="2.25" PointY="2.75" />
+          <ConnectorPoint PointX="1.25" PointY="2.75" />
+          <ConnectorPoint PointX="1.25" PointY="2.0283821614583335" />
+        </AssociationConnector>
+        <InheritanceConnector EntityType="ServerDataModel.UserVariable">
+          <ConnectorPoint PointX="1.25" PointY="3" />
+          <ConnectorPoint PointX="1.25" PointY="2.0283821614583335" />
+        </InheritanceConnector>
+        <InheritanceConnector EntityType="ServerDataModel.RoomVariable">
+          <ConnectorPoint PointX="1.25" PointY="3" />
+          <ConnectorPoint PointX="1.25" PointY="2.3283821614583333" />
+          <ConnectorPoint PointX="3.125" PointY="2.3283821614583333" />
+          <ConnectorPoint PointX="3.125" PointY="2.0283821614583339" />
+        </InheritanceConnector>
+        <AssociationConnector Association="ServerDataModel.ExtensionPlugin">
+          <ConnectorPoint PointX="7.75" PointY="5.047841796875" />
+          <ConnectorPoint PointX="6.75" PointY="5.047841796875" />
+        </AssociationConnector>
+        <AssociationConnector Association="ServerDataModel.RoomPlugin">
+          <ConnectorPoint PointX="5.9375" PointY="3.6340950520833331" />
+          <ConnectorPoint PointX="5.9375" PointY="4.25" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

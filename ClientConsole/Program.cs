@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using SocketServer;
 using System.Threading;
 using System.Net.Sockets;
 using SocketServer.Shared.Serialization;
@@ -11,6 +10,7 @@ using SocketServer.Shared.Network;
 using SocketServer.Messages;
 using SocketServer.Crypto;
 using Org.BouncyCastle.Math;
+using com.BlazeServer.Messages.MessageProtos;
 
 namespace ClientConsole
 {
@@ -135,11 +135,11 @@ namespace ClientConsole
         private static void HandleEnableEncryptionResponse(MessageEventArgs e)
         {
             EnableEncryptionResponse response = e.Message as EnableEncryptionResponse;
-            encryptionEnabled = response.Enabled;
+            encryptionEnabled = response.Success;
 
             if (encryptionEnabled)
             {
-                e.ClientConnection.Envelope = new EncryptedMessageEnvelope(
+                e.ClientConnection.Envelope = new EncryptedMessageEnvelope((ICrypto)
                     new SharedKeyCrypto(
                         sa.Parameters,
                         sa.KeyPair,
@@ -151,19 +151,19 @@ namespace ClientConsole
 
         private static void HandleServerConnectResponse(MessageEventArgs e)
         {
-            ServerConnectionResponse response = e.Message as ServerConnectionResponse;
+            //ServerConnectionResponse response = e.Message as ServerConnectionResponse;
 
-            sa = new ServerAuthority(new BigInteger(response.DiffieHellmanInfo.P, 16), new BigInteger(response.DiffieHellmanInfo.G, 16));
-            serverPublicKey = response.DiffieHellmanInfo.PublicKeyInfo;
+            //sa = new ServerAuthority(new BigInteger(response.DiffieHellmanInfo.P, 16), new BigInteger(response.DiffieHellmanInfo.G, 16));
+            //serverPublicKey = response.DiffieHellmanInfo.PublicKeyInfo;
 
-            // now enable encryption
-            e.ClientConnection.Send(
-                new EnableEncryptionMessage() 
-                { 
-                    MessageID = "EnableEncryptionMessage", 
-                    Enable = true, 
-                    PublicKeyInfo = sa.GenerateEncodedPublicKeyInfo() 
-                });
+            //// now enable encryption
+            //e.ClientConnection.Send(
+            //    new EnableEncryptionMessage() 
+            //    { 
+            //        MessageID = "EnableEncryptionMessage", 
+            //        Enable = true, 
+            //        PublicKeyInfo = sa.GenerateEncodedPublicKeyInfo() 
+            //    });
         }
 
         static void client_ClientClosed(object sender, DisconnectedArgs e)

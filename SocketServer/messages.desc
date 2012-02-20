@@ -1,0 +1,31 @@
+
+—
+messages.protomessage"P
+EnableEncryptionRequest
+
+message_id (
+enable (
+	publickey ("R
+EnableEncryptionResponse
+
+message_id (
+success (
+	publickey ("š
+ServerConnectionResponse
+
+message_id (C
+
+parameters (2/.message.ServerConnectionResponse.KeyParameters%
+KeyParameters	
+g (		
+p (	"!
+LoginRequest
+	user_name (	"&
+CreateRoomRequest
+	room_name (	" 
+LoginResponse
+success ("!
+TestMessage
+
+message_id (B)
+com.BlazeServer.MessagesBMessageProtos

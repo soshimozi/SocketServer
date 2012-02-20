@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TestServer.Messaging;
+using SocketServer.Shared.Messaging;
 
 namespace TestServer
 {
-    public class TestMessageOne : IMessage
+    public class TestMessageOne : IValidatedMessage
     {
         public string MessageID
         {
