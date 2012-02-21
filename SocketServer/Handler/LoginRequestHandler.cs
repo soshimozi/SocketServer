@@ -22,6 +22,8 @@ namespace SocketServer.Handler
                 user = new User() { Name = request.UserName };
                 UserRepository.Instance.Add(user);
 
+                user.ClientKey = connection.ClientId;
+
                 success = true;
             }
 

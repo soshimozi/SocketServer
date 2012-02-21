@@ -4,6 +4,7 @@ using System.Configuration;
 using log4net;
 using System.Reflection;
 using SocketServer.Configuration;
+using System.Threading;
 
 namespace SocketServer.Command
 {
@@ -32,24 +33,38 @@ namespace SocketServer.Command
         /// <param name="c">The c.</param>
         public static void QueueCommand(ICommand c)
         {
-            try
-            {
-                // open the queue
-                var mq = new MessageQueue(QueuePath)
-                 {DefaultPropertiesToSend = {Recoverable = true}, Formatter = new BinaryMessageFormatter()};
+            ThreadPool.QueueUserWorkItem(new WaitCallback(
+                (obj) =>
+                {
+                    try
+                    {
+                        var command = (ICommand)obj;
+                        command.Execute();
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error(ex.ToString());
+                    }
+                }), c);
 
-                // set the message to durable.
+            //try
+            //{
+            //    // open the queue
+            //    var mq = new MessageQueue(QueuePath)
+            //     {DefaultPropertiesToSend = {Recoverable = true}, Formatter = new BinaryMessageFormatter()};
 
-                // set the formatter to Binary, default is XML
+            //    // set the message to durable.
 
-                // send the command object
-                mq.Send(c, "Command Message");
-                mq.Close();
-            }
-            catch (Exception e)
-            {
-                Log.ErrorFormat("Error: {0}", e.Message);
-            }
+            //    // set the formatter to Binary, default is XML
+
+            //    // send the command object
+            //    mq.Send(c, "Command Message");
+            //    mq.Close();
+            //}
+            //catch (Exception e)
+            //{
+            //    Log.ErrorFormat("Error: {0}", e.Message);
+            //}
         }
 
     }

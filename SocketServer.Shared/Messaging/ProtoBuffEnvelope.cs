@@ -14,6 +14,7 @@ using Org.BouncyCastle.Crypto;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using SocketServer.Crypto;
+using log4net.Core;
 
 namespace SocketServer.Shared.Messaging
 {
@@ -52,6 +53,8 @@ namespace SocketServer.Shared.Messaging
         {
             IMessage message = (IMessage)messageObject;
             string descriptorName = message.DescriptorForType.FullName;
+
+            logger.Logger.Log(typeof(ProtoBuffEnvelope), Level.Finer, string.Format("sending {0}", descriptorName), null);
 
             if (encryptionEnabled)
             {
@@ -98,7 +101,11 @@ namespace SocketServer.Shared.Messaging
                 string privateKey = serverAuthority.GenerateAgreementValue(remotePublicKey).ToString(16);
                 RijndaelCrypto crypto = new RijndaelCrypto();
 
-                Type t = registry.GetTypeForDescriptor(crypto.Decrypt(descriptorName, privateKey));
+                descriptorName = crypto.Decrypt(descriptorName, privateKey);
+
+                logger.Logger.Log(typeof(ProtoBuffEnvelope), Level.Finer, string.Format("recieving {0}", descriptorName), null);
+
+                Type t = registry.GetTypeForDescriptor(descriptorName);
                 if (t != null)
                 {
                     return ReflectionHelper.InvokeStaticMethodOnType(t, "ParseFrom", crypto.Decrypt(buffer, privateKey));
@@ -111,6 +118,8 @@ namespace SocketServer.Shared.Messaging
 
                 int length = stream.ReadInt();
                 byte[] buffer = stream.Read(length);
+
+                logger.Logger.Log(typeof(ProtoBuffEnvelope), Level.Finer, string.Format("recieving {0}", descriptorName), null);
 
                 Type t = registry.GetTypeForDescriptor(descriptorName);
                 if (t != null)

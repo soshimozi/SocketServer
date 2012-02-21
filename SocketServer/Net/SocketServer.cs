@@ -127,9 +127,11 @@ namespace SocketServer.Net
         /// Disconnects the client.
         /// </summary>
         /// <param name="clientId"></param>
-        public void DisconnectClient(Guid clientId)
+        public void DisconnectClient(ClientConnection connection)
         {
-            OnClientDisconnected(this, new DisconnectedArgs() { ClientId = clientId });
+            connection.Disconnect();
+
+            OnClientDisconnected(this, new DisconnectedArgs() { Connection = connection });
         }
 
         protected virtual void OnClientConnected(Guid clientId, ClientConnection connection, string remoteAddress)
@@ -149,9 +151,10 @@ namespace SocketServer.Net
                 // remove channel from our internal list
                 for (int i = 0; i < _connectionList.Count; i++)
                 {
-                    if (_connectionList.ContainsKey(args.ClientId))
+                    if (_connectionList.ContainsKey(args.Connection.ClientId))
                     {
-                        _connectionList.Remove(args.ClientId);
+                        var connection = _connectionList[args.Connection.ClientId];
+                        _connectionList.Remove(args.Connection.ClientId);
                         break;
                     }
                 }

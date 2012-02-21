@@ -37,9 +37,12 @@ public class ProtoBuffEnvelope extends MessageEnvelope {
 	
 	@Override
 	public void Serialize(Object messageObject, OutputStream stream) throws IOException {
+            
 		DataOutputStream dos = new DataOutputStream(stream);
-		
 		Message message = (Message)messageObject;
+
+                System.out.println("sending: " + message.getDescriptorForType().getFullName());
+                
 
 		if( encryptionEnabled ) {
 			
@@ -93,28 +96,28 @@ public class ProtoBuffEnvelope extends MessageEnvelope {
 	@Override
 	public Object Deserialize(InputStream stream) throws IOException {
 		
-		DataInputStream dis = new DataInputStream(stream);
-        String descriptorName = dis.readUTF();
+            DataInputStream dis = new DataInputStream(stream);
+            String descriptorName = dis.readUTF();
 
-        if( encryptionEnabled ) {
+            if( encryptionEnabled ) {
         	
 			String privateKey = sa.generateAgreementValue(remotePublicKey).toString(16);
 			try {
-				descriptorName = EncryptionHelper.decrypt(descriptorName, privateKey);
-		        System.out.println(descriptorName);		        
+                            descriptorName = EncryptionHelper.decrypt(descriptorName, privateKey);
+                            System.out.println("receiving: " + descriptorName);		        
 
-		        byte[] messageBuffer = new byte[dis.readInt()];
-		        dis.read(messageBuffer);
-				
-		        byte[] decryptedBytes = EncryptionHelper.decrypt(messageBuffer, privateKey);
-		        
-		        Object value = null;
-		        try {
-					value = objectFromBuffer(descriptorName, decryptedBytes);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                            byte[] messageBuffer = new byte[dis.readInt()];
+                            dis.read(messageBuffer);
+
+                            byte[] decryptedBytes = EncryptionHelper.decrypt(messageBuffer, privateKey);
+
+                            Object value = null;
+                            try {
+                                    value = objectFromBuffer(descriptorName, decryptedBytes);
+                            } catch (Exception e) {
+                                            // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
 		        
 		        return value;
 		        
@@ -137,8 +140,8 @@ public class ProtoBuffEnvelope extends MessageEnvelope {
         	
         	return null;
         	
-        } else {
-	        System.out.println(descriptorName);
+            } else {
+                System.out.println("receiving: " + descriptorName);		        
 	       
 	        byte[] messageBuffer = new byte[dis.readInt()];
 	        dis.read(messageBuffer);
@@ -152,7 +155,7 @@ public class ProtoBuffEnvelope extends MessageEnvelope {
 			}
 	        
 	        return value;
-        }
+            }
 	}
 	
 	public void enableEncryption(ServerAuthority sa, byte [] publicKey) {

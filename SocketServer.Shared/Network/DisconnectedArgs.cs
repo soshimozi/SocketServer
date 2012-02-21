@@ -13,9 +13,9 @@ namespace SocketServer.Shared.Network
         /// Initializes a new instance of the <see cref="DisconnectedArgs"/> class.
         /// </summary>
         /// <param name="clientId">The client id.</param>
-        public DisconnectedArgs(Guid clientId)
+        public DisconnectedArgs(ClientConnection connection)
         {
-            ClientId = clientId;
+            Connection = connection;
         }
 
         /// <summary>
@@ -24,6 +24,6 @@ namespace SocketServer.Shared.Network
         /// <value>
         /// The client id.
         /// </value>
-        public Guid ClientId { get; set; }
+        public ClientConnection Connection { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 
-—
+ú
 messages.protomessage"P
 EnableEncryptionRequest
 
@@ -22,7 +22,17 @@ parameters (2/.message.ServerConnectionResponse.KeyParameters%
 LoginRequest
 	user_name (	"&
 CreateRoomRequest
-	room_name (	" 
+	room_name (	"W
+CreateRoomVariableRequest
+	room_name (	'
+variable (2.message.RoomVariable"+
+RoomVariable
+name (	
+value (	"[
+JoinRoomEvent
+	room_name (	
+users (	(
+	variables (2.message.RoomVariable" 
 LoginResponse
 success ("!
 TestMessage

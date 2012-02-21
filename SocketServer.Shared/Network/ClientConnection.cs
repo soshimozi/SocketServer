@@ -57,6 +57,11 @@ namespace SocketServer.Shared.Network
             Connect(Transport.Address, Transport.Port);
         }
 
+        public void Disconnect()
+        {
+            Transport.Disconnect(true);
+        }
+
         public INetworkTransport Transport { get { return client;  } }
 
         /// <summary>
@@ -164,6 +169,8 @@ namespace SocketServer.Shared.Network
             {
                 logger.Error(ex);
                 client.Disconnect(true);
+
+                OnClientClosed(new DisconnectedArgs() { Connection = this });
             }
         }
 
@@ -215,6 +222,8 @@ namespace SocketServer.Shared.Network
                 {
                     logger.Error(ex);
                     client.Disconnect(true);
+
+                    OnClientClosed(new DisconnectedArgs() { Connection = this });
                 }
             }
         }

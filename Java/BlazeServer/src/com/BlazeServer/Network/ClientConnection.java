@@ -107,6 +107,10 @@ public final class ClientConnection implements Runnable {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+                                
+				// IOException is from socket
+				fireClientClosed();
+				running = false;                                
 			}
 			
 			if( null != stream ) {

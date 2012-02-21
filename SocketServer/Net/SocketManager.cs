@@ -21,6 +21,7 @@ using Google.ProtocolBuffers.DescriptorProtos;
 using SocketServer.Shared.Messaging;
 using com.BlazeServer.Messages.MessageProtos;
 using Google.ProtocolBuffers;
+using System.Threading;
 
 namespace SocketServer.Net
 {
@@ -86,7 +87,16 @@ namespace SocketServer.Net
 
         protected void SocketServerClientDisconnecting(object sender, DisconnectedArgs e)
         {
-            MSMQQueueWrapper.QueueCommand(new LogoutUserCommand(e.ClientId));
+            //Thread thread = new Thread(new ParameterizedThreadStart(
+            //        (cmd) =>
+            //        {
+            //            ((ICommand)cmd).Execute();
+            //        })
+            //    );
+
+            //thread.Start(new LogoutUserCommand(e.Connection));
+                
+            MSMQQueueWrapper.QueueCommand(new LogoutUserCommand(e.Connection));
         }
 
         //protected virtual void OnClientRequestReceived(Guid clientId, RequestHeader header, object request)

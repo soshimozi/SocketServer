@@ -4,43 +4,54 @@ using SocketServer.Actions;
 using SocketServer.Net;
 using SocketServer.Net.Client;
 using SocketServer.Repository;
+using SocketServer.Shared.Network;
+using log4net.Core;
 
 namespace SocketServer.Command
 {
     [Serializable]
     internal class LogoutUserCommand : BaseCommandHandler
     {
-        private readonly Guid _clientId;
+        private readonly ClientConnection connection;
 
-        public LogoutUserCommand(Guid clientId)
+        public LogoutUserCommand(ClientConnection connection)
         {
-            _clientId = clientId;
+            this.connection = connection;
         }
 
         public override void Execute()
         {
-            Logger.InfoFormat("Client {0} logging out.", _clientId);
+            Logger.InfoFormat("Client {0} logging out.", connection.ClientId);
 
-            var connection = ConnectionRepository.Instance.Query( c => c.ClientId == _clientId).FirstOrDefault();
-            if (connection != null)
-                ConnectionRepository.Instance.RemoveConnection(connection);
-
-            var clientSocket = SocketRepository.Instance.FindByClientId(_clientId);
-            if (clientSocket != null)
+            foreach (var u in UserRepository.Instance.GetAll())
             {
-                try
-                {
-                    clientSocket.Close();
-                }
-                catch (Exception ex)
-                {
-                    Logger.Error(ex.ToString());
-                }
+                Logger.Logger.Log(typeof(LogoutUserCommand), Level.Finer, string.Format("name: {0}, id: {1}", u.Name, u.ClientKey), null);
             }
 
-            var user = UserRepository.Instance.Query(u => u.ClientKey == _clientId).FirstOrDefault();
-            if (user != null && user.Room != null)
+            var query = from u in UserRepository.Instance.GetAll()
+                        where u.ClientKey.Equals(connection.ClientId)
+                        select u;
+
+            var user = query.FirstOrDefault();
+
+            //// we have to log out user associated with this socket
+            //var user 
+            //    = UserRepository
+            //    .Instance
+            //    .Query(
+            //        u => u.ClientKey.Equals(connection.ClientId)
+            //        ).FirstOrDefault();
+
+            if (user != null)
             {
+                //if (user.Room != null)
+                //{
+                    //user.Room.Users.Remove(user);
+                //}
+
+                user.Room = null;
+                UserRepository.Instance.Delete(user);
+
                 //var userList = user.Room.Users.Select(u => u.ClientKey);
                 //MSMQQueueWrapper.QueueCommand(
                 //    new BroadcastMessageCommand<PublicMessageEvent>(userList.ToArray(),
@@ -54,7 +65,7 @@ namespace SocketServer.Command
                 //    );
             }
 
-            UserActionEngine.Instance.LogoutUser(_clientId);
+           // UserActionEngine.Instance.LogoutUser(connection.ClientId);
         }
     }
 }
